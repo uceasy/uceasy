@@ -1,0 +1,2 @@
+recursive-include uceasy/templates *
+recursive-include uceasy/static *
