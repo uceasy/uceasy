@@ -4,3 +4,4 @@ venv/
 dist/
 settings.cfg
 *.log*
+upload/
