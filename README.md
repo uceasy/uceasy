@@ -3,7 +3,7 @@
 UCEasy is a graphical wrapper around the [phyluce](https://phyluce.readthedocs.io/en/latest/) software package. Because the analyzes that can be done with [ultraconserved elements](https://www.ultraconserved.org/) (UCEs) are diverse, we provide a convenient tool to facilitate the execution of common tasks for all types of analyzes, these being [Quality Control](https://phyluce.readthedocs.io/en/latest/quality-control.html), [Assembly](https://phyluce.readthedocs.io/en/latest/assembly.html) and [UCE Processing](https://phyluce.readthedocs.io/en/latest/uce-processing.html).
 
 <p align="center">
-    <img src="img/phyluce_diagram.png">
+    <img src="doc/img/phyluce_diagram.png">
 </p>
 
 ## Quick Start
