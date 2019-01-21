@@ -10,6 +10,5 @@ class UceasyTestCase(unittest.TestCase):
         response = self.app.get('/')
         self.assertIn('Welcome to uceasy', response.data.decode())
 
-
 if __name__ == '__main__':
     unittest.main()
