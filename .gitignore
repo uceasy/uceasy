@@ -5,3 +5,4 @@ dist/
 settings.cfg
 *.log*
 upload/
+.idea
