@@ -11,4 +11,8 @@ setup(
         'flask',
         'click',
     ],
+    entry_points='''
+        [console_scripts]
+        uceasy=uceasy.cli.uceasy_cli:uceasy
+    '''
 )
