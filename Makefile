@@ -6,8 +6,11 @@ clean:
 venv:
 	virtualenv --python=python3 venv && venv/bin/python setup.py develop
 
-run: venv
+run-web: venv
 	FLASK_APP=uceasy UCEASY_SETTINGS=../settings.cfg venv/bin/flask run
+
+run-cli: venv
+	python cli/uceasy_cli.py
 
 test: venv
 	UCEASY_SETTINGS=../settings.cfg venv/bin/python -m unittest discover -s tests
