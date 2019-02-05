@@ -11,13 +11,9 @@ UCEasy is a web application built on top of the [phyluce](https://phyluce.readth
 
 Run the web application:
 
-    make run-web
+    make run
 
 And open it in the browser at [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
-
-Run the command line interface:
-
-    make run-cli
 
 
 ## Prerequisites
