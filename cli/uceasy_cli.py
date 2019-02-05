@@ -16,7 +16,3 @@ def cmd1():
 def cmd2():
     """Command on uceasy"""
     click.echo('uceasy cmd2')
-
-
-if __name__ == '__main__':
-    uceasy()
