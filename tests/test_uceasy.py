@@ -1,6 +1,7 @@
 import unittest
 import uceasy
 
+
 class UceasyTestCase(unittest.TestCase):
 
     def setUp(self):
@@ -9,6 +10,7 @@ class UceasyTestCase(unittest.TestCase):
     def test_index(self):
         response = self.app.get('/')
         self.assertIn('Welcome to uceasy', response.data.decode())
+
 
 if __name__ == '__main__':
     unittest.main()
