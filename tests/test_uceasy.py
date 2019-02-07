@@ -9,7 +9,7 @@ class UceasyTestCase(unittest.TestCase):
 
     def test_index(self):
         response = self.app.get('/')
-        self.assertIn('Welcome to web', response.data.decode())
+        self.assertIn('Welcome to uceasy', response.data.decode())
 
 
 if __name__ == '__main__':
