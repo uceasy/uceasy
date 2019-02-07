@@ -8,11 +8,11 @@ def uceasy():
 
 @uceasy.command()
 def cmd1():
-    """Command on uceasy"""
-    click.echo('uceasy cmd1')
+    """Command on web"""
+    pass
 
 
 @uceasy.command()
 def cmd2():
-    """Command on uceasy"""
-    click.echo('uceasy cmd2')
+    """Command on web"""
+    pass
