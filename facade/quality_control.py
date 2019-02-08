@@ -28,7 +28,12 @@ def render_conf_file(adapters, tag_sequences, tag_maps, names):
     file_loader = FileSystemLoader('templates')
     env = Environment(loader=file_loader)
     template = env.get_template('illumiprocessor.txt')
+    conf_path = WORKENV + 'illumiprocessor.conf'
 
-    with open(WORKENV + 'illumiprocessor.conf', 'w') as conf:
+    with open(conf_path, 'w') as conf_file:
         settings = template.render(adapters=adapters, tag_sequences=tag_sequences, tag_maps=tag_maps, names=names)
-        conf.write(settings)
+        conf_file.write(settings)
+
+    if os.path.isfile(conf_path):
+        return conf_path
+    raise IOError('illumiprocessor.conf was not  generated')
