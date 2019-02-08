@@ -3,6 +3,7 @@ import subprocess
 import multiprocessing
 import os
 from jinja2 import Environment, FileSystemLoader
+from facade import WORKENV
 
 
 def prepare_inputs_for_template(sheet, adapter_i5, adapter_i7):
@@ -21,3 +22,13 @@ def prepare_inputs_for_template(sheet, adapter_i5, adapter_i7):
     names = [f"{row['Customer_Code']}:sample{index}" for index, row in sheet.iterrows()]
 
     return adapters, tag_sequences, tag_maps, names
+
+
+def render_conf_file(adapters, tag_sequences, tag_maps, names):
+    file_loader = FileSystemLoader('templates')
+    env = Environment(loader=file_loader)
+    template = env.get_template('illumiprocessor.txt')
+
+    with open(WORKENV + 'illumiprocessor.conf', 'w') as conf:
+        settings = template.render(adapters=adapters, tag_sequences=tag_sequences, tag_maps=tag_maps, names=names)
+        conf.write(settings)
