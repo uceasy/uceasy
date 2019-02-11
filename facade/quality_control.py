@@ -2,7 +2,7 @@ import pandas as pd
 import subprocess
 import os
 from jinja2 import Environment, FileSystemLoader
-from facade import WORKENV, INPUT, OUTPUT, TRIMMOMATIC, CPU
+from facade import INPUT, OUTPUT, TRIMMOMATIC, CPU, CONF
 
 
 def prepare_inputs_for_template(sheet, adapter_i5, adapter_i7):
@@ -27,15 +27,13 @@ def render_conf_file(adapters, tag_sequences, tag_maps, names):
     file_loader = FileSystemLoader('templates')
     env = Environment(loader=file_loader)
     template = env.get_template('illumiprocessor.txt')
-    conf_path = WORKENV + 'illumiprocessor.conf'
 
-    with open(conf_path, 'w') as conf_file:
+    with open(CONF, 'w') as conf_file:
         settings = template.render(adapters=adapters, tag_sequences=tag_sequences, tag_maps=tag_maps, names=names)
         conf_file.write(settings)
 
-    if os.path.isfile(conf_path):
-        return conf_path
-    raise IOError('illumiprocessor.conf was not generated')
+    if not os.path.isfile(CONF):
+        raise IOError('illumiprocessor.conf was not generated')
 
 
 def run_illumiprocessor():
@@ -43,7 +41,7 @@ def run_illumiprocessor():
         'illumiprocessor',
         '--input', INPUT,
         '--output', OUTPUT,
-        '--config', CONF_FILE,
+        '--config', CONF,
         '--cores', CPU,
         '--trimmomatic', TRIMMOMATIC
     ]
