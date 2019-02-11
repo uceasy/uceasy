@@ -1,8 +1,16 @@
 import pandas as pd
 import subprocess
 import os
+from multiprocessing import cpu_count
 from jinja2 import Environment, FileSystemLoader
-from facade import INPUT, OUTPUT, TRIMMOMATIC, CPU, CONF
+from facade import WORKENV
+
+# illumiprocessor arguments
+INPUT = WORKENV + 'data/raw_fastq'
+OUTPUT = WORKENV + 'data/clean_fastq'
+CPU = str(cpu_count() - 2)
+TRIMMOMATIC = '~/miniconda3/envs/uceasy/share/trimmomatic/trimmomatic.jar'
+CONF = WORKENV + 'illumiprocessor.conf'
 
 
 def prepare_inputs_for_template(sheet, adapter_i5, adapter_i7):
@@ -45,7 +53,4 @@ def run_illumiprocessor():
         '--cores', CPU,
         '--trimmomatic', TRIMMOMATIC
     ]
-    try:
-        subprocess.run(cmd, check=True)
-    except subprocess.CalledProcessError:
-        pass
+    subprocess.run(cmd, check=True)
