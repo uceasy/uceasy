@@ -1,5 +1,4 @@
 import os
-from multiprocessing import cpu_count
 
 
 # folder to store phyluce outputs
