@@ -2,7 +2,7 @@ import pandas as pd
 import subprocess
 import os
 from jinja2 import Environment, FileSystemLoader
-from facade import WORKENV
+from facade import WORKENV, INPUT, OUTPUT, TRIMMOMATIC, CPU
 
 
 def prepare_inputs_for_template(sheet, adapter_i5, adapter_i7):
@@ -39,4 +39,15 @@ def render_conf_file(adapters, tag_sequences, tag_maps, names):
 
 
 def run_illumiprocessor():
-    pass
+    cmd = [
+        'illumiprocessor',
+        '--input', INPUT,
+        '--output', OUTPUT,
+        '--config', CONF_FILE,
+        '--cores', CPU,
+        '--trimmomatic', TRIMMOMATIC
+    ]
+    try:
+        subprocess.run(cmd, check=True)
+    except subprocess.CalledProcessError:
+        pass
