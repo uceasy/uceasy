@@ -31,20 +31,10 @@ def prepare_inputs_for_template(sheet, adapter_i5, adapter_i7):
     return adapters, tag_sequences, tag_maps, names
 
 
-def render_conf_file(adapters, tag_sequences, tag_maps, names):
-    file_loader = FileSystemLoader('templates')
-    env = Environment(loader=file_loader)
-    template = env.get_template('illumiprocessor.txt')
-
-    with open(CONF, 'w') as conf_file:
-        settings = template.render(adapters=adapters, tag_sequences=tag_sequences, tag_maps=tag_maps, names=names)
-        conf_file.write(settings)
-
-    if not os.path.isfile(CONF):
+def run_illumiprocessor(adapters, tag_sequences, tag_maps, names):
+    conf_generated = _render_conf_file(adapters, tag_sequences, tag_maps, names)
+    if not conf_generated:
         raise IOError('illumiprocessor.conf was not generated')
-
-
-def run_illumiprocessor():
     cmd = [
         'illumiprocessor',
         '--input', INPUT,
@@ -54,3 +44,15 @@ def run_illumiprocessor():
         '--trimmomatic', TRIMMOMATIC
     ]
     subprocess.run(cmd, check=True)
+
+
+def _render_conf_file(adapters, tag_sequences, tag_maps, names):
+    file_loader = FileSystemLoader('templates')
+    env = Environment(loader=file_loader)
+    template = env.get_template('illumiprocessor.txt')
+
+    with open(CONF, 'w') as conf_file:
+        settings = template.render(adapters=adapters, tag_sequences=tag_sequences, tag_maps=tag_maps, names=names)
+        conf_file.write(settings)
+
+    return os.path.isfile(CONF)
