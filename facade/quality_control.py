@@ -35,7 +35,7 @@ def render_conf_file(adapters, tag_sequences, tag_maps, names):
 
     if os.path.isfile(conf_path):
         return conf_path
-    raise IOError('illumiprocessor.conf was not  generated')
+    raise IOError('illumiprocessor.conf was not generated')
 
 
 def run_illumiprocessor():
