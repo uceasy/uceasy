@@ -43,7 +43,7 @@ def run_illumiprocessor(adapters, tag_sequences, tag_maps, names):
         '--cores', CPU,
         '--trimmomatic', TRIMMOMATIC
     ]
-    subprocess.run(cmd, check=True)
+    return subprocess.run(cmd, check=True)
 
 
 def _render_conf_file(adapters, tag_sequences, tag_maps, names):
