@@ -13,7 +13,7 @@ def run():
 
 @uceasy.command()
 def quality_control():
-    pass
+    click.echo('Running quality control')
 
 
 @uceasy.command()
