@@ -9,7 +9,10 @@ def runner():
 
 
 def test_run(runner):
-    pass
+    result = runner.invoke(cli.run)
+
+    assert result.exit_code == 0
+    assert result.output == 'Running all steps'
 
 
 def test_web(runner):
