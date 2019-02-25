@@ -8,7 +8,7 @@ def uceasy():
 
 @uceasy.command()
 def run():
-    pass
+    click.echo('Running all steps')
 
 
 @uceasy.command()
