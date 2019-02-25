@@ -7,12 +7,30 @@ def uceasy():
 
 
 @uceasy.command()
-def cmd1():
+def run():
     """Command on web"""
     pass
 
 
 @uceasy.command()
-def cmd2():
+def quality_control():
+    """Command on web"""
+    pass
+
+
+@uceasy.command()
+def assembly():
+    """Command on web"""
+    pass
+
+
+@uceasy.command()
+def uce_processing():
+    """Command on web"""
+    pass
+
+
+@uceasy.command()
+def web():
     """Command on web"""
     pass
