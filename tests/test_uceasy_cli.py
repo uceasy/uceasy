@@ -20,7 +20,7 @@ def test_web(runner):
 
 
 def test_quality_control(runner):
-    result = runner.invoke(cli.uceasy, ['quality_control'])
+    result = runner.invoke(cli.uceasy, ['quality-control'])
 
     assert result.exit_code == 0
     assert result.output == 'Running quality control\n'
