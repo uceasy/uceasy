@@ -9,7 +9,14 @@ def runner():
 
 
 def test_run(runner):
-    result = runner.invoke(cli.uceasy, ['run'])
+    result = runner.invoke(cli.uceasy, ['flag'])
 
     assert result.exit_code == 0
-    assert result.output == 'Running all steps\n'
+    assert result.output == 'flag\n'
+
+
+def test_run(runner):
+    result = runner.invoke(cli.uceasy, [''])
+
+    assert result.exit_code == 0
+    assert result.output == 'Web GUI\n'
