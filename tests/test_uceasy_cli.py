@@ -13,7 +13,3 @@ def test_run(runner):
 
     assert result.exit_code == 0
     assert result.output == 'Running all steps\n'
-
-
-def test_web(runner):
-    pass
