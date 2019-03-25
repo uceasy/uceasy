@@ -17,18 +17,3 @@ def test_run(runner):
 
 def test_web(runner):
     pass
-
-
-def test_quality_control(runner):
-    result = runner.invoke(cli.uceasy, ['quality-control'])
-
-    assert result.exit_code == 0
-    assert result.output == 'Running quality control\n'
-
-
-def test_assembly(runner):
-    pass
-
-
-def test_uce_processing():
-    pass
