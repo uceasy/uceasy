@@ -1,16 +1,6 @@
 import click
 
 
-@click.group()
+@click.command()
 def uceasy():
-    pass
-
-
-@uceasy.command()
-def run():
-    click.echo('Running all steps')
-
-
-@uceasy.command()
-def web():
     pass
