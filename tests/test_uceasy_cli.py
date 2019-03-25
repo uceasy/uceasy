@@ -8,15 +8,13 @@ def runner():
     return CliRunner()
 
 
-def test_uceasy(runner):
-    result = runner.invoke(cli.uceasy, ['flag'])
+def test_should_pass_when_uceasy_web_subcommand_chosen(runner):
+    result = runner.invoke(cli.uceasy, ['web'])
 
-    assert result.exit_code == 0
-    assert result.output == 'flag\n'
-
-
-def test_should_pass_when_uceasy_run_without_flags(runner):
-    result = runner.invoke(cli.uceasy, [''])
-
-    assert result.exit_code == 0
     assert result.output == 'Web GUI\n'
+
+
+def test_should_pass_when_ctl_phred33_chosen(runner):
+    result = runner.invoke(cli.uceasy, ['ctl', '--phred33'])
+
+    assert result.output == 'Phred33\n'
