@@ -12,20 +12,5 @@ def run():
 
 
 @uceasy.command()
-def quality_control():
-    click.echo('Running quality control')
-
-
-@uceasy.command()
-def assembly():
-    pass
-
-
-@uceasy.command()
-def uce_processing():
-    pass
-
-
-@uceasy.command()
 def web():
     pass
