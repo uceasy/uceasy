@@ -1,15 +1,12 @@
 import pandas as pd
 import subprocess
 import os
-from multiprocessing import cpu_count
 from jinja2 import Environment, FileSystemLoader
-from facade import WORKENV
+from facade import WORKENV, CPU, TRIMMOMATIC
 
 # illumiprocessor arguments
 INPUT = WORKENV + 'data/raw_fastq'
 OUTPUT = WORKENV + 'data/clean_fastq'
-CPU = str(cpu_count() - 2)
-TRIMMOMATIC = '~/miniconda3/envs/uceasy/share/trimmomatic/trimmomatic.jar'
 CONF = WORKENV + 'illumiprocessor.conf'
 
 

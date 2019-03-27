@@ -1,21 +1,16 @@
 import subprocess
 import os
-from multiprocessing import cpu_count
 from jinja2 import Environment, FileSystemLoader
-from facade import WORKENV
+from facade import WORKENV, SAMPLE_NAMES, CLEAN_FASTQ, CPU
 
 
 # Trinity arguments
 OUTPUT = WORKENV + 'data/trinity-assemblies'
-CPU = str(cpu_count() - 2)
-CONF = WORKENV + 'assembly.txt'
-
-# illumiprocessor output
-CLEAN_FASTQ = WORKENV + 'data/clean_fastq'
+CONF = WORKENV + 'assembly.conf'
 
 
 def run_assembly():
-    samples = prepare_samples_for_conf_file()
+    samples = prepare_samples_for_conf_file(SAMPLE_NAMES, CLEAN_FASTQ)
     conf_generated = _render_conf_file(samples)
     if not conf_generated:
         raise IOError('assembly.conf was not generated')
@@ -42,9 +37,9 @@ def _render_conf_file(samples):
     return os.path.isFile(CONF)
 
 
-def prepare_samples_for_conf_file():
-    samples = os.listdir(f'{CLEAN_FASTQ}')
-    for i, sample in enumerate(samples):
-        samples[i] += f':/{CLEAN_FASTQ}/{sample}/split-adapter-quality-trimmed/'
+def prepare_samples_for_conf_file(SAMPLE_NAMES, CLEAN_FASTQ):
+    samples = []
+    for sample in SAMPLE_NAMES:
+        samples.append(f'{sample}:{CLEAN_FASTQ}/{sample}/split-adapter-quality-trimmed/')
 
     return samples
