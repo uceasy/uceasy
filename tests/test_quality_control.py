@@ -1,5 +1,5 @@
 import pytest
-import facade.phyluce_facade as facade
+import facade.phyluce_controller as facade
 
 
 def test_prepare_inputs_for_template():
