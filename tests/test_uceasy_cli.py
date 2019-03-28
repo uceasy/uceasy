@@ -3,9 +3,9 @@ import cli.uceasy_cli as cli
 from click.testing import CliRunner
 
 
-adapter_i5 = 'AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC*ATCTCGTATGCCGTCTTCTGCTTG'
-adapter_i7 = 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT'
-sample_sheet = 'test.csv'
+ADAPTER_I5 = 'AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC*ATCTCGTATGCCGTCTTCTGCTTG'
+ADAPTER_I7 = 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT'
+SAMPLE_SHEET = 'test.csv'
 
 
 @pytest.fixture()
@@ -20,37 +20,37 @@ def test_should_pass_when_uceasy_web_subcommand_chosen(runner):
 
 
 def test_should_pass_when_ctl_basic_test(runner):
-    result = runner.invoke(cli.uceasy, f'ctl --sheet {sample_sheet} ' +
-                                       f'--adapter_i7 {adapter_i7} ' +
-                                       f'--adapter_i5 {adapter_i5} ' +
-                                       f'--phred33 ')
+    result = runner.invoke(cli.uceasy, f'ctl --sheet {SAMPLE_SHEET} ' +
+                           f'--adapter_i7 {ADAPTER_I7} ' +
+                           f'--adapter_i5 {ADAPTER_I5} ' +
+                           f'--phred33 ')
 
-    assert f'{sample_sheet} {adapter_i7} {adapter_i5}' in result.output
+    assert f'{SAMPLE_SHEET} {ADAPTER_I7} {ADAPTER_I5}' in result.output
 
 
 def test_should_pass_when_ctl_no_merge_chosen(runner):
-    result = runner.invoke(cli.uceasy, f'ctl --sheet {sample_sheet} ' +
-                                       f'--adapter_i7 {adapter_i7} ' +
-                                       f'--adapter_i5 {adapter_i5} ' +
-                                       f'--phred33 ' +
-                                       f'--no-merge')
+    result = runner.invoke(cli.uceasy, f'ctl --sheet {SAMPLE_SHEET} ' +
+                           f'--adapter_i7 {ADAPTER_I7} ' +
+                           f'--adapter_i5 {ADAPTER_I5} ' +
+                           f'--phred33 ' +
+                           f'--no-merge')
 
     assert 'no_merge' in result.output
 
 
 def test_should_pass_when_ctl_phred33_chosen(runner):
-    result = runner.invoke(cli.uceasy, f'ctl --sheet {sample_sheet} ' +
-                                       f'--adapter_i7 {adapter_i7} ' +
-                                       f'--adapter_i5 {adapter_i5} ' +
-                                       f'--phred33')
+    result = runner.invoke(cli.uceasy, f'ctl --sheet {SAMPLE_SHEET} ' +
+                           f'--adapter_i7 {ADAPTER_I7} ' +
+                           f'--adapter_i5 {ADAPTER_I5} ' +
+                           f'--phred33')
 
     assert 'phred33' in result.output
 
 
 def test_should_pass_when_ctl_phred64_chosen(runner):
-    result = runner.invoke(cli.uceasy, f'ctl --sheet {sample_sheet} ' +
-                                       f'--adapter_i7 {adapter_i7} ' +
-                                       f'--adapter_i5 {adapter_i5} ' +
-                                       f'--phred64')
+    result = runner.invoke(cli.uceasy, f'ctl --sheet {SAMPLE_SHEET} ' +
+                           f'--adapter_i7 {ADAPTER_I7} ' +
+                           f'--adapter_i5 {ADAPTER_I5} ' +
+                           f'--phred64')
 
     assert 'phred64' in result.output
