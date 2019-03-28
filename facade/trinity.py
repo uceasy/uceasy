@@ -3,7 +3,6 @@ import os
 from jinja2 import Environment, FileSystemLoader
 from facade import WORKENV, CPU, CLEAN_FASTQ
 
-
 # Trinity arguments
 OUTPUT = WORKENV + 'data/trinity-assemblies'
 CONF = WORKENV + 'assembly.conf'
