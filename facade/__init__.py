@@ -9,3 +9,5 @@ if not os.path.isdir(WORKENV):
 
 TRIMMOMATIC = '~/miniconda3/envs/uceasy/share/trimmomatic/trimmomatic.jar'
 CPU = str(cpu_count() - 2)
+
+CLEAN_FASTQ = WORKENV + 'data/clean_fastq'
