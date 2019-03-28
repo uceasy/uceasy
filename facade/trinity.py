@@ -1,18 +1,19 @@
 import subprocess
 import os
 from jinja2 import Environment, FileSystemLoader
-from facade import WORKENV, CPU
+from facade import WORKENV, CPU, CLEAN_FASTQ
 
 
 # Trinity arguments
 OUTPUT = WORKENV + 'data/trinity-assemblies'
 CONF = WORKENV + 'assembly.conf'
-CLEAN_FASTQ = WORKENV + 'data/clean-fastq'
+
+# Saída do illumiprocessor (módulo quality_control)
 SAMPLE_NAMES = os.listdir(f'{CLEAN_FASTQ}')
 
 
-def run_trinity(SAMPLE_NAMES, CLEAN_FASTQ, OUTPUT):
-    samples = prepare_samples_for_conf_file(SAMPLE_NAMES, CLEAN_FASTQ)
+def run_trinity():
+    samples = _prepare_samples_for_conf_file(SAMPLE_NAMES, CLEAN_FASTQ)
     conf_generated = _render_conf_file(samples)
     if os.path.isdir(OUTPUT):
         raise IOError('trinity-assemblies directory already exist!\n' +
@@ -42,9 +43,6 @@ def _render_conf_file(samples):
     return os.path.isfile(CONF)
 
 
-def prepare_samples_for_conf_file(SAMPLE_NAMES, CLEAN_FASTQ):
-    samples = []
-    for sample in SAMPLE_NAMES:
-        samples.append(f'{sample}:{CLEAN_FASTQ}/{sample}/split-adapter-quality-trimmed/')
-
-    return samples
+def _prepare_samples_for_conf_file():
+    return [f'{sample}:{CLEAN_FASTQ}/{sample}/split-adapter-quality-trimmed/'
+            for sample in SAMPLE_NAMES]
