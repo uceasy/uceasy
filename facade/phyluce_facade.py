@@ -1,4 +1,5 @@
 from facade.quality_control import prepare_inputs_for_template, run_illumiprocessor
+from facade.trinity import run_trinity
 
 
 def run_quality_control(sheet, adapter_i5, adapter_i7):
@@ -13,4 +14,4 @@ def run_quality_control(sheet, adapter_i5, adapter_i7):
 
 
 def run_assembly():
-    pass
+    run_trinity()
