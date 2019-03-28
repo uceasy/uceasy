@@ -8,12 +8,9 @@ from facade import WORKENV, CPU, CLEAN_FASTQ
 OUTPUT = WORKENV + 'data/trinity-assemblies'
 CONF = WORKENV + 'assembly.conf'
 
-# Saída do illumiprocessor (módulo quality_control)
-SAMPLE_NAMES = os.listdir(f'{CLEAN_FASTQ}')
-
 
 def run_trinity():
-    samples = _prepare_samples_for_conf_file(SAMPLE_NAMES, CLEAN_FASTQ)
+    samples = _prepare_samples_for_conf_file()
     conf_generated = _render_conf_file(samples)
     if os.path.isdir(OUTPUT):
         raise IOError('trinity-assemblies directory already exist!\n' +
@@ -44,5 +41,6 @@ def _render_conf_file(samples):
 
 
 def _prepare_samples_for_conf_file():
+    sample_names = os.listdir(f'{CLEAN_FASTQ}')
     return [f'{sample}:{CLEAN_FASTQ}/{sample}/split-adapter-quality-trimmed/'
-            for sample in SAMPLE_NAMES]
+            for sample in sample_names]
