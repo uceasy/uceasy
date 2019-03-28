@@ -1,17 +1,22 @@
 import subprocess
 import os
 from jinja2 import Environment, FileSystemLoader
-from facade import WORKENV, SAMPLE_NAMES, CLEAN_FASTQ, CPU
+from facade import WORKENV, CPU
 
 
 # Trinity arguments
 OUTPUT = WORKENV + 'data/trinity-assemblies'
 CONF = WORKENV + 'assembly.conf'
+CLEAN_FASTQ = WORKENV + 'data/clean-fastq'
+SAMPLE_NAMES = os.listdir(f'{CLEAN_FASTQ}')
 
 
-def run_assembly():
+def run_trinity(SAMPLE_NAMES, CLEAN_FASTQ, OUTPUT):
     samples = prepare_samples_for_conf_file(SAMPLE_NAMES, CLEAN_FASTQ)
     conf_generated = _render_conf_file(samples)
+    if os.path.isdir(OUTPUT):
+        raise IOError('trinity-assemblies directory already exist!\n' +
+                      'Move or remove it before running trinity.')
     if not conf_generated:
         raise IOError('assembly.conf was not generated')
     cmd = [
@@ -34,7 +39,7 @@ def _render_conf_file(samples):
 
         conf_file.write(settings)
 
-    return os.path.isFile(CONF)
+    return os.path.isfile(CONF)
 
 
 def prepare_samples_for_conf_file(SAMPLE_NAMES, CLEAN_FASTQ):
