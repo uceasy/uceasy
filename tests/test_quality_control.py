@@ -1,4 +1,3 @@
-import pytest
 import facade.phyluce_controller as facade
 
 
