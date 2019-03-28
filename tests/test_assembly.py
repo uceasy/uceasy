@@ -1,4 +1,3 @@
-import pytest
 from facade.trinity import prepare_samples_for_conf_file, run_trinity
 from facade import WORKENV
 
