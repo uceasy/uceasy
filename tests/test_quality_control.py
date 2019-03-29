@@ -1,4 +1,4 @@
-import facade.phyluce_controller as facade
+import phyluce_facade.phyluce_controller as facade
 
 
 def test_prepare_inputs_for_template():
