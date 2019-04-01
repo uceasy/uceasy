@@ -2,6 +2,7 @@ import os
 from flask import Flask
 
 app = Flask(__name__)
+app.config['LOG_DIR'] = 'log'
 app.config.from_object('web.default_settings')
 app.config.from_envvar('UCEASY_SETTINGS', silent=True)
 
