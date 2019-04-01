@@ -1,5 +1,5 @@
-from phyluce_facade.assembly import run_trinity
-from phyluce_facade import CLEAN_FASTQ, WORKENV
+from adapter.assembly import run_trinity
+from adapter import CLEAN_FASTQ, WORKENV
 
 OUTPUT = WORKENV + 'data/trinity_assemblies'
 
