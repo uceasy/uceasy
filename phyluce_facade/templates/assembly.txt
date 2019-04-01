@@ -1,4 +1,0 @@
-[samples]
-{% for sample in samples -%}
-{{ sample }}
-{% endfor %}
