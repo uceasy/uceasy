@@ -10,4 +10,6 @@ upload/
 uceasy.egg-info
 uceasy.log
 web.log
-__pychache__
+__pycache__
+.vscode
+sample/
