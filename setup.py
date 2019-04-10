@@ -10,6 +10,8 @@ setup(
     install_requires=[
         'flask',
         'click',
+        'pandas',
+        'jinja2'
     ],
     entry_points='''
         [console_scripts]
