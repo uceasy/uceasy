@@ -1,5 +1,3 @@
-all: run
-
 clean:
 	rm -rf venv && rm -rf *.egg-info && rm -rf dist && rm -rf *.log*
 
