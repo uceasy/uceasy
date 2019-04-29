@@ -11,13 +11,6 @@ def render_conf_file(name, template_file, **fields):
         file.write(settings)
 
     return os.path.isfile(name)
-
-
-
-def prepare_samples_for_conf_file():
-    sample_names = os.listdir(f'{CLEAN_FASTQ}')
-    return [f'{sample}:{CLEAN_FASTQ}/{sample}/split-adapter-quality-trimmed/'
-            for sample in sample_names]
             
 
 def prepare_inputs_for_template(sheet, adapter_i5, adapter_i7):
