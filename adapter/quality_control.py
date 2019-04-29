@@ -1,16 +1,12 @@
 import subprocess
-from adapter import WORKENV, CPU, TRIMMOMATIC
-
-# illumiprocessor arguments
-INPUT = WORKENV + 'data/raw_fastq'
-OUTPUT = WORKENV + 'data/clean_fastq'
+from adapter import CPU, TRIMMOMATIC
 
 
-def run_illumiprocessor(conf_file):
+def run_illumiprocessor(conf_file, input, output):
     cmd = [
         'illumiprocessor',
-        '--input', INPUT,
-        '--output', OUTPUT,
+        '--input', input,
+        '--output', output,
         '--config', conf_file,
         '--cores', CPU,
         '--trimmomatic', TRIMMOMATIC
