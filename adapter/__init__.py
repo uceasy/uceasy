@@ -1,13 +1,26 @@
-import os
 from multiprocessing import cpu_count
+import json
+import subprocess
+import os
 
 
-# folder to store phyluce outputs
-WORKENV = '../../workenv/'
-if not os.path.isdir(WORKENV):
-    os.mkdir(WORKENV)
+# Get environment variable UCEASY_PHYLUCE, default: phyluce
+phyluce_env = os.getenv('UCEASY_PHYLUCE', 'phyluce')
 
-TRIMMOMATIC = '~/miniconda3/envs/uceasy/share/trimmomatic/trimmomatic.jar'
+# Search for phyluce using conda's search feature
+# if found, returns a json string.
+args = ['conda', 'search', '--envs', '--json', phyluce_env]
+cmd = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+out, err = cmd.communicate()
+phyluce_json = json.loads(out)
+if not phyluce_json:
+    raise IOError('The phyluce path was not found, please check your phyluce installation\n' +
+                  'You can specify which conda environment phyluce is installed with the' +
+                  'environment variable UCEASY_PHYLUCE.')
+
+# Programs
+PHYLUCE = phyluce_json[0]['location']
+TRIMMOMATIC = PHYLUCE + '/bin/trimmomatic'
+ILLUMIPROCESSOR = PHYLUCE + '/bin/illumiprocessor'
+SCRIPT_TRINITY = PHYLUCE + '/bin/phyluce_assembly_assemblo_trinity'
 CPU = str(cpu_count() - 2)
-
-CLEAN_FASTQ = WORKENV + 'data/clean_fastq'
