@@ -1,6 +1,6 @@
 import subprocess
 import os
-from adapter import CPU
+from adapters import CPU
 
 
 def run_trinity(conf_file, output):
