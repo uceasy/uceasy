@@ -1,19 +1,35 @@
 from jinja2 import Environment, FileSystemLoader
 import os
+import pandas as pd
+from controller import WORKENV, TEMPLATES
 
 
-def render_conf_file(name, template_file, **fields):
-    env = Environment(loader=FileSystemLoader('templates'))
+def render_illumiprocessor_conf(name, template_file, adapters, tag_sequences, tag_maps, names):
+    conf_file = WORKENV + name
+    env = Environment(loader=FileSystemLoader(TEMPLATES))
     template = env.get_template(template_file)
 
-    with open(name, 'w') as file:
-        settings = template.render(fields)
+    with open(conf_file, 'w') as file:
+        settings = template.render(adapters=adapters, tag_sequences=tag_sequences, tag_maps=tag_maps, names=names)
         file.write(settings)
 
-    return os.path.isfile(name)
-            
+    return conf_file
+
+
+def render_assembly_conf(name, template_file, samples):
+    conf_file = WORKENV + name
+    env = Environment(loader=FileSystemLoader(TEMPLATES))
+    template = env.get_template(template_file)
+
+    with open(conf_file, 'w') as file:
+        settings = template.render(samples=samples)
+        file.write(settings)
+
+    return conf_file
+
 
 def prepare_inputs_for_template(sheet, adapter_i5, adapter_i7):
+    sheet = pd.read_csv(sheet)
     sheet = sheet[sheet.columns[1:4]]
     sheet['i5_Tag'] = pd.Series([
         f"sample{index}_barcode_i5"

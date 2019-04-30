@@ -9,6 +9,7 @@ USER = getuser()
 WORKENV = f'/home/{USER}/.uceasy/'
 TEMPLATES = WORKENV + 'templates/'
 CLEAN_FASTQ = WORKENV + 'data/clean_fastq'
+TRINITY_ASSEMBLIES = WORKENV + 'data/trinity_assemblies'
 
 
 # TODO
