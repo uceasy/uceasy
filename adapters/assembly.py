@@ -1,6 +1,6 @@
 import subprocess
 import os
-from adapters import CPU
+from adapters import CPU, SCRIPT_TRINITY
 
 
 def run_trinity(conf_file, output):
@@ -8,7 +8,7 @@ def run_trinity(conf_file, output):
         raise IOError('trinity-assemblies directory already exist!\n' +
                       'Move or remove it before running trinity.')
     cmd = [
-        'phyluce_assembly_assemblo_trinity',
+        SCRIPT_TRINITY,
         '--conf', conf_file,
         '--output', output,
         '--clean',
