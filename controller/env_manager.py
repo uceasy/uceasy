@@ -54,7 +54,8 @@ def prepare_inputs_for_template(sheet, adapter_i5, adapter_i7):
 
     tag_maps = [
         f"{row['Customer_Code']}:{row['i5_Tag']},{row['i7_Tag']}"
-        for _, row in sheet.iterrows()]
+        for _, row in sheet.iterrows()
+    ]
 
     names = [
         f"{row['Customer_Code']}:sample{index}"
