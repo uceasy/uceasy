@@ -1,15 +1,11 @@
 import subprocess
-import os
 from adapters import CPU, SCRIPT_TRINITY
 
 
-def run_trinity(conf_file, output):
-    if os.path.isdir(output):
-        raise IOError('trinity-assemblies directory already exist!\n' +
-                      'Move or remove it before running trinity.')
+def run_trinity(config, output):
     cmd = [
         SCRIPT_TRINITY,
-        '--conf', conf_file,
+        '--config', config,
         '--output', output,
         '--clean',
         '--cores', CPU

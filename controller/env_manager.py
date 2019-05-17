@@ -1,36 +1,27 @@
-from jinja2 import Environment, FileSystemLoader
-import os
 import pandas as pd
-from controller import WORKENV, TEMPLATES
+import itertools
+import configparser
+from controller import WORKENV
 
 
-def render_illumiprocessor_conf(name, template_file, adapters, tag_sequences, tag_maps, names):
-    conf_file = WORKENV + name
-    env = Environment(loader=FileSystemLoader(TEMPLATES))
-    template = env.get_template(template_file)
+def render_conf_file(name, config_dict):
+    config     = WORKENV + name
+    configfile = configparser.ConfigParser(delimiters=(':'))
 
-    with open(conf_file, 'w') as file:
-        settings = template.render(adapters=adapters, tag_sequences=tag_sequences, tag_maps=tag_maps, names=names)
-        file.write(settings)
+    configfile.optionxform = str
+    configfile.read_dict(config_dict)
 
-    return conf_file
+    with open(config, 'w') as fl:
+        configfile.write(fl, space_around_delimiters=False)
 
-
-def render_assembly_conf(name, template_file, samples):
-    conf_file = WORKENV + name
-    env = Environment(loader=FileSystemLoader(TEMPLATES))
-    template = env.get_template(template_file)
-
-    with open(conf_file, 'w') as file:
-        settings = template.render(samples=samples)
-        file.write(settings)
-
-    return conf_file
+    return config
 
 
-def prepare_inputs_for_template(sheet, adapter_i5, adapter_i7):
+def prepare_illumiprocessor_conf(sheet, adapter_i7, adapter_i5):
+    config_dict = dict()
     sheet = pd.read_csv(sheet)
     sheet = sheet[sheet.columns[1:4]]
+
     sheet['i5_Tag'] = pd.Series([
         f"sample{index}_barcode_i5"
         for index in sheet.index.values
@@ -40,25 +31,20 @@ def prepare_inputs_for_template(sheet, adapter_i5, adapter_i7):
         for index in sheet.index.values
     ])
 
-    adapters = ["i5:" + adapter_i5, "i7:" + adapter_i7]
+    config_dict['adapters'] = {"i7": adapter_i7, "i5": adapter_i5}
 
-    tags_i5 = [
-        f"{row['i5_Tag']}:{row['i5_Barcode_Seq']}"
-        for _, row in sheet.iterrows()
-    ]
-    tags_i7 = [
-        f"{row['i7_Tag']}:{row['i7_Barcode_Seq']}"
-        for _, row in sheet.iterrows()
-    ]
-    tag_sequences = sorted(tags_i5 + tags_i7)
+    tags_i5 = {row['i5_Tag']: row['i5_Barcode_Seq']
+               for _, row in sheet.iterrows()}
 
-    tag_maps = [
-        f"{row['Customer_Code']}:{row['i5_Tag']},{row['i7_Tag']}"
-        for _, row in sheet.iterrows()]
+    tags_i7 = {row['i7_Tag']: row['i7_Barcode_Seq']
+               for _, row in sheet.iterrows()}
 
-    names = [
-        f"{row['Customer_Code']}:sample{index}"
-        for index, row in sheet.iterrows()
-    ]
+    config_dict['tag sequences'] = {k: v for k, v in itertools.chain(tags_i5.items(), tags_i7.items())}
 
-    return adapters, tag_sequences, tag_maps, names
+    config_dict['tag map'] = {row['Customer_Code']: f"{row['i5_Tag']},{row['i7_Tag']}"
+                              for _, row in sheet.iterrows()}
+
+    config_dict['names'] = {row['Customer_Code']: f'sample{index}'
+                            for index, row in sheet.iterrows()}
+
+    return config_dict
