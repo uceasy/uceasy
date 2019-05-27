@@ -1,5 +1,5 @@
 import subprocess
-from adapters import CPU, ILLUMIPROCESSOR, TRIMMOMATIC
+from adapters import CPU, ILLUMIPROCESSOR
 
 
 def run_illumiprocessor(conf_file, input, output):
@@ -8,7 +8,6 @@ def run_illumiprocessor(conf_file, input, output):
         '--input', input,
         '--output', output,
         '--config', conf_file,
-        '--cores', CPU,
-        '--trimmomatic', TRIMMOMATIC
+        '--cores', CPU
     ]
     return subprocess.run(cmd, check=True)
