@@ -1,13 +1,11 @@
 import pandas as pd
-import itertools
 import configparser
 from controller import WORKENV
 
 
 def render_conf_file(name, config_dict):
-    config     = WORKENV + name
+    config = WORKENV + name
     configfile = configparser.ConfigParser(delimiters=(':'))
-
     configfile.optionxform = str
     configfile.read_dict(config_dict)
 
@@ -39,7 +37,7 @@ def prepare_illumiprocessor_conf(sheet, adapter_i7, adapter_i5):
     tags_i7 = {row['i7_Tag']: row['i7_Barcode_Seq']
                for _, row in sheet.iterrows()}
 
-    config_dict['tag sequences'] = {k: v for k, v in itertools.chain(tags_i5.items(), tags_i7.items())}
+    config_dict['tag sequences'] = {**tags_i5, **tags_i7}
 
     config_dict['tag map'] = {row['Customer_Code']: f"{row['i5_Tag']},{row['i7_Tag']}"
                               for _, row in sheet.iterrows()}
