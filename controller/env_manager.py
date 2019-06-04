@@ -1,6 +1,7 @@
 import pandas as pd
+import os
 import configparser
-from controller import WORKENV
+from controller import WORKENV, CLEAN_FASTQ
 
 
 def render_conf_file(name, config_dict):
@@ -45,4 +46,12 @@ def prepare_illumiprocessor_conf(sheet, adapter_i7, adapter_i5):
     config_dict['names'] = {row['Customer_Code']: f'sample{index}'
                             for index, row in sheet.iterrows()}
 
+    return config_dict
+
+
+def prepare_assembly_conf():
+    config_dict = dict()
+    samples = os.listdir(CLEAN_FASTQ)
+    config_dict['samples'] = {sample: f'{CLEAN_FASTQ}/{sample}/split-adapter-quality-trimmed/'
+                              for sample in samples}
     return config_dict
