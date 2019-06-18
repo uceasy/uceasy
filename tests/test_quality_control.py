@@ -7,6 +7,6 @@ SAMPLE_SHEET = 'sample/alligator_sheet.csv'
 INPUT = 'sample/raw_fastq'
 
 
-def test_run_illumiprocessor():
+def test_run_quality_control():
     cmd = run_quality_control(INPUT, SAMPLE_SHEET, ADAPTER_I7, ADAPTER_I5)
     assert cmd.returncode == 0
