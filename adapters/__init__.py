@@ -18,6 +18,7 @@ if not phyluce_json[0]['location']:
 PHYLUCE         = phyluce_json[0]['location']
 TRIMMOMATIC     = PHYLUCE + '/bin/trimmomatic'
 ILLUMIPROCESSOR = PHYLUCE + '/bin/illumiprocessor'
-SCRIPT_TRINITY  = PHYLUCE + '/bin/phyluce_assembly_assemblo_trinity'
+TRINITY         = PHYLUCE + '/bin/phyluce_assembly_assemblo_trinity'
+SPADES          = PHYLUCE + '/bin/phyluce_assembly_assemblo_spades'
 
 CPU = str(cpu_count() - 2)
