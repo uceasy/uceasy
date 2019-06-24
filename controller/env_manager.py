@@ -45,7 +45,6 @@ def prepare_illumiprocessor_conf(sheet, adapter_i7, adapter_i5):
 
     config_dict['names'] = {row['Customer_Code']: f'sample{index}'
                             for index, row in sheet.iterrows()}
-
     return config_dict
 
 
