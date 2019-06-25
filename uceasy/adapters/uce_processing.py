@@ -61,10 +61,10 @@ def seqcap_align(fasta, taxa, aligner, output, no_trim=False):
 def get_gblocks_trimmed_alignments_from_untrimmed(alignments, output, log):
     cmd = [
         PHYLUCE + '/bin/get_gblocks_trimmed_alignments_from_untrimmed',
-	'--alignments', alignments,
-	'--output', output,
-	'--log', log        
-    ]
+        '--alignments', alignments,
+        '--output', output,
+        '--log', log
+        ]
     return subprocess.run(cmd, check=True)
 
 
