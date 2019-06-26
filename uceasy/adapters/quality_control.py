@@ -1,5 +1,5 @@
 import subprocess
-from adapters import CPU, ILLUMIPROCESSOR
+from uceasy.adapters import CPU, ILLUMIPROCESSOR
 
 
 def run_illumiprocessor(config, input, output):

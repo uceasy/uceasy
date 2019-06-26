@@ -1,7 +1,7 @@
-from adapters.assembly import run_trinity
-from adapters.quality_control import run_illumiprocessor
-from controller.env_manager import render_conf_file, prepare_illumiprocessor_conf, prepare_assembly_conf
-from controller import CLEAN_FASTQ, TRINITY_ASSEMBLIES
+from uceasy.adapters.assembly import run_trinity
+from uceasy.adapters.quality_control import run_illumiprocessor
+from uceasy.controller.env_manager import render_conf_file, prepare_illumiprocessor_conf, prepare_assembly_conf
+from uceasy.controller import CLEAN_FASTQ, TRINITY_ASSEMBLIES
 
 
 def run_quality_control(input, sheet, adapter_i7, adapter_i5):

@@ -1,6 +1,7 @@
 import os
 import shutil
 
+
 PATH = os.getcwd()
 
 if not os.path.isdir('data'):

@@ -1,5 +1,5 @@
-from controller.env_manager import render_conf_file
-from controller import WORKENV
+from uceasy.controller.env_manager import render_conf_file
+from uceasy.controller import WORKENV
 from tests import PATH
 import os
 
@@ -16,7 +16,7 @@ def test_should_pass_when_conf_file_rendered():
     assert os.path.isfile(WORKENV + 'assembly.conf')
 
 
-def test_prepare_illumiprocess_conf():
+def test_prepare_illumiprocessor_conf():
     assert False
 
 

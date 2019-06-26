@@ -1,5 +1,5 @@
 import subprocess
-from adapters import CPU, TRINITY, SPADES
+from uceasy.adapters import CPU, TRINITY, SPADES
 
 
 def run_trinity(config, output):

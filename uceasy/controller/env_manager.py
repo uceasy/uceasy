@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 import configparser
-from controller import WORKENV, CLEAN_FASTQ
+from uceasy.controller import WORKENV, CLEAN_FASTQ
 
 
 def render_conf_file(name, config_dict):

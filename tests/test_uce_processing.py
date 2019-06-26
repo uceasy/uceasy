@@ -1,5 +1,5 @@
 import subprocess
-from adapters import uce_processing
+from uceasy.adapters import uce_processing
 
 
 CONTIGS = './sample/test_assemblies/contigs'

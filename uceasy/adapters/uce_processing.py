@@ -1,5 +1,5 @@
 import subprocess
-from adapters import CPU, PHYLUCE
+from uceasy.adapters import CPU, PHYLUCE
 
 
 def match_contigs_to_probes(contigs, probes, output):

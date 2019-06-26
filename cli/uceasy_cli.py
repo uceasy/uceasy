@@ -1,5 +1,5 @@
 import click
-from controller.phyluce_facade import run_quality_control, run_assembly
+from uceasy.controller.phyluce_facade import run_quality_control, run_assembly
 
 
 @click.group()

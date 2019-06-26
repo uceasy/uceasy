@@ -1,4 +1,4 @@
-from controller.phyluce_facade import run_quality_control
+from uceasy.controller.phyluce_facade import run_quality_control
 
 
 ADAPTER_I5 = 'AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC*ATCTCGTATGCCGTCTTCTGCTTG'
