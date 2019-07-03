@@ -1,12 +1,16 @@
 from uceasy.controller.phyluce_facade import run_quality_control
+from uceasy.context import Context
+import os
 
 
-ADAPTER_I5 = 'AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC*ATCTCGTATGCCGTCTTCTGCTTG'
-ADAPTER_I7 = 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT'
-SAMPLE_SHEET = 'sample/alligator_sheet.csv'
-INPUT = 'sample/raw_fastq'
+CONTEXT = Context(input='sample/raw_fastq',
+                  output= os.getcwd() + '/data',
+                  sheet='sample/alligator_sheet.csv',
+                  adapter_i5='AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC*ATCTCGTATGCCGTCTTCTGCTTG',
+                  adapter_i7='AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT')
 
 
 def test_run_quality_control():
-    cmd = run_quality_control(INPUT, SAMPLE_SHEET, ADAPTER_I7, ADAPTER_I5)
+    cmd = run_quality_control(CONTEXT)
     assert cmd.returncode == 0
+

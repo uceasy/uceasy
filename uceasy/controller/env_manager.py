@@ -1,17 +1,17 @@
 import pandas as pd
 import os
 import configparser
-from uceasy.controller import WORKENV, CLEAN_FASTQ
 
 
-def render_conf_file(name, config_dict):
-    config = WORKENV + name
-    configfile = configparser.ConfigParser(delimiters=(':'))
-    configfile.optionxform = str
-    configfile.read_dict(config_dict)
+def render_conf_file(name, output, config_dict):
+    config = f'{output}/{name}'
+
+    parser = configparser.ConfigParser(delimiters=(':'))
+    parser.optionxform = str
+    parser.read_dict(config_dict)
 
     with open(config, 'w') as fl:
-        configfile.write(fl, space_around_delimiters=False)
+        parser.write(fl, space_around_delimiters=False)
 
     return config
 
@@ -48,9 +48,14 @@ def prepare_illumiprocessor_conf(sheet, adapter_i7, adapter_i5):
     return config_dict
 
 
-def prepare_assembly_conf():
+def prepare_assembly_conf(context):
     config_dict = dict()
-    samples = os.listdir(CLEAN_FASTQ)
+    samples = get_samples(context)
     config_dict['samples'] = {sample: f'{CLEAN_FASTQ}/{sample}/split-adapter-quality-trimmed/'
                               for sample in samples}
     return config_dict
+
+
+def get_samples(context):
+    return os.listdir(context.output + '/illumiprocessor')
+
