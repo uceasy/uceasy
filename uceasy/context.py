@@ -7,6 +7,8 @@ params = (
         'sheet',
         'adapter_i5',
         'adapter_i7',
+        'probes',
+        'assembler',
 
         # OPTIONAL
         'fastq_encoding',
