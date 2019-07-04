@@ -56,6 +56,8 @@ def prepare_assembly_conf(context):
     return config_dict
 
 
-def get_samples(context):
-    return os.listdir(context.output + '/illumiprocessor')
+def get_samples(sheet):
+    # TODO
+    # get sample names from csv file
+    pass
 
