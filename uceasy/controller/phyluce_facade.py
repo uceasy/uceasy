@@ -3,22 +3,31 @@ from uceasy.adapters import quality_control
 from uceasy.controller import env_manager
 
 
-def run_quality_control(context):
-
-    config_dict = env_manager.prepare_illumiprocessor_conf(context.sheet,
-                                                           context.adapter_i7,
-                                                           context.adapter_i5)
-    config = env_manager.render_conf_file('illumiprocessor.conf', context.output, config_dict)
-
-    return quality_control.run_illumiprocessor(config, context.input, context.output + '/illumiprocessor')
+class Facade:
 
 
-def run_assembly(context):
-    config_dict = env_manager.prepare_assembly_conf(context)
-    config = env_manager.render_conf_file('assembly.conf', context.output, config_dict)
-
-    return assembly.run_trinity(config, context.output + '/assembly')
+    def __init__(self, context):
+        self.__context = context
 
 
-def run_uce_processing():
-    pass
+    def quality_control(self):
+
+        config_dict = env_manager.prepare_illumiprocessor_conf(self.__context.sheet,
+                                                               self.__context.adapter_i7,
+                                                               self.__context.adapter_i5)
+
+        config = env_manager.render_conf_file('illumiprocessor.conf', self.__context.output, config_dict)
+
+        return quality_control.run_illumiprocessor(config, context.input,
+                                                   context.output + '/illumiprocessor')
+
+
+    def assembly(self):
+        config_dict = env_manager.prepare_assembly_conf(self.__samples)
+        config = env_manager.render_conf_file('assembly.conf', self.__context.output, config_dict)
+
+        return assembly.run_trinity(config, self.__context.output + '/assembly')
+
+
+    def uce_processing():
+        pass
