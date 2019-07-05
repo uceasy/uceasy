@@ -1,13 +1,6 @@
 from uceasy.controller.env_manager import render_conf_file
-from uceasy.context import Context
+from tests import CONTEXT
 import os
-
-
-CONTEXT = Context(input='sample/raw_fastq',
-                  output= os.getcwd() + '/data',
-                  sheet='sample/alligator_sheet.csv',
-                  adapter_i5='AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC*ATCTCGTATGCCGTCTTCTGCTTG',
-                  adapter_i7='AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT')
 
 
 def test_should_pass_when_conf_file_rendered():
