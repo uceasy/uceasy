@@ -21,6 +21,16 @@ install:
   - conda create -n phyluce phyluce jellyfish=2.2.3
   - conda activate phyluce
   - python setup.py develop
+  - pip install -r requirements.txt
+    
+  # Dowload test dataset
+  - curl -O https://ndownloader.figshare.com/articles/1284521/versions/1 | unzip sample/raw_fastq
+  - wget -O sample/ce-5k-probes.fasta https://raw.githubusercontent.com/faircloth-lab/uce-probe-sets/master/uce-5k-probe-set/uce-5k-probes.fasta
+
 
 script:
   - pytest
+
+branches:
+  only:
+    - dev
