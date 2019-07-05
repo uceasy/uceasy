@@ -18,8 +18,8 @@ class Facade:
 
         config = env_manager.render_conf_file('illumiprocessor.conf', self.__context.output, config_dict)
 
-        return quality_control.run_illumiprocessor(config, context.input,
-                                                   context.output + '/illumiprocessor')
+        return quality_control.run_illumiprocessor(config, self.__context.input,
+                                                   self.__context.output + '/illumiprocessor')
 
 
     def assembly(self):
@@ -29,5 +29,5 @@ class Facade:
         return assembly.run_trinity(config, self.__context.output + '/assembly')
 
 
-    def uce_processing():
+    def process_uce(self):
         pass
