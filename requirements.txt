@@ -15,3 +15,4 @@ six==1.12.0
 -e git+http://github.com/lucper/uceasy.git@aa0b0bc250ad330b814389c4a438d816e84b61d6#egg=uceasy
 Werkzeug==0.14.1
 wrapt==1.11.1
+pytest==5.0.0
