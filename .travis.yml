@@ -24,7 +24,8 @@ install:
   - pip install -r requirements.txt
     
   # Dowload test dataset
-  - curl -O https://ndownloader.figshare.com/articles/1284521/versions/1 | unzip sample/raw_fastq
+  - wget -o fastq.zip https://ndownloader.figshare.com/articles/1284521/versions/1
+  - unzip fastq.zip -o sample/raw_fastq
   - wget -O sample/ce-5k-probes.fasta https://raw.githubusercontent.com/faircloth-lab/uce-probe-sets/master/uce-5k-probe-set/uce-5k-probes.fasta
 
 
