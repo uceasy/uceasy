@@ -14,10 +14,3 @@ def test_should_pass_when_conf_file_rendered():
 
     assert os.path.isfile(CONTEXT.output + '/assembly.conf')
 
-
-def test_prepare_illumiprocessor_conf():
-    assert False
-
-
-def test_prepare_assembly_conf():
-    assert False
