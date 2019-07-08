@@ -2,8 +2,6 @@ version: 2
 jobs:
   build:
     machine: true
-    environment:
-        PATH: $PATH:~/miniconda/bin
     steps:
       - checkout
       - run:
@@ -16,9 +14,6 @@ jobs:
               conda update -q conda
               # Useful for debugging any issues with conda
               conda info -a
-      - run:
-          name: Configure bioconda and install phyluce
-          command: |
               conda config --add channels defaults
               conda config --add channels bioconda
               conda config --add channels conda-forge
