@@ -1,7 +1,8 @@
 version: 2
 jobs:
   build:
-    machine: true
+    docker:
+      - image: circleci/python:3.7
     steps:
       - checkout
       - run:
@@ -19,13 +20,13 @@ jobs:
               conda config --add channels bioconda
               conda config --add channels conda-forge
               conda create -n phyluce phyluce jellyfish=2.2.3
-              conda activate phyluce
 
               python setup.py develop
               pip install -r requirements.txt
               
       - run:
-          command: | # Download test dataset
+          name: Download test dataset
+          command: |
               wget -o fastq.zip https://ndownloader.figshare.com/articles/1284521/versions/1
               unzip fastq.zip -o tests/raw_fastq
       - run:
