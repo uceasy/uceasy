@@ -1,15 +1,9 @@
-from uceasy.adapters import assembly
+from uceasy.controller.phyluce_facade import Facade
 from tests import CONTEXT
 
 
-CONFIG = 'sample/assembly.conf'
-
-
-def test_if_trinity_is_running():
-    cmd = assembly.run_trinity(CONFIG, CONTEXT.output + '/trinity')
+def test_assembly():
+    facade = Facade(CONTEXT)
+    cmd = facade.assembly()
     assert cmd.returncode == 0
 
-
-def test_if_spades_is_running():
-    cmd = assembly.run_spades(CONFIG, CONTEXT.output + '/spades')
-    assert cmd.returncode == 0
