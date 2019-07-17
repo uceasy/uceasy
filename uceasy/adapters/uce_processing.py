@@ -3,8 +3,10 @@ from uceasy.adapters import CPU, PHYLUCE
 
 
 class UCEProcessor:
+
     def __init__(self, output):
         self.__output = output
+
 
     def match_contigs_to_probes(self, contigs, probes):
         return [
@@ -14,6 +16,7 @@ class UCEProcessor:
             '--output', self.__output
         ]
 
+
     def get_match_counts(self, locus_db, taxon_list_config, taxon_group):
         return [
             PHYLUCE + '/bin/phyluce_assembly_get_match_counts',
@@ -22,6 +25,7 @@ class UCEProcessor:
             '--taxon-group', taxon_group,
             '--output', self.__output
         ]
+
 
     def get_fastas_from_match_counts(self, contigs, locus_db, match_count_output, log_path):
         return [
@@ -33,6 +37,7 @@ class UCEProcessor:
             '--log-path', log_path
         ]
 
+
     def explode_get_fastas_file(self, alignments):
         return [
             PHYLUCE + '/bin/phyluce_assembly_explode_get_fastas_file',
@@ -42,7 +47,7 @@ class UCEProcessor:
         ]
 
     def seqcap_align(self, fasta, taxa, aligner, no_trim=False):
-        return [
+        cmd = [
             PHYLUCE + '/bin/phyluce_align_seqcap_align',
             '--fasta', fasta,
             '--taxa', taxa,
@@ -51,6 +56,8 @@ class UCEProcessor:
         ]
         if no_trim:
             cmd.append('--no-trim')
+        return cmd
+
 
     def get_gblocks_trimmed_alignments_from_untrimmed(self, alignments, log):
         return [
@@ -60,6 +67,7 @@ class UCEProcessor:
             '--log', log
             ]
 
+
     def remove_locus_name_from_nexus_lines(self, alignments, log):
         return [
             PHYLUCE + '/bin/remove_locus_name_from_nexus_lines',
@@ -68,6 +76,7 @@ class UCEProcessor:
             '--log-path', log,
             '--cores', CPU
         ]
+
 
     def get_only_loci_with_min_taxa(self, alignments, taxa, percent, log):
         return [
@@ -79,6 +88,7 @@ class UCEProcessor:
             '--cores', CPU,
             '--log-path', log
         ]
+
 
     def format_nexus_files_for_raxml(self, alignments, log, charsets=False):
         cmd = [
