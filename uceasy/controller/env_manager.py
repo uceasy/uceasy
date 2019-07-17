@@ -3,21 +3,21 @@ import os
 import configparser
 
 
-def render_conf_file(name, output, config_dict):
-    config = f'{output}/{name}'
+def render_conf_file(path, config_dict):
 
     parser = configparser.ConfigParser(delimiters=(':'))
     parser.optionxform = str
     parser.read_dict(config_dict)
 
-    with open(config, 'w') as fl:
+    with open(path, 'w') as fl:
         parser.write(fl, space_around_delimiters=False)
 
-    return config
+    return path
 
 
 def prepare_illumiprocessor_conf(sheet, adapter_i7, adapter_i5):
     config_dict = dict()
+    samples = get_samples(sheet)
     sheet = pd.read_csv(sheet)
     sheet = sheet[sheet.columns[1:4]]
 
@@ -40,24 +40,25 @@ def prepare_illumiprocessor_conf(sheet, adapter_i7, adapter_i5):
 
     config_dict['tag sequences'] = {**tags_i5, **tags_i7}
 
-    config_dict['tag map'] = {row['Customer_Code']: f"{row['i5_Tag']},{row['i7_Tag']}"
-                              for _, row in sheet.iterrows()}
+    config_dict['tag map'] = {samples[index]: f"{row['i5_Tag']},{row['i7_Tag']}"
+                              for index, row in sheet.iterrows()}
 
-    config_dict['names'] = {row['Customer_Code']: f'sample{index}'
-                            for index, row in sheet.iterrows()}
+    config_dict['names'] = {sample: sample for sample in samples}
     return config_dict
 
 
 def prepare_assembly_conf(context):
+    output = f'{os.getcwd()}/{context.output}'
     config_dict = dict()
     samples = get_samples(context)
-    config_dict['samples'] = {sample: f'{CLEAN_FASTQ}/{sample}/split-adapter-quality-trimmed/'
+    config_dict['samples'] = {sample: f'{output}/illumiprocessor/{sample}/split-adapter-quality-trimmed/'
                               for sample in samples}
+
     return config_dict
 
 
 def get_samples(sheet):
-    # TODO
-    # get sample names from csv file
-    pass
+    sheet = pd.read_csv('tests/sample_sheet.csv')
+    samples = [row['Customer_Code'] for _, row in sheet.iterrows()]
+    return samples
 

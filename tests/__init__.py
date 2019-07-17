@@ -10,4 +10,3 @@ CONTEXT = Context(input='tests/raw_fastq',
                   probes='tests/probes',
                   assembler='trinity')
 
-
