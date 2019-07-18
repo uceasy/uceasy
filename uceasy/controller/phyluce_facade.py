@@ -6,27 +6,23 @@ from uceasy.controller import env_manager
 class Facade:
 
 
-    def __init__(self, context):
-        self.__context = context
+    def quality_control(self, output, sheet, adapter_i7, adapter_i5):
+
+        config_dict = env_manager.prepare_illumiprocessor_conf(sheet,
+                                                               adapter_i7,
+                                                               adapter_i5)
+
+        config = env_manager.render_conf_file(output + '/illumiprocessor.conf', config_dict)
+
+        return quality_control.run_illumiprocessor(config, input,
+                                                   output + '/illumiprocessor')
 
 
-    def quality_control(self):
+    def assembly(self, output, samples):
+        config_dict = env_manager.prepare_assembly_conf(output, samples)
+        config = env_manager.render_conf_file(output + '/assembly.conf', config_dict)
 
-        config_dict = env_manager.prepare_illumiprocessor_conf(self.__context.sheet,
-                                                               self.__context.adapter_i7,
-                                                               self.__context.adapter_i5)
-
-        config = env_manager.render_conf_file(self.__context.output + '/illumiprocessor.conf', config_dict)
-
-        return quality_control.run_illumiprocessor(config, self.__context.input,
-                                                   self.__context.output + '/illumiprocessor')
-
-
-    def assembly(self):
-        config_dict = env_manager.prepare_assembly_conf(self.__context)
-        config = env_manager.render_conf_file(self.__context.output + '/assembly.conf', config_dict)
-
-        return assembly.run_trinity(config, self.__context.output + '/assembly')
+        return assembly.run_trinity(config, output + '/assembly')
 
 
     def process_uce(self):
