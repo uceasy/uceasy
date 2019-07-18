@@ -47,10 +47,8 @@ def prepare_illumiprocessor_conf(sheet, adapter_i7, adapter_i5):
     return config_dict
 
 
-def prepare_assembly_conf(context):
-    output = f'{os.getcwd()}/{context.output}'
+def prepare_assembly_conf(output, samples):
     config_dict = dict()
-    samples = get_samples(context)
     config_dict['samples'] = {sample: f'{output}/illumiprocessor/{sample}/split-adapter-quality-trimmed/'
                               for sample in samples}
 
@@ -62,3 +60,9 @@ def get_samples(sheet):
     samples = [row['Customer_Code'] for _, row in sheet.iterrows()]
     return samples
 
+
+def create_output(output):
+    if os.path.isdir(output):
+        raise IOError('Error: output directory already exists!\n'
+                      'Move or remove before running UCEasy.')
+    os.mkdir(output)
