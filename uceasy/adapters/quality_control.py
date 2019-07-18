@@ -2,7 +2,7 @@ import subprocess
 from uceasy.adapters import CPU, ILLUMIPROCESSOR
 
 
-def run_illumiprocessor(config, input, output):
+def run_illumiprocessor(input, output, config):
     cmd = [
         ILLUMIPROCESSOR,
         '--input', input,
