@@ -1,8 +1,7 @@
 from uceasy.adapters import assembly
-from tests import CONTEXT
 
 
-CONFIG = 'tests/output/assembly.conf'
+CONFIG = 'sample/assembly.conf'
 
 
 def test_if_trinity_is_running():
