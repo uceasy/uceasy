@@ -3,17 +3,16 @@ import os
 import configparser
 
 
-def render_conf_file(name, output, config_dict):
-    config = f'{output}/{name}'
+def render_conf_file(file, config_dict):
 
     parser = configparser.ConfigParser(delimiters=(':'))
     parser.optionxform = str
     parser.read_dict(config_dict)
 
-    with open(config, 'w') as fl:
+    with open(file, 'w') as fl:
         parser.write(fl, space_around_delimiters=False)
 
-    return config
+    return file
 
 
 def prepare_illumiprocessor_conf(sheet, adapter_i7, adapter_i5):
@@ -62,7 +61,8 @@ def get_samples(sheet):
 
 
 def create_output(output):
+    output = f'{os.getcwd()}/{output}'
     if os.path.isdir(output):
         raise IOError('Error: output directory already exists!\n'
-                      'Move or remove before running UCEasy.')
+                      'Rename or remove it before running UCEasy.')
     os.mkdir(output)
