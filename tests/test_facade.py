@@ -1,25 +1,47 @@
-from uceasy.controller.phyluce_facade import  Facade
-import subprocess
+from uceasy.controller.phyluce_facade import Facade
+from uceasy.adapters import quality_control, assembly
+from uceasy.controller import env_manager
+from pytest_mock import mocker
+import pytest
 import os
 
 
-output = os.getcwd() + '/sample/output'
-sheet = 'sample/sample_sheet.csv',
-adapter_i7 = 'AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC*ATCTCGTATGCCGTCTTCTGCTTG'
-adapter_i5 = 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT'
-samples = ['alligator']
+OUTPUT = os.getcwd() + '/testdata/output'
+SAMPLES = ['alligator']
 
 
-def test_run_quality_control():
-    facade = Facade()
-    cmd = facade.quality_control(output, sheet, adapter_i7, adapter_i5)
-
-    assert isinstance(cmd, subprocess.CompletedProcess)
+@pytest.fixture()
+def facade():
+    return Facade()
 
 
-def test_assembly():
-    facade = Facade()
-    cmd = facade.assembly(output, samples)
+def test_quality_control_calling_env_manager_and_illumiprocessor(facade, mocker):
+    input = 'sample/raw_fastq'
+    config = os.getcwd() + '/sample/output/illumiprocessor.conf'
+    adapter_i7 = 'AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC*ATCTCGTATGCCGTCTTCTGCTTG'
+    adapter_i5 = 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT'
+    sheet = 'sample/sample_sheet.csv'
 
-    assert isinstance(cmd, subprocess.CompletedProcess)
+    mocker.patch.object(env_manager, 'prepare_illumiprocessor_conf')
+    mocker.patch.object(quality_control, 'run_illumiprocessor')
+
+    facade.quality_control(input, OUTPUT, sheet, adapter_i7, adapter_i5)
+
+    env_manager.prepare_illumiprocessor_conf.assert_called_once_with(sheet, adapter_i7, adapter_i5)
+    quality_control.run_illumiprocessor.assert_called_once_with(input, OUTPUT + '/illumiprocessor', config)
+
+
+def test_assembly_calling_env_manager_and_trinity(facade, mocker):
+    assembler = 'trinity'
+    config = OUTPUT + '/assembly.conf'
+
+    mocker.patch.object(env_manager, 'prepare_assembly_conf')
+    mocker.patch.object(assembly, 'run_trinity')
+
+    facade.assembly(OUTPUT, SAMPLES, assembler)
+
+    env_manager.prepare_assembly_conf.assert_called_once_with(OUTPUT, SAMPLES)
+    assembly.run_trinity.assert_called_once_with(config, OUTPUT + '/assembly')
+
+
 
