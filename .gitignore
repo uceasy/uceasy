@@ -12,8 +12,7 @@ uceasy.log
 web.log
 __pychache__
 .vscode/
-data/
-raw_fastq/
-clean_fastq/
-tests/output
+testdata/output/
+raw_fastq
+clean_fastq
 
