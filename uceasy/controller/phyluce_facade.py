@@ -6,7 +6,7 @@ from uceasy.controller import env_manager
 class Facade:
 
 
-    def quality_control(self, output, sheet, adapter_i7, adapter_i5):
+    def quality_control(self, input, output, sheet, adapter_i7, adapter_i5):
 
         config_dict = env_manager.prepare_illumiprocessor_conf(sheet,
                                                                adapter_i7,
@@ -14,11 +14,11 @@ class Facade:
 
         config = env_manager.render_conf_file(output + '/illumiprocessor.conf', config_dict)
 
-        return quality_control.run_illumiprocessor(config, input,
-                                                   output + '/illumiprocessor')
+        return quality_control.run_illumiprocessor(input,
+                                                   output + '/illumiprocessor', config)
 
 
-    def assembly(self, output, samples):
+    def assembly(self, output, samples, assembler):
         config_dict = env_manager.prepare_assembly_conf(output, samples)
         config = env_manager.render_conf_file(output + '/assembly.conf', config_dict)
 
