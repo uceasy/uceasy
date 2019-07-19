@@ -16,11 +16,11 @@ def facade():
 
 
 def test_quality_control_calling_env_manager_and_illumiprocessor(facade, mocker):
-    input = 'sample/raw_fastq'
-    config = os.getcwd() + '/sample/output/illumiprocessor.conf'
+    input = 'testdata/raw_fastq'
+    config = os.getcwd() + '/testdata/output/illumiprocessor.conf'
     adapter_i7 = 'AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC*ATCTCGTATGCCGTCTTCTGCTTG'
     adapter_i5 = 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT'
-    sheet = 'sample/sample_sheet.csv'
+    sheet = 'testdata/testdata_sheet.csv'
 
     mocker.patch.object(env_manager, 'prepare_illumiprocessor_conf')
     mocker.patch.object(quality_control, 'run_illumiprocessor')
