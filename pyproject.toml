@@ -15,6 +15,7 @@ click = "^7.0"
 pytest = "^5.0"
 jedi = "^0.14.1"
 pylint = "^2.3"
+pytest-mock = "^1.10"
 
 [tool.poetry.scripts]
 uceasy = "cli.uceast_cli:uceasy"
