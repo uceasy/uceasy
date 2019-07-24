@@ -1,9 +1,14 @@
 from uceasy.adapters import assembly
+from uceasy.controller import env_manager
 import os
 
 
+testdata = os.getcwd() + '/testdata'
 output = os.getcwd() + '/testdata/output'
-config = os.getcwd() + '/testdata/assembly.conf'
+samples = ['sample0']
+
+config_dict = env_manager.prepare_assembly_conf(testdata, samples)
+config = env_manager.render_conf_file(output + '/assembly.conf', config_dict)
 
 
 def test_if_trinity_is_running():

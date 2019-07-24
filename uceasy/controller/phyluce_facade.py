@@ -1,6 +1,7 @@
 from uceasy.adapters import assembly
 from uceasy.adapters import quality_control
 from uceasy.controller import env_manager
+import os
 
 
 class Facade:
@@ -14,11 +15,12 @@ class Facade:
 
         config = env_manager.render_conf_file(output + '/illumiprocessor.conf', config_dict)
 
-        return quality_control.run_illumiprocessor(input,
-                                                   output + '/illumiprocessor', config)
+        return quality_control.run_illumiprocessor(input, output + '/clean_fastq', config)
 
 
-    def assembly(self, output, samples, assembler):
+    def assembly(self, output, assembler):
+        samples = os.listdir(output + '/clean_fastq')
+
         config_dict = env_manager.prepare_assembly_conf(output, samples)
         config = env_manager.render_conf_file(output + '/assembly.conf', config_dict)
 

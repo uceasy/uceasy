@@ -49,15 +49,9 @@ def prepare_illumiprocessor_conf(sheet, adapter_i7, adapter_i5):
 
 def prepare_assembly_conf(output, samples):
     config_dict = dict()
-    config_dict['samples'] = {sample: f'{output}/illumiprocessor/{sample}/split-adapter-quality-trimmed/'
+    config_dict['samples'] = {sample: f'{output}/clean_fastq/{sample}/split-adapter-quality-trimmed/'
                               for sample in samples}
     return config_dict
-
-
-def get_samples(sheet):
-    # TODO
-    # get sample names from csv file
-    pass
 
 
 def create_output(output):
