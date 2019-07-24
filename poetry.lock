@@ -220,7 +220,7 @@ description = "Python parsing module"
 name = "pyparsing"
 optional = false
 python-versions = "*"
-version = "2.4.1"
+version = "2.4.0"
 
 [[package]]
 category = "dev"
