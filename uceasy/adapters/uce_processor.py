@@ -6,8 +6,10 @@ from uceasy.adapters import CPU, PHYLUCE
 class UCEProcessor(metaclass=abc.ABCMeta):
 
 
-    def __init__(self, output):
+    def __init__(self, output, contigs, log):
         self.__output = output
+        self.__contigs = contigs
+        self.__log = log
 
 
     @abc.abstractmethod
@@ -15,10 +17,10 @@ class UCEProcessor(metaclass=abc.ABCMeta):
         pass
 
 
-    def match_contigs_to_probes(self, contigs, probes):
+    def match_contigs_to_probes(self, probes):
         return [
             PHYLUCE + '/bin/phyluce_assembly_match_contigs_to_probes',
-            '--contigs', contigs,
+            '--contigs', self.__contigs,
             '--probes', probes,
             '--output', self.__output
         ]
@@ -34,14 +36,14 @@ class UCEProcessor(metaclass=abc.ABCMeta):
         ]
 
 
-    def get_fastas_from_match_counts(self, contigs, locus_db, match_count_output, log_path):
+    def get_fastas_from_match_counts(self, locus_db, match_count_output):
         return [
             PHYLUCE + '/bin/phyluce_assembly_get_fastas_from_match_counts',
-            '--contigs', contigs,
+            '--contigs', self.__contigs,
             '--locus-db', locus_db,
             '--match-count-output', match_count_output,
             '--output', self.__output,
-            '--log-path', log_path
+            '--log-path', self.__log
         ]
 
 
@@ -66,26 +68,26 @@ class UCEProcessor(metaclass=abc.ABCMeta):
         return cmd
 
 
-    def get_gblocks_trimmed_alignments_from_untrimmed(self, alignments, log):
+    def get_gblocks_trimmed_alignments_from_untrimmed(self, alignments):
         return [
             PHYLUCE + '/bin/get_gblocks_trimmed_alignments_from_untrimmed',
             '--alignments', alignments,
             '--output', self.__output,
-            '--log', log
+            '--log', self.__log
             ]
 
 
-    def remove_locus_name_from_nexus_lines(self, alignments, log):
+    def remove_locus_name_from_nexus_lines(self, alignments):
         return [
             PHYLUCE + '/bin/remove_locus_name_from_nexus_lines',
             '--alignments', alignments,
             '--output', self.__output,
-            '--log-path', log,
+            '--log-path', self.__log,
             '--cores', CPU
         ]
 
 
-    def get_only_loci_with_min_taxa(self, alignments, taxa, percent, log):
+    def get_only_loci_with_min_taxa(self, alignments, taxa, percent):
         return [
             PHYLUCE + '/bin/get_only_loci_with_min_taxa',
             '--alignments', alignments,
@@ -93,16 +95,16 @@ class UCEProcessor(metaclass=abc.ABCMeta):
             '--percent', percent,
             '--output', self.__output,
             '--cores', CPU,
-            '--log-path', log
+            '--log-path', self.__log
         ]
 
 
-    def format_nexus_files_for_raxml(self, alignments, log, charsets=False):
+    def format_nexus_files_for_raxml(self, alignments, charsets=False):
         cmd = [
             PHYLUCE + '/bin/format_nexus_files_for_raxml',
             '--alignments', alignments,
             '--output', self.__output,
-            '--log-path', log
+            '--log-path', self.__log
         ]
         if charsets:
             cmd.append('--charsets')
