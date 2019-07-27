@@ -4,7 +4,7 @@ import os
 import shutil
 
 
-output = 'testdata/output'
+output = 'testdata/output/test_output'
 
 
 def test_create_output_dir():
