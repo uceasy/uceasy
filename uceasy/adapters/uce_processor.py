@@ -1,11 +1,18 @@
 import subprocess
+import abc
 from uceasy.adapters import CPU, PHYLUCE
 
 
-class UCEProcessor:
+class UCEProcessor(metaclass=abc.ABCMeta):
+
 
     def __init__(self, output):
         self.__output = output
+
+
+    @abc.abstractmethod
+    def run_uce_processing(self):
+        pass
 
 
     def match_contigs_to_probes(self, contigs, probes):
