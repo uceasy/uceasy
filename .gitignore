@@ -15,4 +15,5 @@ __pychache__
 testdata/output/
 raw_fastq
 clean_fastq
+tags
 
