@@ -19,7 +19,8 @@ class UCEProcessor:
             '--locus-db', locus_db,
             '--taxon-list-config', taxon_list_config,
             '--taxon-group', taxon_group,
-            '--output', output
+            '--output', output,
+            '--incomplete-matrix'
         ]
 
 
@@ -48,10 +49,11 @@ class UCEProcessor:
             '--fasta', fasta,
             '--taxa', taxa,
             '--aligner', aligner,
-            '--output', output
+            '--output', output,
+            '--incomplete-matrix'
         ]
         if no_trim:
-            cmd.append('--no-trim')
+            cmd.append('--no-trim', '--output-format fasta')
         return cmd
 
 
