@@ -6,14 +6,20 @@ import subprocess
 
 @pytest.fixture
 def processor():
-    return UCEPhylogenomics('testdata/output',
-                            'testdata/output/trinity/contigs',
+    return UCEPhylogenomics('testoutput',
+                            'testdata/contigs',
                             'testdata/probes.fasta',
-                            'testdata/output/logs')
+                            'testoutput/logs',
+                            'all',
+                            1,
+                            'mafft',
+                            True,
+                            0.75,
+                            False)
 
 
 
 def test_get_match_counts(processor):
-    cmd = subprocess.run(processor.get_match_contigs_to_probes(), check=True) 
+    cmd = processor.run_uce_processing()
 
     assert cmd.returncode == 0
