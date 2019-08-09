@@ -1,10 +1,10 @@
 #!/bin/sh
 
 
-if [ ! -e testdata/output/ ]; then
-	mkdir testdata/output
+if [ ! -e testoutput/ ]; then
+	mkdir testoutput
 else
-	rm -r testdata/output/*
+	rm -r testoutput/*
 fi
 
 

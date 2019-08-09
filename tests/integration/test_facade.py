@@ -6,7 +6,7 @@ import pytest
 import os
 
 
-OUTPUT = os.getcwd() + '/testdata/output'
+OUTPUT = os.getcwd() + '/testoutput'
 
 
 @pytest.fixture()
