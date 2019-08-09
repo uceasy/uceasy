@@ -4,12 +4,12 @@ Multiple cores found: Using 4 threads
 Using Long Clipping Sequence: 'AGATCGGAAGAGCACACGTCTGAACTCCAGTCACGGAGCTATGGATCTCGTATGCCGTCTTCTGCTTG'
 Using Long Clipping Sequence: 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT'
 ILLUMINACLIP: Using 0 prefix pairs, 2 forward/reverse sequences, 0 forward only sequences, 0 reverse only sequences
-Exception in thread "Thread-0" java.lang.RuntimeException: Missing comment line from record: HWI-ST798R:96:D1HTMACXX:5:2113:11048:44265
+Exception in thread "Thread-1" java.lang.RuntimeException: Missing comment line from record: HWI-ST798R:96:D1HTMACXX:5:2314:20958:45794
 	at org.usadellab.trimmomatic.fastq.FastqParser.parseOne(FastqParser.java:77)
 	at org.usadellab.trimmomatic.fastq.FastqParser.next(FastqParser.java:179)
 	at org.usadellab.trimmomatic.threading.ParserWorker.run(ParserWorker.java:42)
 	at java.lang.Thread.run(Thread.java:745)
-Exception in thread "Thread-1" java.lang.RuntimeException: Missing comment line from record: HWI-ST798R:96:D1HTMACXX:5:2113:11048:44265
+Exception in thread "Thread-0" java.lang.RuntimeException: Missing comment line from record: HWI-ST798R:96:D1HTMACXX:5:2314:20958:45794
 	at org.usadellab.trimmomatic.fastq.FastqParser.parseOne(FastqParser.java:77)
 	at org.usadellab.trimmomatic.fastq.FastqParser.next(FastqParser.java:179)
 	at org.usadellab.trimmomatic.threading.ParserWorker.run(ParserWorker.java:42)
