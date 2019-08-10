@@ -1,4 +1,4 @@
-from uceasy.uce_processors.uce_phylogenomics import UCEPhylogenomics
+from uceasy.use_cases.uce_phylogenomics import UCEPhylogenomics
 
 import pytest
 import subprocess
