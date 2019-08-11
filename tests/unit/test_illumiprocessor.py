@@ -1,5 +1,4 @@
 from uceasy.adapters import quality_control
-from uceasy.controller import env_manager
 import os
 
 
