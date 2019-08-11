@@ -1,5 +1,5 @@
-import subprocess
 from uceasy.adapters import CPU, TRINITY, SPADES
+import subprocess
 
 
 def run_trinity(config, output):
@@ -7,8 +7,7 @@ def run_trinity(config, output):
         TRINITY,
         '--config', config,
         '--output', output,
-        # '--clean', This was causing the error: Broken pipe
-        # See the issue: https://github.com/faircloth-lab/phyluce/issues/159
+        '--clean',
         '--cores', CPU
     ]
     return subprocess.run(cmd, check=True)
