@@ -3,11 +3,11 @@ from uceasy.controller import env_manager
 import os
 
 
-sample = os.getcwd() + '/testdata/clean_fastq/sample0/split-adapter-quality-trimmed'
+sample = os.getcwd() + '/testdata/clean-fastq/sample0/split-adapter-quality-trimmed'
 output = os.getcwd() + '/testoutput'
 
 
-config_dict = { 'samples': { 'alligator': sample } }
+config_dict = { 'samples': { 'sample': sample } }
 config = env_manager.render_conf_file(output + '/assembly.conf', config_dict)
 
 
