@@ -1,20 +1,26 @@
 from uceasy.adapters import CPU, PHYLUCE
+import subprocess
 
 
 class UCEProcessor:
 
 
+    def runner(self, cmd):
+        return subprocess.run(cmd, check=True)
+
+
     def match_contigs_to_probes(self, output, contigs, probes):
-        return [
+        cmd = [
             PHYLUCE + '/bin/phyluce_assembly_match_contigs_to_probes',
             '--contigs', contigs,
             '--probes', probes,
             '--output', output
         ]
+        return self.runner(cmd)
 
 
     def get_match_counts(self, output, locus_db, taxon_list_config, taxon_group):
-        return [
+        cmd = [
             PHYLUCE + '/bin/phyluce_assembly_get_match_counts',
             '--locus-db', locus_db,
             '--taxon-list-config', taxon_list_config,
@@ -22,26 +28,30 @@ class UCEProcessor:
             '--output', output,
             '--incomplete-matrix'
         ]
+        return self.runner(cmd)
 
 
-    def get_fastas_from_match_counts(self, output, contigs, locus_db, match_count_output, log):
-        return [
+    def get_fastas_from_match_counts(self, output, contigs, locus_db, match_count_output, incomplete_matrix, log):
+        cmd = [
             PHYLUCE + '/bin/phyluce_assembly_get_fastas_from_match_counts',
             '--contigs', contigs,
             '--locus-db', locus_db,
             '--match-count-output', match_count_output,
             '--output', output,
-            '--log-path', log
+            '--log-path', log,
+            '--incomplete-matrix', incomplete_matrix
         ]
+        return self.runner(cmd)
 
 
-    def explode_get_fastas_file(self, output, alignments):
-        return [
+    def explode_get_fastas_file(self, input, output):
+        cmd = [
             PHYLUCE + '/bin/phyluce_assembly_explode_get_fastas_file',
-            '--alignments', alignments,
+            '--input', input,
             '--output', output,
             '--by-taxon'
         ]
+        return self.runner(cmd)
 
     def seqcap_align(self, output, fasta, taxa, aligner, no_trim=False):
         cmd = [
@@ -50,35 +60,38 @@ class UCEProcessor:
             '--taxa', taxa,
             '--aligner', aligner,
             '--output', output,
+            '--output-format', 'fasta',
             '--incomplete-matrix'
         ]
         if no_trim:
-            cmd.append('--no-trim', '--output-format fasta')
-        return cmd
+            cmd.append('--no-trim')
+        return self.runner(cmd)
 
 
-    def get_gblocks_trimmed_alignments_from_untrimmed(self, output, alignments, log):
-        return [
-            PHYLUCE + '/bin/get_gblocks_trimmed_alignments_from_untrimmed',
+    def get_gblocks_trimmed_alignments_from_untrimmed(self, alignments, output, log):
+        cmd = [
+            PHYLUCE + '/bin/phyluce_align_get_gblocks_trimmed_alignments_from_untrimmed',
             '--alignments', alignments,
             '--output', output,
             '--log', log
             ]
+        return self.runner(cmd)
 
 
-    def remove_locus_name_from_nexus_lines(self, output, alignments, log):
-        return [
-            PHYLUCE + '/bin/remove_locus_name_from_nexus_lines',
+    def remove_locus_name_from_nexus_lines(self, alignments, output, log):
+        cmd = [
+            PHYLUCE + '/bin/phyluce_align_remove_locus_name_from_nexus_lines',
             '--alignments', alignments,
             '--output', output,
             '--log-path', log,
             '--cores', CPU
         ]
+        return self.runner(cmd)
 
 
-    def get_only_loci_with_min_taxa(self, output, alignments, taxa, percent, log):
-        return [
-            PHYLUCE + '/bin/get_only_loci_with_min_taxa',
+    def get_only_loci_with_min_taxa(self, alignments, output, taxa, percent, log):
+        cmd = [
+            PHYLUCE + '/bin/phyluce_align_get_only_loci_with_min_taxa',
             '--alignments', alignments,
             '--taxa', taxa,
             '--percent', percent,
@@ -86,16 +99,17 @@ class UCEProcessor:
             '--cores', CPU,
             '--log-path', log
         ]
+        return self.runner(cmd)
 
 
-    def format_nexus_files_for_raxml(self, output, alignments, log, charsets=False):
+    def format_nexus_files_for_raxml(self, alignments, output, log, charsets=False):
         cmd = [
-            PHYLUCE + '/bin/format_nexus_files_for_raxml',
+            PHYLUCE + '/bin/phyluce_align_format_nexus_files_for_raxml',
             '--alignments', alignments,
             '--output', output,
             '--log-path', log
         ]
         if charsets:
             cmd.append('--charsets')
-        return cmd
+        return self.runner(cmd)
 
