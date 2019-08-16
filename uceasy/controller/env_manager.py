@@ -60,3 +60,15 @@ def create_output(output):
         raise IOError('Error: output directory already exists!\n'
                       'Rename or remove it before running UCEasy.')
     os.mkdir(output)
+
+
+def get_samples_from_csv(sheet):
+    sheet = pd.read_csv(sheet)
+    samples = [row['Customer_Code'] for _, row in sheet.iterrows()]
+
+    return samples
+
+
+def prepare_taxon_set_conf(samples):
+    return {'all': {sample for sample in samples}}
+    

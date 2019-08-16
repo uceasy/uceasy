@@ -4,26 +4,27 @@ import os
 import shutil
 
 
-output = 'testoutput/env_manager_test'
+OUTPUT = 'testoutput/env_manager_test'
+DATA = 'testdata'
 
 
 def test_create_output_dir():
-    if os.path.isdir(f'{os.getcwd()}/{output}'):
-        shutil.rmtree(f'{os.getcwd()}/{output}')
+    if os.path.isdir(f'{os.getcwd()}/{OUTPUT}'):
+        shutil.rmtree(f'{os.getcwd()}/{OUTPUT}')
 
-    env_manager.create_output(output)
+    env_manager.create_output(OUTPUT)
 
-    assert os.path.isdir(output)
+    assert os.path.isdir(OUTPUT)
 
 
 def test_fail_if_output_already_exists():
 
     with pytest.raises(IOError):
-        env_manager.create_output(output)
+        env_manager.create_output(OUTPUT)
 
 
 def test_conf_file_rendered():
-    file = output + '/assembly.conf'
+    file = OUTPUT + '/assembly.conf'
 
     config_dict = {
                 'samples': {
@@ -36,3 +37,8 @@ def test_conf_file_rendered():
     assert os.path.isfile(file)
 
 
+def test_get_samples_names():
+    samples = ['TAL13_B20_S20']
+    sheet_samples = env_manager.get_samples_from_csv(DATA + '/sample_sheet.csv') 
+
+    assert samples == sheet_samples
