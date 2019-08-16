@@ -5,8 +5,8 @@ params = (
         'input',
         'output',
         'sheet',
-        'adapter_i5',
         'adapter_i7',
+        'adapter_i5',
         'probes',
         'assembler',
 
