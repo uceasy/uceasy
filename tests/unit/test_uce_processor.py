@@ -1,7 +1,7 @@
-from uceasy.adapters.uce_processor import UCEProcessor
-
 import pytest
 import subprocess
+
+from uceasy.adapters.uce_processor import UCEProcessor
 
 
 DATA = 'testdata'
