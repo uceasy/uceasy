@@ -1,9 +1,11 @@
-from uceasy.controller.phyluce_facade import Facade
-from uceasy.adapters import quality_control, assembly
-from uceasy.controller import env_manager
 from pytest_mock import mocker
 import pytest
 import os
+
+from uceasy.controller.phyluce_facade import Facade
+from uceasy.adapters import quality_control, assembly
+from uceasy.controller import env_manager
+from uceasy.use_cases.uce_phylogenomics import UCEPhylogenomics
 
 
 OUTPUT = os.getcwd() + '/testoutput'
@@ -14,7 +16,7 @@ def facade():
     return Facade()
 
 
-def test_quality_control_calling_env_manager_and_illumiprocessor(facade, mocker):
+def test_quality_control(facade, mocker):
     input = 'testdata/raw_fastq'
     config_file = os.getcwd() + '/sample/output/illumiprocessor.conf'
     adapter_i7 = 'AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC*ATCTCGTATGCCGTCTTCTGCTTG'
@@ -34,13 +36,14 @@ def test_quality_control_calling_env_manager_and_illumiprocessor(facade, mocker)
     quality_control.run_illumiprocessor.assert_called_once_with(input, OUTPUT + '/clean_fastq', config_file)
 
 
-def test_assembly_calling_env_manager_and_trinity(facade, mocker):
+def test_assembly(facade, mocker):
     assembler = 'trinity'
     samples = ['sample0']
     config_file = OUTPUT + '/assembly.conf'
 
     mocker.patch.object(env_manager, 'prepare_assembly_conf')
     mocker.patch.object(assembly, 'run_trinity')
+    mocker.patch.object(assembly, 'run_spades')
 
     mocked_os_listdir = mocker.patch.object(os, 'listdir')
     mocked_os_listdir.return_value = samples
@@ -54,4 +57,19 @@ def test_assembly_calling_env_manager_and_trinity(facade, mocker):
     assembly.run_trinity.assert_called_once_with(config_file, OUTPUT + '/assembly')
 
 
+def test_process_uce(facade, mocker):
+    contigs = OUTPUT + 'assembly/contigs'
+    probes = 'testdata/probes.fasta'
+    log = OUTPUT
+    taxon_group = 'all'
+    taxa = '1'
+    aligner = 'mafft'
+    charsets = False
+    percent = '0.75'
+    internal_trimming = True
 
+    mocker.patch.object(UCEPhylogenomics, 'run_uce_processing')
+
+    facade.process_uce(OUTPUT, log, contigs, probes, taxon_group, taxa, aligner, charsets, percent, internal_trimming)
+
+    UCEPhylogenomics.run_uce_processing.assert_called_once()
