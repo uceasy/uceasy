@@ -9,6 +9,10 @@ params = (
         'adapter_i5',
         'probes',
         'assembler',
+        'aligner',
+        'charsets',
+        'percent',
+        'internal_trimming',
 
         # OPTIONAL
         'fastq_encoding',
