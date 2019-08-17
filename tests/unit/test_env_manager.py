@@ -6,6 +6,7 @@ import shutil
 
 OUTPUT = 'testoutput/env_manager_test'
 DATA = 'testdata'
+SAMPLES = ['TAL13_B20_S20']
 
 
 def test_create_output_dir():
@@ -38,7 +39,7 @@ def test_conf_file_rendered():
 
 
 def test_get_samples_names():
-    samples = ['TAL13_B20_S20']
     sheet_samples = env_manager.get_samples_from_csv(DATA + '/sample_sheet.csv') 
 
-    assert samples == sheet_samples
+    assert SAMPLES == sheet_samples
+

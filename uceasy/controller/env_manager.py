@@ -4,13 +4,12 @@ import configparser
 
 
 def render_conf_file(file, config_dict):
-
-    parser = configparser.ConfigParser(delimiters=(':'))
-    parser.optionxform = str
-    parser.read_dict(config_dict)
+    config = configparser.ConfigParser(delimiters=(':'))
+    config.optionxform = str
+    config.read_dict(config_dict)
 
     with open(file, 'w') as fl:
-        parser.write(fl, space_around_delimiters=False)
+        config.write(fl, space_around_delimiters=False)
 
     return file
 
@@ -42,8 +41,8 @@ def prepare_illumiprocessor_conf(sheet, adapter_i7, adapter_i5):
     config_dict['tag map'] = {row['Customer_Code']: f"{row['i5_Tag']},{row['i7_Tag']}"
                               for _, row in sheet.iterrows()}
 
-    config_dict['names'] = {row['Customer_Code']: f'sample{index}'
-                            for index, row in sheet.iterrows()}
+    config_dict['names'] = {row['Customer_Code']: row['Customer_Code']
+                            for _, row in sheet.iterrows()}
     return config_dict
 
 
@@ -69,6 +68,16 @@ def get_samples_from_csv(sheet):
     return samples
 
 
-def prepare_taxon_set_conf(samples):
-    return {'all': {sample for sample in samples}}
+def render_taxon_set_conf(file, samples):
+    string = '[all]'
+    for sample in samples:
+        string += f'\n{sample}'
+
+    config = configparser.ConfigParser(allow_no_value=True)
+    config.optionxform = str
+    config.read_string(string)
     
+    with open(file, 'w') as fl:
+        config.write(fl, space_around_delimiters=False)
+
+    return file
