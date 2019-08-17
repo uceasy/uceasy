@@ -1,17 +1,18 @@
 import subprocess
+
 from uceasy.adapters.uce_processor import UCEProcessor
 
 
 class UCEPhylogenomics:
 
 
-    def __init__(self, output, contigs, probes, log, taxon_group, taxa, aligner, charsets, percent, internal_trimming):
+    def __init__(self, output, log, contigs, probes, taxon_set_conf, taxa, aligner, charsets, percent, internal_trimming):
         self.__processor = UCEProcessor()
         self.__output = output
         self.__contigs = contigs
         self.__probes = probes
         self.__log = log
-        self.__taxon_group = taxon_group
+        self.__taxon_set_conf = taxon_set_conf
         self.__taxa = taxa
         self.__aligner = aligner
         self.__charsets = charsets
@@ -20,22 +21,17 @@ class UCEPhylogenomics:
 
 
     def run_uce_processing(self):
-        commands = []
 
-        commands.append(self._get_match_contigs_to_probes())
-        commands.append(self._get_get_match_counts())
-        commands.append(self._get_get_fastas_from_match_counts())
-        commands.append(self._get_explode_get_fastas_file())
-        commands.append(self._get_secap_align())
+        self._get_match_contigs_to_probes()
+        self._get_get_match_counts()
+        self._get_get_fastas_from_match_counts()
+        self._get_explode_get_fastas_file()
+        self._get_secap_align()
         if self.__internal_trimming:
-            commands.append(self._get_get_gblocks_trimmed_alignments_from_untrimmed())
-            commands.append(self._get_remove_locus_name_from_nexus_lines())
-            commands.append(self._get_get_only_loci_with_min_taxa())
-        commands.append(self._get_nexus_files_for_raxml())
-
-        # TODO
-        # Implement subprocess call to run all these functions
-
+            self._get_get_gblocks_trimmed_alignments_from_untrimmed()
+            self._get_remove_locus_name_from_nexus_lines()
+            self._get_get_only_loci_with_min_taxa()
+        self._get_nexus_files_for_raxml()
 
         
     def _get_match_contigs_to_probes(self):
@@ -47,24 +43,28 @@ class UCEPhylogenomics:
        
     
     def _get_get_match_counts(self):
-        self.__alignments = self.__output + '/all_taxa_incomplete.fasta'
+        self.__match_count_output = self.__output + '/all-taxa-incomplete.conf'
+        self.__incomplete_matrix = self.__output + '/all-taxa-incomplete.incomplete'
 
-        return self.__processor.get_match_counts(self.__alignments,
+        return self.__processor.get_match_counts(self.__match_count_output,
                                                  self.__locus_db,
-                                                 self.__output + '/config/taxon_set.conf',
-                                                 self.__taxon_group)
+                                                 self.__taxon_set_conf,
+                                                 'all')
    
 
     def _get_get_fastas_from_match_counts(self):
+        self.__alignments = self.__output + '/all-taxa-incomplete.fasta'
+
         return self.__processor.get_fastas_from_match_counts(self.__alignments,
                                                              self.__contigs,
                                                              self.__locus_db,
-                                                             self.__output + '/config/all_taxa_incomplete.conf',
+                                                             self.__match_count_output,
+                                                             self.__incomplete_matrix,
                                                              self.__log)
     
 
     def _get_explode_get_fastas_file(self):
-        return self.__processor.explode_get_fastas_file(self.__output + '/exploded_fastas', self.__alignments)
+        return self.__processor.explode_get_fastas_file(self.__alignments, self.__output + '/exploded_fastas')
 
 
     def _get_secap_align(self):
@@ -79,8 +79,8 @@ class UCEPhylogenomics:
 
     def _get_get_gblocks_trimmed_alignments_from_untrimmed(self):
         cmd = self.__processor.get_gblocks_trimmed_alignments_from_untrimmed(self.__nexus_files + '_gblocks',
-                                                                              self.__nexus_files,
-                                                                              self.__log)
+                                                                             self.__nexus_files,
+                                                                             self.__log)
 
         self.__nexus_files = self.__nexus_files + '_gblocks'
         return cmd

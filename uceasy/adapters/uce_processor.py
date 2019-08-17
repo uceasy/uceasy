@@ -68,7 +68,7 @@ class UCEProcessor:
         return self.runner(cmd)
 
 
-    def get_gblocks_trimmed_alignments_from_untrimmed(self, alignments, output, log):
+    def get_gblocks_trimmed_alignments_from_untrimmed(self, output, alignments, log):
         cmd = [
             PHYLUCE + '/bin/phyluce_align_get_gblocks_trimmed_alignments_from_untrimmed',
             '--alignments', alignments,
@@ -78,7 +78,7 @@ class UCEProcessor:
         return self.runner(cmd)
 
 
-    def remove_locus_name_from_nexus_lines(self, alignments, output, log):
+    def remove_locus_name_from_nexus_lines(self, output, alignments, log):
         cmd = [
             PHYLUCE + '/bin/phyluce_align_remove_locus_name_from_nexus_lines',
             '--alignments', alignments,
@@ -89,7 +89,7 @@ class UCEProcessor:
         return self.runner(cmd)
 
 
-    def get_only_loci_with_min_taxa(self, alignments, output, taxa, percent, log):
+    def get_only_loci_with_min_taxa(self, output, alignments, taxa, percent, log):
         cmd = [
             PHYLUCE + '/bin/phyluce_align_get_only_loci_with_min_taxa',
             '--alignments', alignments,
@@ -102,7 +102,7 @@ class UCEProcessor:
         return self.runner(cmd)
 
 
-    def format_nexus_files_for_raxml(self, alignments, output, log, charsets=False):
+    def format_nexus_files_for_raxml(self, output, alignments, log, charsets=False):
         cmd = [
             PHYLUCE + '/bin/phyluce_align_format_nexus_files_for_raxml',
             '--alignments', alignments,
