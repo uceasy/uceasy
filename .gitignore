@@ -1,4 +1,3 @@
-venv/
 *.pyc
 *.egg-info/
 dist/
@@ -10,6 +9,7 @@ upload/
 uceasy.egg-info
 uceasy.log
 web.log
-__pycache__
-.vscode
-sample/
+__pychache__
+.vscode/
+tags
+testoutput

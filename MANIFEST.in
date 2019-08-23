@@ -1,2 +1,2 @@
-recursive-include uceasy/templates *
-recursive-include uceasy/static *
+recursive-include web/templates *
+recursive-include web/static *

@@ -11,7 +11,7 @@ run-cli: venv
 	python -c 'from cli.uceasy_cli import uceasy; uceasy()'
 
 test: venv
-	UCEASY_SETTINGS=../settings.cfg venv/bin/pytest
+	UCEASY_SETTINGS=../settings.cfg venv/bin/pytest tests
 
 sdist: venv test
 	venv/bin/python setup.py sdist
