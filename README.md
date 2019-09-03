@@ -10,10 +10,6 @@ __UCEasy__ is a wrapper to automate manual procedures of the [Phyluce](https://p
 At the moment, the only software for _in silico_ analysis of [ultraconserved elements](https://www.ultraconserved.org/) (UCEs) is Phyluce, but its execution can be quite challenging especially for non-computer experts.
 __UCEasy__ is a convenient tool that automates the execution of common tasks for all types of UCE analysis, these being [Quality Control](https://phyluce.readthedocs.io/en/latest/quality-control.html), [Assembly](https://phyluce.readthedocs.io/en/latest/assembly.html) and [UCE Processing](https://phyluce.readthedocs.io/en/latest/uce-processing.html).
 
-<p align="center">
-    <img src="doc/img/phyluce_diagram.png">
-</p>
-
 We also designed it with _Clean Architecture_ principes in mind, the follow image shows the software architecture of UCEasy.
 
 <p align="center">
