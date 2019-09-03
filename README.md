@@ -1,64 +1,57 @@
-# UCEasy
+<p>
+    <img src="doc/img/UCEasy_logo.jpg" height="200px">
+</p>
 
-UCEasy is a web application built on top of the [phyluce](https://phyluce.readthedocs.io/en/latest/) software package to serve as a graphical wrapper. Because the analyzes that can be done with [ultraconserved elements](https://www.ultraconserved.org/) (UCEs) are diverse, we provide a convenient tool to facilitate the execution of common tasks for all types of analyzes, these being [Quality Control](https://phyluce.readthedocs.io/en/latest/quality-control.html), [Assembly](https://phyluce.readthedocs.io/en/latest/assembly.html) and [UCE Processing](https://phyluce.readthedocs.io/en/latest/uce-processing.html).
+# UCEasy: wrapper for the Phyluce software package
+
+__UCEasy__ is a wrapper to automate manual procedures of the [Phyluce](https://phyluce.readthedocs.io/en/latest) software package by abstracting the pipeline steps in only one command, easing the execution and improving reproducibility.
+
+
+At the moment, the only software for _in silico_ analysis of [ultraconserved elements](https://www.ultraconserved.org/) (UCEs) is Phyluce, but its execution can be quite challenging especially for non-computer experts.
+__UCEasy__ is a convenient tool that automates the execution of common tasks for all types of UCE analysis, these being [Quality Control](https://phyluce.readthedocs.io/en/latest/quality-control.html), [Assembly](https://phyluce.readthedocs.io/en/latest/assembly.html) and [UCE Processing](https://phyluce.readthedocs.io/en/latest/uce-processing.html).
 
 <p align="center">
     <img src="doc/img/phyluce_diagram.png">
 </p>
 
+We also designed it with _Clean Architecture_ principes in mind, the follow image shows the software architecture of UCEasy.
 
-## Quick Start
-
-Run the web application:
-
-    make run
-
-And open it in the browser at [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
-
-
-## Prerequisites
-
-This is built to be used with Python 3. Update `Makefile` to switch to Python 2 if needed.
-
-Some Flask dependencies are compiled during installation, so `gcc` and Python header files need to be present.
-For example, on Ubuntu:
-
-    apt install build-essential python3-dev
+<p align="center">
+    <img src="doc/img/uceasy_architecture.png" height="500px">
+</p>
+    
+## Pros
+* Automation of the pipeline steps
+* Easier to execute
+* Extensible software architecture
 
 
-## Development environment and release process
+## Installation Guide
+### Dependencies
+* Python 3.7
+* Python's official package installer (pip)
+* Conda (with bioconda channel  set up)
 
- - create virtualenv with Flask and uceasy installed into it (latter is installed in
-   [develop mode](http://setuptools.readthedocs.io/en/latest/setuptools.html#development-mode) which allows
-   modifying source code directly without a need to re-install the app): `make venv`
+### Installing UCEasy
+UCEasy is available at PyPI, so can be easily installed with pip.
+```
+pip install uceasy
+```
+__Obs: Make sure you are installing with the system's Python 3.7 and not conda's, otherwise they won't work together as Phyluce is written in Python 2.7.__
 
- - run development server in debug mode: `make run`; Flask will restart if source code is modified
+### Setting up Phyluce
+To use Phyluce you need to install it from the bioconda channel, see instructions of how to install conda and set bioconda channels at (https://bioconda.github.io/user/install.html).
 
- - run tests: `make test` (see also: [Testing Flask Applications](http://flask.pocoo.org/docs/0.12/testing/))
+Create a conda environment for Phyluce and activate it with to following commands.
+```
+conda create -n phyluce
+conda activate phyluce
+```
+Next, install Phyluce.
+```
+conda install phyluce
+```
+At this point you should be able to use UCEasy together with Phyluce, we'll explain how to do that in the next session.
 
- - create source distribution: `make sdist` (will run tests first)
-
- - to remove virtualenv and built distributions: `make clean`
-
- - to add more python dependencies: add to `install_requires` in `setup.py`
-
- - to modify configuration in development environment: edit file `settings.cfg`; this is a local configuration file
-   and it is *ignored* by Git - make sure to put a proper configuration file to a production environment when
-   deploying
-
-
-## Deployment
-
-If you are interested in an out-of-the-box deployment automation, check out accompanying
-[`cookiecutter-flask-ansible`](https://github.com/candidtim/cookiecutter-flask-ansible).
-
-Or, check out [Deploying with Fabric](http://flask.pocoo.org/docs/0.12/patterns/fabric/#fabric-deployment) on one of the
-possible ways to automate the deployment.
-
-In either case, generally the idea is to build a package (`make sdist`), deliver it to a server (`scp ...`),
-install it (`pip install uceasy.tar.gz`), ensure that configuration file exists and
-`UCEASY_SETTINGS` environment variable points to it, ensure that user has access to the
-working directory to create and write log files in it, and finally run a
-[WSGI container](http://flask.pocoo.org/docs/0.12/deploying/wsgi-standalone/) with the application.
-And, most likely, it will also run behind a
-[reverse proxy](http://flask.pocoo.org/docs/0.12/deploying/wsgi-standalone/#proxy-setups).
+## Usage
+### _TODO_
