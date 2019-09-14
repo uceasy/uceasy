@@ -51,3 +51,33 @@ At this point you should be able to use UCEasy together with Phyluce, we'll expl
 
 ## Usage
 ### _TODO_
+
+## Acknowledgements
+
+We thank the following institutions, which contributed to ensuring the success of our work:
+
+Ministério da Ciência, Tecnologia, Inovação e Comunicação (MCTIC)
+    
+Museu Paraense Emílio Goeldi (MPEG)
+    
+Centro Universitário do Estado do Pará (CESUPA)
+
+## Funding
+
+This work has been supported by Conselho Nacional de Desenvolvimento Científico e Tecnológico - CNPq (grants 149985/2018-5; 129954/2018-7).
+
+## Authors
+
+ Marcos Paulo Alves de Sousa<br>
+ Franklin Gonçalves Sobrinho <br>
+ Lucas Peres Oliveira <br>
+ Kayke Correa Conceição Lins Pereira
+ 
+ ## Contact
+ 
+Dr. Marcos Paulo Alves de Sousa (Project leader)
+
+_Email: **msousa@museu-goeldi.br**_<br>
+_Laboratório de Biologia Molecular_<br>
+_Museu Paraense Emílio Goeldi_<br>
+_Av. Perimetral 1901. CEP 66077- 530. Belém, Pará, Brazil._
