@@ -69,9 +69,8 @@ This work has been supported by Conselho Nacional de Desenvolvimento Científico
 ## Authors
 
  Marcos Paulo Alves de Sousa<br>
- Franklin Gonçalves Sobrinho <br>
- Lucas Peres Oliveira <br>
- Kayke Correa Conceição Lins Pereira
+ Caio Vinícius Raposo Ribeiro <br>
+ Lucas Peres Oliveira
  
  ## Contact
  
