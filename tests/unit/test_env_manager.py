@@ -1,12 +1,16 @@
-from uceasy.controller import env_manager
 import pytest
 import os
 import shutil
+import pandas as pd
+
+
+from uceasy.controller import env_manager
 
 
 OUTPUT = 'testoutput/env_manager_test'
 DATA = 'testdata'
-SAMPLES = ['TAL13_B20_S20']
+SAMPLES = ['alligator_mississippiensis_GGAGCTATGG', 'anolis_carolinensis_GGCGAAGGTT']
+SHEET = 'testdata/sample_sheet.csv'
 
 
 def test_create_output_dir():
