@@ -3,7 +3,7 @@ from uceasy.controller import env_manager
 import os
 
 
-sample = os.getcwd() + '/testdata/clean-fastq/alligator/split-adapter-quality-trimmed'
+sample = os.getcwd() + '/testdata/clean-fastq/alligator_mississippiensis/split-adapter-quality-trimmed'
 output = os.getcwd() + '/testoutput'
 
 
