@@ -1,4 +1,4 @@
-from uceasy.controller.phyluce_facade import Facade
+from uceasy.controller.facade import Facade
 from uceasy.controller import env_manager
 
 
