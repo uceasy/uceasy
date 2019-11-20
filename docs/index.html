@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>UCEasy - A Wrapper for the Phyluce</title>
+    <link href="https://fonts.googleapis.com/css?family=Geo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/style.css"  media="screen,projection"/>
+</head>
+<body>
+
+    <!--Barra de Navegação-->
+    <div class="navbar-fixed">
+    <nav role="navigation" class="grey lighten-3 z-depth-0 ">
+        <div class="nav-wrapper container black-text ">
+            <a class="brand-logo bar1">UCEasy</a>
+            <ul class="right hide-on-med-and-down">
+                <li>
+                    <a class="bar3" href="https://github.com/uceasy/uceasy">GIThub</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    </div>
+    <div class="container">
+        <!--LOGO UCEASY-->
+        <div id="index-banner">
+            <img class="logo" src="./img/uceasy_logo.jpg" >
+            <h3 class="subt">A Wrapper for the Phyluce software package</h3>
+        </div>
+
+        <!--Documentação-->
+        <div>
+            <p><b>UCEasy</b> is a wrapper to automate manual procedures of the <a href="https://phyluce.readthedocs.io/en/latest">Phyluce</a>
+                software package by abstracting the pipeline steps in only one command, easing the execution and improving reproducibility.
+                At the moment, the only software for in silico analysis of <a href="https://www.ultraconserved.org/"> ultraconserved elements (UCEs) </a>is Phyluce, 
+                but its execution can be quite challenging especially for non-computer experts. <b>UCEasy</b> is a convenient tool that automates the execution of 
+                common tasks for all types of UCE analysis, these being <a href="https://phyluce.readthedocs.io/en/latest/quality-control.html">Quality Control</a>, <a href="https://phyluce.readthedocs.io/en/latest/assembly.html">Assembly</a> 
+                and <a href="https://phyluce.readthedocs.io/en/latest/uce-processing.html"> UCE Processing</a>.
+            </p>
+        </div>
+
+        <!--Instalação-->
+        <section>
+            <h3 class="topic">Quick Start</h3>
+            <hr>
+            <p>
+                UCEasy is available at <a href="https://pypi.org/project/uceasy/">PyPI</a>, so can be easily installed with pip.
+            </p>
+            <div class="topbar">
+                <div class="row2">
+                    <div class=" left1">
+                        <span class="dot" style="background:#E25151;"></span>
+                        <span class="dot" style="background:#42DCF1;"></span>
+                        <span class="dot" style="background:#39FA35;"></span>
+                        </div>
+                    <div class="column right1">
+                        <div style="float:right1"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="windowCont">
+                <p class="windfont">$ pip install uceasy</p>
+            </div>
+            <p>
+                Obs: Make sure you are installing with the system's Python 3.7 and not conda's, otherwise they
+                won't work together as Phyluce is written in Python 2.7.
+            </p>
+            <h4>Setting up Phyluce</h4>
+            <p>
+                    To use Phyluce you need to install it from the bioconda channel, see instructions
+                    of how to install conda and set bioconda channels at <a href="https://bioconda.github.io/user/install.html">bioconda.github.io</a>.
+                    
+                    Create a conda environment for Phyluce and activate it with to following
+                    commands.
+            </p>
+            <div>
+                <div class="row2">
+                    <div class=" left1">
+                            <span class="dot" style="background:#E25151;"></span>
+                            <span class="dot" style="background:#42DCF1;"></span>
+                            <span class="dot" style="background:#39FA35;"></span>
+                    </div>
+                    <div class="column right1">
+                        <div style="float:right1"></div>
+                    </div>
+                </div>
+                <div class="windowCont">
+                    <p class="windfont">
+                        $ conda create -n phyluce <br>
+                        $ conda activate phyluce
+                    </p>
+                </div>
+            </div>
+            <p>
+                Next, install Phyluce.
+            </p>
+            <div>
+                <div class="row2">
+                    <div class=" left1">
+                            <span class="dot" style="background:#E25151;"></span>
+                            <span class="dot" style="background:#42DCF1;"></span>
+                            <span class="dot" style="background:#39FA35;"></span>
+                    </div>
+                    <div class="column right1">
+                        <div style="float:right1"></div>
+                    </div>
+                </div>
+                <div class="windowCont">
+                    <p class="windfont">
+                        $ conda install phyluce
+                    </p>
+                </div>
+            </div>
+            <p>
+                At this point you should be able to use UCEasy together with Phyluce, we'll explain how to do 
+                that in the next session.
+            </p>
+        </div>
+    </section>
+
+
+    <footer class="page-footer black-text">
+        <div class="container">
+          <div class="row">
+            <div class="col l6 s12">
+              <h5 class="black-text">UCEasy</h5>
+              <ul class="footli">
+                  <li>Authors:</li>
+                  <li>Marcos Paulo Alves de Sousa</li>
+                  <li>Caio Vinicius Raposo Ribeiro</li>
+                  <li>Lucas Peres Oliveira</li>
+              </ul>
+              <ul class="footli">
+                    <li>Contact:</li>
+                    <li>Dr. Marcos Paulo Alves de Sousa (Project leader)</li>
+                    <li>Email: msousa@museu-goeldi.br</li>
+                    <li>Laboratório de Biologia Molecular</li>
+                    <li>Museu Paraense Emílio Goeldi</li>
+                </ul>
+            </div>
+            <div class="col l4 offset-l2 s15">
+              <h5 class="">Institutions</h5>
+                <ul>
+                <li><a class="footlink" href="https://www.museu-goeldi.br/assuntos/o-museu/campus-de-pesquisa">Museu Paraense Emilio Goeldi</a></li>
+                <li><a class="footlink" href="https://www.cesupa.br/">Centro Universitario do Estado do Para</a></li>
+                <li><a class="footlink" href="http://www.mctic.gov.br/portal">Ministerio da Ciencia, Tecnologia, Inovação e Comunicações</a></li>
+                </ul>
+                <a href="https://github.com/uceasy/uceasy"><img src="img/git_cinza.png"   alt="GitHub-Mark-64px"></a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-copyright">
+          <div class="container grey-text">
+          © 2019 Copyright Text
+          </div>
+        </div>
+      </footer>
+</body>
+</html>

@@ -1,0 +1,147 @@
+body {
+    margin:0;
+    font-family: "Geo";
+}
+
+.brand-logo{
+    color: black !important
+}
+
+.logo {
+    width: 40%;
+    padding: 30px 0px 0px 0px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.bar1 {
+    height: 62px;
+    border-bottom: 4px solid #de3078;
+}
+
+hr {
+    border: 3px solid #e13079;
+}
+
+.bar2 {
+    height: 64px;
+    border-bottom: 4px solid #56acde;
+}
+
+.bar3 { 
+    height: 64px;
+    border-bottom: 4px solid #00ac94;
+}
+
+.subt {
+    text-align: center;
+    font-size: 48px;
+    color: #727272;
+}
+
+.topic {
+    font-size: 48px;
+}
+
+nav ul a, nav  {
+    font-size: 30px !important;
+    color: black;
+}
+
+.brand-logo {
+    font-size: 35px !important;
+}
+
+p { 
+    font-size: 33px;
+    color: #727272;
+    text-align: justify
+}
+
+.page-footer{
+    background-color    : #eeeeee;
+    
+}
+
+.footli {
+    color: #727272;
+    font-size: 20px;
+}
+
+.footlink{
+  font-size:20px;
+}
+
+/* geo-regular - latin */
+@font-face {
+    font-family: 'Geo';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../font/geo-v11-latin-regular.eot'); /* IE9 Compat Modes */
+    src: local('Geo'), local('Geo-Regular'),
+         url('../font/geo-v11-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../font/geo-v11-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+         url('../font/geo-v11-latin-regular.woff') format('woff'), /* Modern Browsers */
+         url('../font/geo-v11-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../font/geo-v11-latin-regular.svg#Geo') format('svg'); /* Legacy iOS */
+  }
+  
+  /* Container for columns and the top "toolbar" */
+.row2 {
+    padding:10px;
+    background: #434E6A;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    box-shadow: -2px 5px 5px grey;
+  }
+  
+  /* Create three unequal columns that floats next to each other */
+  .column {
+    float: left;
+  }
+  
+  .left1 {
+    width: 15%;
+  }
+  
+  .right1 {
+    width: 10%;
+  }
+  
+  .middle {
+    width: 75%;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  /* Three dots */
+  .dot {
+    margin-top: 4px;
+    height: 12px;
+    width: 12px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  
+  /* Page content */
+  .windowCont {
+    padding: 8px;
+    background-color:#363F57;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    box-shadow: -2px 5px 5px grey;
+  }
+
+  .windfont{
+      color: white !important;
+      margin: 4px !important;
+      font-size: 28px;
+      padding-left: 15px;
+  }
