@@ -1,0 +1,6 @@
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+    phyluce==1.6.8
+    jellyfish==2
