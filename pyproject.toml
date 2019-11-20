@@ -5,6 +5,23 @@ description = "Wrapper for the Phyluce phylogenomics software package"
 authors = ["Caio Raposo <caioraposo@protonmail.com>"]
 license = "MIT"
 
+[tool.black]
+line-length = 90
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
 [tool.poetry.dependencies]
 python = "^3.7"
 pandas = "^0.25.0"
@@ -15,6 +32,9 @@ pytest = "^5.0"
 jedi = "^0.14.1"
 pylint = "^2.3"
 pytest-mock = "^1.10"
+tox = "^3.14"
+black = {version = "^18.3-alpha.0", allows-prereleases = true}
+pre-commit = "^1.18"
 
 [tool.poetry.scripts]
 uceasy = "uceasy.cli.uceasy_cli:uceasy"

@@ -2,7 +2,7 @@
     <img src="doc/img/UCEasy_logo.jpg" height="200px">
 </p>
 
-# UCEasy: wrapper for the Phyluce software package
+# UCEasy: a wrapper for the Phyluce software package
 
 __UCEasy__ is a wrapper to automate manual procedures of the [Phyluce](https://phyluce.readthedocs.io/en/latest) software package by abstracting the pipeline steps in only one command, easing the execution and improving reproducibility.
 

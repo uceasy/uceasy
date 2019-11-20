@@ -13,3 +13,4 @@ __pychache__
 .vscode/
 tags
 testoutput
+.tox/

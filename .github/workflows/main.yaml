@@ -1,0 +1,52 @@
+name: build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches_ignore: []
+
+jobs:
+  Linting:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Linting
+        run: |
+          pip install pre-commit
+          pre-commit run --all-files
+
+  Linux:
+    runs-on: ubuntu-latest
+    needs: Linting
+    strategy:
+      matrix:
+        python-version: [3.7, 3.8]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Poetry
+      run: |
+        pip install poetry
+        source $HOME/.poetry/env
+    - name: Install dependencies
+      run: |
+        source $HOME/.poetry/env
+        poetry install
+    - name: Install Phyluce
+      run: conda env create --quiet --name phyluce --file phyluce-environment.yml
+    - name: Test
+      run: |
+        source $HOME/.poetry/env
+        conda activate phyluce
+        poetry run pytest -q tests
