@@ -1,5 +1,5 @@
 <p>
-    <img src="doc/img/UCEasy_logo.jpg" height="200px">
+    <img src="docs/img/UCEasy_logo.jpg" height="200px">
 </p>
 
 # UCEasy: a wrapper for the Phyluce software package
