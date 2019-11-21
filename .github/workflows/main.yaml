@@ -42,7 +42,7 @@ jobs:
       run: |
         poetry install
     - name: Install Phyluce
-      run: conda env create --quiet --name phyluce --file phyluce-environment.yml
+      run: conda env create -n phyluce -f phyluce-environment.yml
     - name: Test
       run: |
         conda activate phyluce
