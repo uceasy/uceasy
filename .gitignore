@@ -14,3 +14,4 @@ __pychache__
 tags
 testoutput
 .tox/
+.mypy_cache/

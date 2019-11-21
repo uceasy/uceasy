@@ -12,9 +12,13 @@ def run_illumiprocessor(input, output, config):
 
     cmd = [
         ILLUMIPROCESSOR,
-        '--input', input,
-        '--output', output,
-        '--config', config,
-        '--cores', CPU,
+        "--input",
+        input,
+        "--output",
+        output,
+        "--config",
+        config,
+        "--cores",
+        CPU,
     ]
     return subprocess.run(cmd, check=True)
