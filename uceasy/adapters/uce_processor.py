@@ -85,8 +85,7 @@ class UCEProcessor:
 
     def get_gblocks_trimmed_alignments_from_untrimmed(self, output, alignments, log):
         cmd = [
-            PHYLUCE
-            + "/bin/phyluce_align_get_gblocks_trimmed_alignments_from_untrimmed",
+            PHYLUCE + "/bin/phyluce_align_get_gblocks_trimmed_alignments_from_untrimmed",
             "--alignments",
             alignments,
             "--output",
