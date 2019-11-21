@@ -1,6 +1,9 @@
 <p>
     <img src="docs/img/UCEasy_logo.jpg" height="200px">
+    
 </p>
+
+![](https://github.com/uceasy/uceasy/workflows/build/badge.svg)
 
 # UCEasy: a wrapper for the Phyluce software package
 
