@@ -38,15 +38,12 @@ jobs:
     - name: Install Poetry
       run: |
         pip install poetry
-        source $HOME/.poetry/env
     - name: Install dependencies
       run: |
-        source $HOME/.poetry/env
         poetry install
     - name: Install Phyluce
       run: conda env create --quiet --name phyluce --file phyluce-environment.yml
     - name: Test
       run: |
-        source $HOME/.poetry/env
         conda activate phyluce
         poetry run pytest -q tests
