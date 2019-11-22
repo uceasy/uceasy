@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - dev
   pull_request:
     branches_ignore: []
 
@@ -46,5 +45,6 @@ jobs:
       run: conda env create --file phyluce-environment.yaml
     - name: Test
       run: |
+        export PATH="/usr/share/miniconda/bin:$PATH"
         source activate phyluce
         poetry run pytest -q tests
