@@ -1,6 +1,6 @@
 <p>
-    <img src="docs/img/UCEasy_logo.jpg" height="200px">
-    
+    <img src="docs/img/uceasy_logo.jpg" height="200px">
+
 </p>
 
 ![](https://github.com/uceasy/uceasy/workflows/build/badge.svg)
@@ -50,9 +50,9 @@ At this point you should be able to use UCEasy together with Phyluce, we'll expl
 We thank the following institutions, which contributed to ensuring the success of our work:
 
 Ministério da Ciência, Tecnologia, Inovação e Comunicação (MCTIC)
-    
+
 Museu Paraense Emílio Goeldi (MPEG)
-    
+
 Centro Universitário do Estado do Pará (CESUPA)
 
 ## Funding
@@ -64,9 +64,9 @@ This work has been supported by Conselho Nacional de Desenvolvimento Científico
  Marcos Paulo Alves de Sousa<br>
  Caio Vinícius Raposo Ribeiro <br>
  Lucas Peres Oliveira
- 
+
  ## Contact
- 
+
 Dr. Marcos Paulo Alves de Sousa (Project leader)
 
 _Email: **msousa@museu-goeldi.br**_<br>
