@@ -1,9 +1,8 @@
 import pytest
 
-from uceasy import adapters
+from uceasy.adapters import ADAPTERS
 
 
-def test_if_current_conda_environment_is_phyluce():
-    out = str(adapters.run("conda list").stdout)
-
-    assert "phyluce" in out
+def test_match_contigs_to_probes():
+    c = ADAPTERS["match_contigs_to_probes"]("--help")
+    assert c.returncode == 0
