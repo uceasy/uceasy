@@ -63,7 +63,8 @@ This work has been supported by Conselho Nacional de Desenvolvimento Científico
 
  Marcos Paulo Alves de Sousa<br>
  Caio Vinícius Raposo Ribeiro <br>
- Lucas Peres Oliveira
+ Lucas Peres Oliveira <br>
+ Romina do Socorro da Silva Batista
 
  ## Contact
 
