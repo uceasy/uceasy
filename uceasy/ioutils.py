@@ -7,7 +7,7 @@ def run_command(cmd, *args, **kargs):
     cmd = [cmd]
 
     for arg in args:
-        cmd.append(arg)
+        cmd.append(f"--{arg}")
     for k, v in kargs.items():
         cmd.append(f"--{k}")
         cmd.append(v)
