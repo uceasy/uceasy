@@ -1,4 +1,4 @@
-name: CI
+name: Tests
 
 on:
   push:
@@ -38,11 +38,13 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install Poetry
       run: |
-        pip install poetry
+        wget https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py
+        python get-poetry.py --preview -y
+        source $HOME/.poetry/env
+        poetry config virtualenvs.in-project true
     - name: Install dependencies
       run: |
         source $HOME/.poetry/env
-        poetry config virtualenvs.in-project true
         poetry install
     - name: Install Phyluce
       run: conda env create --file phyluce-environment.yaml
