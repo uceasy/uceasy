@@ -40,17 +40,13 @@ jobs:
       run: |
         wget https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py
         python get-poetry.py --preview -y
-        source $HOME/.poetry/env
+        source ~/.poetry/env
         poetry config virtualenvs.in-project true
-    - name: Install dependencies
-      run: |
-        source $HOME/.poetry/env
-        poetry install
+        poetry config settings.virtualenvs.path ~/.poetry/env
     - name: Install Phyluce
       run: conda env create --file phyluce-environment.yaml
     - name: Test
       run: |
-        source $HOME/.poetry/env
         export PATH="/usr/share/miniconda/bin:$PATH"
         source activate phyluce
-        poetry run pytest -q tests
+        tox
