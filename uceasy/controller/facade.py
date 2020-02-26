@@ -9,7 +9,7 @@ from uceasy.use_cases.uce_phylogenomics import UCEPhylogenomics
 class Facade:
     def quality_control(self, input, output, sheet, adapter_i7, adapter_i5):
 
-        config_dict = env_manager.prepare_illumiprocessor_conf(
+        config_dict = env_manager.prepare_illumiprocessor_config(
             sheet, adapter_i7, adapter_i5
         )
 
@@ -21,7 +21,7 @@ class Facade:
 
     def assembly(self, output, assembler, samples):
 
-        config_dict = env_manager.prepare_assembly_conf(output, samples)
+        config_dict = env_manager.prepare_assembly_config(output, samples)
         config = env_manager.render_conf_file(output + "/assembly.conf", config_dict)
 
         return assembly.run_spades(config, output + "/assembly")
