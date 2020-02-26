@@ -20,5 +20,9 @@ def run_illumiprocessor(input, output, config):
         config,
         "--cores",
         CPU,
+        "--r1-pattern",
+        ".sra_1.fastq.gz",
+        "--r2-pattern",
+        ".sra_2.fastq.gz",
     ]
     return subprocess.run(cmd, check=True)

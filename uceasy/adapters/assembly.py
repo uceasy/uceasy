@@ -3,7 +3,7 @@ import subprocess
 
 
 def run_trinity(config, output):
-    cmd = [TRINITY, "--config", config, "--output", output, "--clean", "--cores", CPU]
+    cmd = [TRINITY, "--config", config, "--output", output, "--cores", CPU]
     return subprocess.run(cmd, check=True)
 
 

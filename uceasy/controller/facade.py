@@ -13,7 +13,7 @@ class Facade:
             sheet, adapter_i7, adapter_i5
         )
 
-        config = env_manager.render_conf_file(
+        config = env_manager.render_config_file(
             output + "/illumiprocessor.conf", config_dict
         )
 
@@ -22,9 +22,9 @@ class Facade:
     def assembly(self, output, assembler, samples):
 
         config_dict = env_manager.prepare_assembly_config(output, samples)
-        config = env_manager.render_conf_file(output + "/assembly.conf", config_dict)
+        config = env_manager.render_config_file(output + "/assembly.conf", config_dict)
 
-        return assembly.run_spades(config, output + "/assembly")
+        return assembly.run_trinity(config, output + "/assembly")
 
     def process_uce(
         self,
