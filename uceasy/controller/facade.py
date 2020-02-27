@@ -24,7 +24,7 @@ class Facade:
         config_dict = env_manager.prepare_assembly_config(output, samples)
         config = env_manager.render_config_file(output + "/assembly.conf", config_dict)
 
-        return assembly.run_trinity(config, output + "/assembly")
+        return assembly.run_spades(config, output + "/assembly")
 
     def process_uce(
         self,
