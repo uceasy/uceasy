@@ -24,5 +24,6 @@ def run_illumiprocessor(input, output, config):
         ".sra_1.fastq.gz",
         "--r2-pattern",
         ".sra_2.fastq.gz",
+        "--no-merge",
     ]
     return subprocess.run(cmd, check=True)
