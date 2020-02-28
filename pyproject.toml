@@ -6,7 +6,6 @@ authors = ["Caio Raposo <caioraposo@protonmail.com>"]
 license = "MIT"
 
 [tool.black]
-line-length = 90
 include = '\.pyi?$'
 exclude = '''
 /(
