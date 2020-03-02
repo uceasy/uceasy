@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-      - rewrite
+      - dev
   pull_request:
     branches_ignore: []
 
@@ -45,4 +45,4 @@ jobs:
       run: |
         export PATH="/usr/share/miniconda/bin:$PATH"
         source activate phyluce
-        tox
+        poetry run pytest tests/
