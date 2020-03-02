@@ -8,7 +8,6 @@ upload/
 .pytest_cache
 uceasy.egg-info
 uceasy.log
-web.log
 __pychache__
 .vscode/
 tags
