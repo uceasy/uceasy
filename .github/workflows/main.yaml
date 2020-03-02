@@ -1,9 +1,10 @@
-name: build
+name: Tests
 
 on:
   push:
     branches:
       - master
+      - dev
   pull_request:
     branches_ignore: []
 
@@ -37,14 +38,11 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install Poetry
       run: |
-        pip install poetry
-    - name: Install dependencies
-      run: |
-        poetry install
+          pip install poetry==1.0.0
     - name: Install Phyluce
       run: conda env create --file phyluce-environment.yaml
     - name: Test
       run: |
         export PATH="/usr/share/miniconda/bin:$PATH"
         source activate phyluce
-        poetry run pytest -q tests
+        poetry run pytest tests/
