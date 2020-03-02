@@ -77,3 +77,13 @@ def render_taxon_set_config(file, samples):
         config.write(fl, space_around_delimiters=False)
 
     return file
+
+
+def delete_singletons(clean_fastq):
+    dirs = os.listdir(clean_fastq)
+
+    for dir in dirs:
+        files = os.listdir(dir)
+        for file in files:
+            if file.endswith("singleton.fastq.gz"):
+                os.remove(os.path.join(dir, file))

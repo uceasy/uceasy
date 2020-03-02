@@ -23,6 +23,9 @@ class Facade:
 
     def assembly(self, output, assembler, samples):
 
+        # phyluce_assembly_assemblo_trinity bug, see: https://github.com/faircloth-lab/phyluce/issues/159
+        env_manager.delete_singletons(output + "/clean_fastq")
+
         config_dict = env_manager.prepare_assembly_config(output, samples)
         config = env_manager.render_config_file(output + "/assembly.conf", config_dict)
 
