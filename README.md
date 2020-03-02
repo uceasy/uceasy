@@ -3,9 +3,11 @@
 
 </p>
 
-![](https://github.com/uceasy/uceasy/workflows/build/badge.svg)
+![Tests](https://github.com/uceasy/uceasy/workflows/build/badge.svg)(https://github.com/uceasy/uceasy/actions?workflows=Tests)
 
 # UCEasy: a wrapper for the Phyluce software package
+
+## WIP: this is a work in progress and it's not ready for normal use yet
 
 __UCEasy__ is a wrapper to automate manual procedures of the [Phyluce](https://phyluce.readthedocs.io/en/latest) software package by abstracting the pipeline steps in only one command, easing the execution and improving reproducibility.
 
