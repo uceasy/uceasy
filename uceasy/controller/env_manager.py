@@ -86,4 +86,4 @@ def delete_singletons(clean_fastq):
         files = os.listdir(dir)
         for file in files:
             if file.endswith("singleton.fastq.gz"):
-                os.remove(os.path.join(dir, file))
+                os.remove(os.path.join(clean_fastq, dir, file))
