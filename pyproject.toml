@@ -26,6 +26,17 @@ exclude = '''
 )/
 '''
 
+[tool.coverage.paths]
+source = ["src", "*/site-packages"]
+
+[tool.coverage.run]
+branch = true
+source = ["uceasy"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 90
+
 [tool.poetry.dependencies]
 python = "^3.7"
 pandas = "^0.25.0"
