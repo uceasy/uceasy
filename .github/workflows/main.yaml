@@ -43,6 +43,10 @@ jobs:
           python get-poetry.py --preview -y --version 1.0.0
           source $HOME/.poetry/env
           poetry config virtualenvs.in-project true
+    - name: Install dependencies
+      run: |
+        source $HOME/.poetry/env
+        poetry install
     - name: Install Phyluce
       run: conda env create --file phyluce-environment.yaml
     - name: Test
