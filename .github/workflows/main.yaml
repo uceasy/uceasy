@@ -37,21 +37,14 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         architecture: x64
-    - name: Install Poetry
+    - name: Install Poetry and nox
       run: |
-          wget https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py
-          python get-poetry.py --preview -y --version 1.0.0
-          source $HOME/.poetry/env
-          poetry config virtualenvs.in-project true
-    - name: Install dependencies
-      run: |
-        source $HOME/.poetry/env
-        poetry install
+          pip install poetry==1.0.0
+          pip install nox==2019.11.9
     - name: Install Phyluce
       run: conda env create --file phyluce-environment.yaml
     - name: Test
       run: |
         export PATH="/usr/share/miniconda/bin:$PATH"
         source activate phyluce
-        source $HOME/.poetry/env
-        poetry run pytest -q tests
+        nox
