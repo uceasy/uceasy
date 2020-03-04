@@ -16,3 +16,4 @@ testoutput
 .mypy_cache/
 .vim/
 .nox
+.coverage

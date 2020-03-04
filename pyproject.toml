@@ -4,6 +4,10 @@ version = "2.0.0-a0"
 description = "Wrapper for the Phyluce phylogenomics software package"
 authors = ["Caio Raposo <caioraposo@protonmail.com>"]
 license = "MIT"
+readme = "README.md"
+homepage = "https://uceasy.github.io"
+repository = "https://github.com/uceasy/uceasy"
+keywords = ["uce", "phyluce", "ultraconserved elements"]
 
 [tool.black]
 line-length = 90
