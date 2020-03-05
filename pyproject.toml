@@ -39,7 +39,6 @@ fail_under = 90
 
 [tool.poetry.dependencies]
 python = "^3.7"
-pandas = "^0.25.0"
 click = "^7.0"
 
 [tool.poetry.dev-dependencies]
@@ -50,6 +49,8 @@ pre-commit = "^1.18"
 nox = "^2019.11.9"
 coverage = {extras = ["toml"], version = "^5.0.3"}
 pytest-cov = "^2.8.1"
+flake8 = "^3.7.9"
+codecov = "^2.0.16"
 
 [tool.poetry.scripts]
 uceasy = "uceasy.console:main"
