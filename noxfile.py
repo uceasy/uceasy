@@ -1,7 +1,6 @@
 import tempfile
 
 import nox
-from nox.sessions import Session
 
 
 def install_with_constraints(session, *args, **kwargs):
