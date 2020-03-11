@@ -47,8 +47,6 @@ pytest-mock = "^1.10"
 black = {version = "^18.3-alpha.0", allow-prereleases = true}
 pre-commit = "^1.18"
 nox = "^2019.11.9"
-coverage = {extras = ["toml"], version = "^5.0.3"}
-pytest-cov = "^2.8.1"
 flake8 = "^3.7.9"
 codecov = "^2.0.16"
 
