@@ -1,5 +1,3 @@
-import pytest
-
 from uceasy.ioutils import run_command
 
 

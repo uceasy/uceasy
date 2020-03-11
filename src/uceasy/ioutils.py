@@ -26,7 +26,9 @@ def load_csv(path, delimiter=","):
 
 
 def dump_config_file(file, config_dict, allow_no_value=False):
-    config = configparser.ConfigParser(delimiters=(":"), allow_no_value=allow_no_value)
+    config = configparser.ConfigParser(
+        delimiters=(":"), allow_no_value=allow_no_value
+    )
     config.optionxform = str
     config.read_dict(config_dict)
 
