@@ -4,7 +4,6 @@
 </p>
 
 [![Tests](https://github.com/uceasy/uceasy/workflows/build/badge.svg)](https://github.com/uceasy/uceasy/actions?query=workflow%3ATests)
-[![Codecov](https://codecov.io/gh/uceasy/uceasy/branch/master/graph/badge.svg)](https://codecov.io/gh/uceasy/uceasy)
 
 # UCEasy: a wrapper for the Phyluce software package
 
