@@ -1,18 +1,5 @@
-import subprocess
 import configparser
 import csv
-
-
-def run_command(cmd, *args, **kargs):
-    cmd = [cmd]
-
-    for arg in args:
-        cmd.append(f"--{arg}")
-    for k, v in kargs.items():
-        cmd.append(f"--{k}")
-        cmd.append(v)
-
-    return subprocess.run(cmd, capture_output=True)
 
 
 def load_csv(path, delimiter=","):
