@@ -3,6 +3,6 @@ select = BLK,C,E,F,W,I
 ignore = E203,W503
 application-import-names = uceasy,tests
 max-complexity = 10
-max-line-length = 80
+max-line-length = 88
 import-order-style = google
 per-file-ignores = tests/*:S101

@@ -10,7 +10,7 @@ repository = "https://github.com/uceasy/uceasy"
 keywords = ["uce", "phyluce", "ultraconserved elements"]
 
 [tool.black]
-line-length = 80
+line-length = 88
 include = '\.pyi?$'
 exclude = '''
 /(
