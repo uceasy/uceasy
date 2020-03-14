@@ -26,17 +26,6 @@ exclude = '''
 )/
 '''
 
-[tool.coverage.paths]
-source = ["src", "*/site-packages"]
-
-[tool.coverage.run]
-branch = true
-source = ["uceasy"]
-
-[tool.coverage.report]
-show_missing = true
-fail_under = 90
-
 [tool.poetry.dependencies]
 python = "^3.7"
 click = "^7.0"
@@ -48,7 +37,6 @@ black = {version = "^18.3-alpha.0", allow-prereleases = true}
 pre-commit = "^1.18"
 nox = "^2019.11.9"
 flake8 = "^3.7.9"
-codecov = "^2.0.16"
 
 [tool.poetry.scripts]
 uceasy = "uceasy.console:main"
