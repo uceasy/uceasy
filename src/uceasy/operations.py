@@ -17,7 +17,7 @@ def parse_illumiprocessor_config(
     4 - i5 adapter. (only first row necessary)
 
     :param csv_rows         rows of the csv table.
-    :param single_index     type of indexing of the illumina library.
+    :param double_index     type of indexing of the illumina library.
     :return:                A dictionary to be read by ConfigParser.
     """
     config_dict = dict()
