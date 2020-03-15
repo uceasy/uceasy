@@ -47,13 +47,6 @@ def illumiprocessor(
     latest/
     provide the illumiprocessor arguments as a list via "args_as_list".
     e.g. ["--input", "raw-fastq", "--output", "clean-fastq"]
-
-    :param args_as_list:    list of arguments to illumiprocessor.
-    :param capture_output:  True if you want to receive the output of
-                            illumiprocessor.
-    :return:                empty list in case of "capture_output=False",
-                            otherwise the lines of illumiprocessor output as a
-                            list. One line of output is one item in the list.
     """
     cmd = ["illumiprocessor"] + args_as_list
     return _run_adapter(cmd, capture_output, dir_to_execute)
@@ -69,13 +62,6 @@ def trinity(
     phyluce's trinity wrapper.
     provide the trinity arguments as a list via "args_as_list".
     e.g. ["--contig", "clean-fastq", "--cores", "4"]
-
-    :param args_as_list:    list of arguments to trinity.
-    :param capture_output:  True if you want to receive the output of
-                            trinity.
-    :return:                empty list in case of "capture_output=False",
-                            otherwise the lines of trinity output as a
-                            list. One line of output is one item in the list.
     """
     cmd = ["phyluce_assembly_assemblo_trinity", "--clean"] + args_as_list
     return _run_adapter(cmd, capture_output, dir_to_execute)
