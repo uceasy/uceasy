@@ -65,3 +65,18 @@ def trinity(
     """
     cmd = ["phyluce_assembly_assemblo_trinity", "--clean"] + args_as_list
     return _run_adapter(cmd, capture_output, dir_to_execute)
+
+
+@adapter
+def spades(
+    args_as_list: List[str],
+    dir_to_execute: str = None,
+    capture_output: bool = False,
+) -> List[str]:
+    """
+    phyluce's spades wrapper.
+    provide the spades arguments as a list via "args_as_list".
+    e.g. ["--contig", "clean-fastq", "--cores", "4"]
+    """
+    cmd = ["phyluce_assembly_assemblo_spades"] + args_as_list
+    return _run_adapter(cmd, capture_output, dir_to_execute)
