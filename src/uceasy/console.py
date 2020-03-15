@@ -3,8 +3,23 @@ import click
 from . import __version__
 
 
-@click.command()
+@click.group()
 @click.version_option(version=__version__)
-def main():
+def cli():
     """A unified CLI for the PHYLUCE software package."""
-    click.echo("Hello, world!")
+    pass
+
+
+@cli.command()
+def quality_control():
+    pass
+
+
+@cli.command()
+def assembly():
+    pass
+
+
+@cli.command()
+def uce_processing():
+    pass
