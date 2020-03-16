@@ -3,7 +3,7 @@
 
 </p>
 
-[![Tests](https://github.com/uceasy/uceasy/workflows/build/badge.svg)](https://github.com/uceasy/uceasy/actions?query=workflow%3ATests)
+[![Tests](https://github.com/uceasy/uceasy/workflows/build/badge.svg)](https://github.com/uceasy/uceasy/actions?workflow=Tests)
 
 # UCEasy: a wrapper for the Phyluce software package
 
