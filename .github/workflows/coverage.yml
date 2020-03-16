@@ -9,8 +9,16 @@ jobs:
       with:
         python-version: '3.8'
         architecture: x64
-    - run: pip install nox==2019.11.9
-    - run: pip install poetry==1.0.5
-    - run: nox --sessions tests-3.8 coverage
+    - name: Install poetry and nox
+    - run: |
+        pip install nox==2019.11.9
+        pip install poetry==1.0.5
+    - name: Install Phyluce
+      run: conda env create --file phyluce-environment.yaml
+    - name: Run coverage
+    - run: |
+        export PATH="/usr/share/miniconda/bin:$PATH"
+        source activate phyluce
+        nox --sessions tests-3.8 coverage
       env:
         CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
