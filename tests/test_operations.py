@@ -66,5 +66,5 @@ def test_illumiprocessor_config_single_index_tag_map(config_single_index):
 
 
 def test_illumiprocessor_config_has_names(config):
-    assert config["names"][SAMPLE0] == SAMPLE0.lower()
-    assert config["names"][SAMPLE1] == SAMPLE1.lower()
+    assert config["names"][SAMPLE0] == SAMPLE0
+    assert config["names"][SAMPLE1] == SAMPLE1

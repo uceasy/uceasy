@@ -32,7 +32,7 @@ def parse_illumiprocessor_config(
 
         config_dict["tag sequences"][tag_name_i7] = row[1]
         config_dict["tag map"][row[0]] = tag_name_i7
-        config_dict["names"][row[0]] = row[0].lower()
+        config_dict["names"][row[0]] = row[0]
         if double_index:
             config_dict["tag sequences"][tag_name_i5] = row[2]
             config_dict["tag map"][row[0]] = f"{tag_name_i7},{tag_name_i5}"
