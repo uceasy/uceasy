@@ -9,6 +9,27 @@ homepage = "https://uceasy.github.io"
 repository = "https://github.com/uceasy/uceasy"
 keywords = ["uce", "phyluce", "ultraconserved elements"]
 
+[tool.poetry.dependencies]
+python = "^3.7"
+click = "^7.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.0"
+pytest-mock = "^1.10"
+black = {version = "^18.3-alpha.0", allow-prereleases = true}
+pre-commit = "^1.18"
+nox = "^2019.11.9"
+flake8 = "^3.7.9"
+coverage = {extras = ["toml"], version = "^5.0.4"}
+pytest-cov = "^2.8.1"
+
+[tool.poetry.scripts]
+uceasy = "uceasy.console:cli"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
+
 [tool.black]
 line-length = 80
 include = '\.pyi?$'
@@ -26,22 +47,14 @@ exclude = '''
 )/
 '''
 
-[tool.poetry.dependencies]
-python = "^3.7"
-click = "^7.0"
+[tool.coverage.paths]
+source = ["src", "*/site-packages"]
 
-[tool.poetry.dev-dependencies]
-pytest = "^5.0"
-pytest-mock = "^1.10"
-black = {version = "^18.3-alpha.0", allow-prereleases = true}
-pre-commit = "^1.18"
-nox = "^2019.11.9"
-flake8 = "^3.7.9"
+[tool.coverage.run]
+branch = true
+source = ["uceasy"]
 
-[tool.poetry.scripts]
-uceasy = "uceasy.console:cli"
-
-[build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
+[tool.coverage.report]
+show_missing = true
+fail_under = 70
 
