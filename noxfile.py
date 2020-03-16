@@ -24,3 +24,11 @@ def tests(session):
         session, "pytest", "pytest-mock", "coverage[toml]", "pytest-cov"
     )
     session.run("pytest", *args)
+
+
+@nox.session(python="3.8")
+def coverage(session):
+    """Upload coverage data."""
+    install_with_constraints(session, "coverage[toml]", "codecov")
+    session.run("coverage", "xml", "--fail-under=0")
+    session.run("codecov", *session.posargs)
