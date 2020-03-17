@@ -24,24 +24,24 @@ def parse_illumiprocessor_config(
     :param double_index     type of indexing of the illumina library.
     :return:                A dictionary to be read by ConfigParser.
     """
-    config_dict = dict()
-    config_dict["adapters"] = {"i7": csv_rows[0][3], "i5": csv_rows[0][4]}
-    config_dict["tag sequences"] = dict()
-    config_dict["tag map"] = dict()
-    config_dict["names"] = dict()
+    config = dict()
+    config["adapters"] = {"i7": csv_rows[0][3], "i5": csv_rows[0][4]}
+    config["tag sequences"] = dict()
+    config["tag map"] = dict()
+    config["names"] = dict()
 
     for index, row in enumerate(csv_rows):
         tag_name_i7 = f"sample{index}_barcode_i7"
         tag_name_i5 = f"sample{index}_barcode_i5"
 
-        config_dict["tag sequences"][tag_name_i7] = row[1]
-        config_dict["tag map"][row[0]] = tag_name_i7
-        config_dict["names"][row[0]] = row[0]
+        config["tag sequences"][tag_name_i7] = row[1]
+        config["tag map"][row[0]] = tag_name_i7
+        config["names"][row[0]] = row[0]
         if double_index:
-            config_dict["tag sequences"][tag_name_i5] = row[2]
-            config_dict["tag map"][row[0]] = f"{tag_name_i7},{tag_name_i5}"
+            config["tag sequences"][tag_name_i5] = row[2]
+            config["tag map"][row[0]] = f"{tag_name_i7},{tag_name_i5}"
 
-    return config_dict
+    return config
 
 
 def parse_assembly_config(
@@ -56,13 +56,13 @@ def parse_assembly_config(
         processed previously by illumiprocessor.
     :return:                            A dictionary to be read by ConfigParser.
     """
-    config_dict = dict()
-    config_dict["samples"] = dict()
+    config = dict()
+    config["samples"] = dict()
 
     for row in csv_rows:
-        config_dict["samples"][row[0]] = (
+        config["samples"][row[0]] = (
             f"{os.getcwd()}/{illumiprocessor_output_dir}/"
             f"{row[0]}/split-adapter-quality-trimmed/"
         )
 
-    return config_dict
+    return config
