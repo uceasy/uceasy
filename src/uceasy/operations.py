@@ -1,4 +1,15 @@
 from typing import List
+import os
+
+
+"""
+For the csv table columns the following is assumed:
+0 - The samples' file names.
+1 - The i7 barcodes.
+2 - The i5 barcodes.
+3 - i7 adapter. (first row only)
+4 - i5 adapter. (first row only)
+"""
 
 
 def parse_illumiprocessor_config(
@@ -8,13 +19,6 @@ def parse_illumiprocessor_config(
     a dictionary to be read by ConfigParser.
     see: https://illumiprocessor.readthedocs.io/en/latest
     /usage.html#creating-a-configuration-file
-
-    For the table columns the following is assumed:
-    0 - The samples' file names.
-    1 - The i7 barcodes.
-    2 - The i5 barcodes.
-    3 - i7 adapter. (only first row necessary)
-    4 - i5 adapter. (only first row necessary)
 
     :param csv_rows         rows of the csv table.
     :param double_index     type of indexing of the illumina library.
@@ -36,5 +40,29 @@ def parse_illumiprocessor_config(
         if double_index:
             config_dict["tag sequences"][tag_name_i5] = row[2]
             config_dict["tag map"][row[0]] = f"{tag_name_i7},{tag_name_i5}"
+
+    return config_dict
+
+
+def parse_assembly_config(
+    csv_rows: List[str], illumiprocessor_output_dir: str
+) -> dict:
+    """Read the csv content and creates the assembly configuration into
+    a dictionary to be read by ConfigParser.
+    see: https://phyluce.readthedocs.io/en/latest/assembly.html
+
+    :param csv_rows                     rows of the csv table.
+    :param illumiprocessor_output_dir   directory of the clean fastq files
+        processed previously by illumiprocessor.
+    :return:                            A dictionary to be read by ConfigParser.
+    """
+    config_dict = dict()
+    config_dict["samples"] = dict()
+
+    for row in csv_rows:
+        config_dict["samples"][row[0]] = (
+            f"{os.getcwd()}/{illumiprocessor_output_dir}/"
+            f"{row[0]}/split-adapter-quality-trimmed/"
+        )
 
     return config_dict

@@ -1,6 +1,10 @@
 import pytest
+import os
 
-from uceasy.operations import parse_illumiprocessor_config
+from uceasy.operations import (
+    parse_illumiprocessor_config,
+    parse_assembly_config,
+)
 from uceasy.ioutils import load_csv
 
 
@@ -15,6 +19,8 @@ SAMPLE0_BARCODE_I5 = "GGAGCTATGG"
 SAMPLE1_BARCODE_I7 = "GGCGAAGGTT"
 SAMPLE1_BARCODE_I5 = "GGCGAAGGTT"
 
+ILLUMIPROCESSOR_OUTPUT = "clean-fastq"
+
 
 @pytest.fixture
 def config():
@@ -27,6 +33,13 @@ def config():
 def config_single_index():
     csv_file = load_csv(CSV)
     config = parse_illumiprocessor_config(csv_file, double_index=False)
+    return config
+
+
+@pytest.fixture
+def config_assembly():
+    csv_file = load_csv(CSV)
+    config = parse_assembly_config(csv_file, ILLUMIPROCESSOR_OUTPUT)
     return config
 
 
@@ -68,3 +81,14 @@ def test_illumiprocessor_config_single_index_tag_map(config_single_index):
 def test_illumiprocessor_config_has_names(config):
     assert config["names"][SAMPLE0] == SAMPLE0
     assert config["names"][SAMPLE1] == SAMPLE1
+
+
+def test_assembly_config_has_samples(config_assembly):
+    assert (
+        f"{os.getcwd()}/{ILLUMIPROCESSOR_OUTPUT}/"
+        f"{SAMPLE0}/split-adapter-quality-trimmed/"
+    ) in config_assembly["samples"][SAMPLE0]
+    assert (
+        f"{os.getcwd()}/{ILLUMIPROCESSOR_OUTPUT}/"
+        f"{SAMPLE1}/split-adapter-quality-trimmed/"
+    ) in config_assembly["samples"][SAMPLE1]
