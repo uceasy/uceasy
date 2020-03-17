@@ -17,3 +17,5 @@ testoutput
 .vim/
 .nox
 .coverage
+coverage.xml
+.python-version
