@@ -1,4 +1,4 @@
-import os.path
+import os
 
 from uceasy.ioutils import load_csv, dump_config_file
 
@@ -11,6 +11,10 @@ CONFIG = {
     }
 }
 OUT = "testoutput/"
+
+
+if not os.path.isdir(OUT):
+    os.mkdir(OUT)
 
 
 def test_load_csv_returns_a_list():

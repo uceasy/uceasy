@@ -18,11 +18,11 @@ def dump_config_file(
     path: str, config: dict, allow_no_value: bool = False
 ) -> None:
     """Read a dictionary and create a .ini style configuration file."""
-    config = configparser.ConfigParser(
+    parser = configparser.ConfigParser(
         delimiters=(":"), allow_no_value=allow_no_value
     )
-    config.optionxform = str
-    config.read_dict(config)
+    parser.optionxform = str
+    parser.read_dict(config)
 
     with open(path, "w") as fl:
-        config.write(fl, space_around_delimiters=False)
+        parser.write(fl, space_around_delimiters=False)
