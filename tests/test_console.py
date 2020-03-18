@@ -9,6 +9,7 @@ def runner():
     return click.testing.CliRunner()
 
 
-def test_main_succeeds(runner):
+@pytest.mark.e2e
+def test_main_succeeds_in_production(runner):
     result = runner.invoke(console.cli)
     assert result.exit_code == 0
