@@ -9,7 +9,6 @@
 
 # UCEasy: a wrapper for the Phyluce software package
 
-#### WIP: this is a work in progress and it's not ready for normal use yet
 
 __UCEasy__ is a wrapper to automate manual procedures of the [Phyluce](https://phyluce.readthedocs.io/en/latest) software package by abstracting the pipeline steps in only one command, easing the execution and improving reproducibility.
 
@@ -28,26 +27,6 @@ __UCEasy__ is a convenient tool that automates the execution of common tasks for
 * Python ^3.7
 * Python's official package installer (pip)
 * Conda (for installing Phyluce)
-
-### Installing UCEasy
-UCEasy is available at PyPI, so can be easily installed with pip.
-```
-pip install uceasy
-```
-
-### Setting up Phyluce
-To use Phyluce you need to install it from the bioconda channel, see instructions of how to install conda and set bioconda channels at (https://bioconda.github.io/user/install.html).
-
-Create a conda environment for Phyluce and activate it with to following commands.
-```
-conda create -n phyluce
-conda activate phyluce
-```
-Next, install Phyluce.
-```
-conda install phyluce
-```
-At this point you should be able to use UCEasy together with Phyluce, we'll explain how to do that in the next session.
 
 ## Acknowledgements
 
