@@ -1,0 +1,18 @@
+TrimmomaticPE: Started with arguments:
+ -phred33 /home/caio/Projects/uceasy/testoutput/clean-fastq/anolis_carolinensis_GGCGAAGGTT/raw-reads/anolis_carolinensis_GGCGAAGGTT-READ1.fastq.gz /home/caio/Projects/uceasy/testoutput/clean-fastq/anolis_carolinensis_GGCGAAGGTT/raw-reads/anolis_carolinensis_GGCGAAGGTT-READ2.fastq.gz /home/caio/Projects/uceasy/testoutput/clean-fastq/anolis_carolinensis_GGCGAAGGTT/split-adapter-quality-trimmed/anolis_carolinensis_GGCGAAGGTT-READ1.fastq.gz /home/caio/Projects/uceasy/testoutput/clean-fastq/anolis_carolinensis_GGCGAAGGTT/split-adapter-quality-trimmed/anolis_carolinensis_GGCGAAGGTT-READ1-single.fastq.gz /home/caio/Projects/uceasy/testoutput/clean-fastq/anolis_carolinensis_GGCGAAGGTT/split-adapter-quality-trimmed/anolis_carolinensis_GGCGAAGGTT-READ2.fastq.gz /home/caio/Projects/uceasy/testoutput/clean-fastq/anolis_carolinensis_GGCGAAGGTT/split-adapter-quality-trimmed/anolis_carolinensis_GGCGAAGGTT-READ2-single.fastq.gz ILLUMINACLIP:/home/caio/Projects/uceasy/testoutput/clean-fastq/anolis_carolinensis_GGCGAAGGTT/adapters.fasta:2:30:10 LEADING:5 TRAILING:15 SLIDINGWINDOW:4:15 MINLEN:40
+Multiple cores found: Using 4 threads
+Using Long Clipping Sequence: 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT'
+Using Long Clipping Sequence: 'AGATCGGAAGAGCACACGTCTGAACTCCAGTCACGGCGAAGGTTATCTCGTATGCCGTCTTCTGCTTG'
+ILLUMINACLIP: Using 0 prefix pairs, 2 forward/reverse sequences, 0 forward only sequences, 0 reverse only sequences
+Exception in thread "Thread-0" java.lang.RuntimeException: Missing comment line from record: HWI-ST522:70:C0DBPACXX:6:1101:16609:18459 1:N:0:GGCGAAGGTT
+	at org.usadellab.trimmomatic.fastq.FastqParser.parseOne(FastqParser.java:77)
+	at org.usadellab.trimmomatic.fastq.FastqParser.next(FastqParser.java:179)
+	at org.usadellab.trimmomatic.threading.ParserWorker.run(ParserWorker.java:42)
+	at java.lang.Thread.run(Thread.java:748)
+Exception in thread "Thread-1" java.lang.RuntimeException: Missing comment line from record: HWI-ST522:70:C0DBPACXX:6:1101:16609:18459 2:N:0:GGCGAAGGTT
+	at org.usadellab.trimmomatic.fastq.FastqParser.parseOne(FastqParser.java:77)
+	at org.usadellab.trimmomatic.fastq.FastqParser.next(FastqParser.java:179)
+	at org.usadellab.trimmomatic.threading.ParserWorker.run(ParserWorker.java:42)
+	at java.lang.Thread.run(Thread.java:748)
+Input Read Pairs: 2000 Both Surviving: 1894 (94.70%) Forward Only Surviving: 86 (4.30%) Reverse Only Surviving: 13 (0.65%) Dropped: 7 (0.35%)
+TrimmomaticPE: Completed successfully

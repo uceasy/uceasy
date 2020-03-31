@@ -19,7 +19,7 @@ SAMPLE0_BARCODE_I5 = "GGAGCTATGG"
 SAMPLE1_BARCODE_I7 = "GGCGAAGGTT"
 SAMPLE1_BARCODE_I5 = "GGCGAAGGTT"
 
-ILLUMIPROCESSOR_OUTPUT = "clean-fastq"
+ILLUMIPROCESSOR_OUTPUT = "testdata/clean-fastq"
 
 
 @pytest.fixture
@@ -39,7 +39,7 @@ def config_single_index():
 @pytest.fixture
 def config_assembly():
     csv_file = load_csv(CSV)
-    config = parse_assembly_config(csv_file, ILLUMIPROCESSOR_OUTPUT)
+    config = parse_assembly_config(ILLUMIPROCESSOR_OUTPUT)
     return config
 
 

@@ -44,25 +44,23 @@ def parse_illumiprocessor_config(
     return config
 
 
-def parse_assembly_config(
-    csv_rows: List[str], illumiprocessor_output_dir: str
-) -> dict:
+def parse_assembly_config(illumiprocessor_output_dir: str) -> dict:
     """Read the csv content and creates the assembly configuration into
     a dictionary to be read by ConfigParser.
     see: https://phyluce.readthedocs.io/en/latest/assembly.html
 
-    :param csv_rows                     rows of the csv table.
     :param illumiprocessor_output_dir   directory of the clean fastq files
         processed previously by illumiprocessor.
     :return:                            A dictionary to be read by ConfigParser.
     """
     config = dict()
     config["samples"] = dict()
+    samples = os.listdir(illumiprocessor_output_dir)
 
-    for row in csv_rows:
-        config["samples"][row[0]] = (
+    for sample in samples:
+        config["samples"][sample] = (
             f"{os.getcwd()}/{illumiprocessor_output_dir}/"
-            f"{row[0]}/split-adapter-quality-trimmed/"
+            f"{sample}/split-adapter-quality-trimmed/"
         )
 
     return config
