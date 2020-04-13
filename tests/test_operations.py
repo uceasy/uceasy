@@ -24,7 +24,6 @@ def config_single_index(context):
 
 @pytest.fixture
 def config_assembly(context):
-    csv_file = load_csv(context["csv"])
     config = parse_assembly_config(context["clean_fastq"])
     return config
 

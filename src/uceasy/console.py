@@ -3,7 +3,7 @@ import os
 from typing import List, Optional
 
 from . import __version__
-from .operations import parse_illumiprocessor_config, parse_assembly_config
+from .operations import parse_illumiprocessor_config
 from .adapters import ADAPTERS
 from .ioutils import load_csv, dump_config_file
 
