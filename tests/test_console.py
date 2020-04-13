@@ -16,5 +16,13 @@ def test_main_succeeds_in_production(runner):
 
 
 @pytest.mark.e2e
-def test_quality_control(runner):
-    pass
+def test_quality_control(context, runner):
+    params = [
+        "quality-control",
+        "--output",
+        context["output"],
+        context["raw_fastq"],
+        context["csv"],
+    ]
+    result = runner.invoke(console.cli, params)
+    assert result.exit_code == 0
