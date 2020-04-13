@@ -100,7 +100,7 @@ def quality_control(
     if r2_pattern:
         cmd.extend(["--r2-pattern", r2_pattern])
     if phred64:
-        cmd.extend("--phred", "phred64")
+        cmd.extend(["--phred", "phred64"])
     if single_end:
         cmd.append("--se")
     if no_merge:
