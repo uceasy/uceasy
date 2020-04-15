@@ -3,7 +3,7 @@ import os
 from typing import List, Optional
 
 from . import __version__
-from .operations import parse_illumiprocessor_config
+from .operations import parse_illumiprocessor_config, parse_assembly_config
 from .adapters import ADAPTERS
 from .ioutils import load_csv, dump_config_file
 
@@ -75,8 +75,8 @@ def quality_control(
     output: str,
     min_len: int,
     no_merge: bool,
-) -> List[str]:
-    """Runs quality control with illumiprocessor."""
+) -> None:
+    """Run quality control with illumiprocessor."""
 
     if not os.path.exists(output):
         os.makedirs(output)
@@ -108,12 +108,95 @@ def quality_control(
 
     ADAPTERS["illumiprocessor"](cmd)
 
-    return cmd
-
 
 @cli.command()
-def assembly():
-    pass
+@click.argument("clean-fastq", required=True)
+@click.option(
+    "--assembler",
+    "-a",
+    type=str,
+    default="spades",
+    help="The assembler program to use. (default: spades)",
+)
+@click.option(
+    "--config",
+    "-c",
+    type=str,
+    help="Custom configuration file containing the reads to assemble.",
+)
+@click.option(
+    "--kmer", "-k", type=str, help="The kmer value to use.",
+)
+@click.option(
+    "--threads",
+    "-j",
+    type=int,
+    default=THREADS,
+    help="Number of computer threads to use. (default: all available)",
+)
+@click.option(
+    "--output",
+    "-o",
+    type=str,
+    default=os.getcwd(),
+    help="Output directory. (default: current directory)",
+)
+@click.option(
+    "--no-clean", "-n", is_flag=True, help="Do not clean intermediate files.",
+)
+@click.option(
+    "--subfolder",
+    "-s",
+    type=str,
+    help="A subdirectory, below the level of the group, containing the reads.",
+)
+def assembly(
+    clean_fastq: str,
+    threads: int,
+    output: str,
+    assembler: str,
+    config: Optional[str],
+    kmer: Optional[str],
+    no_clean: bool,
+    subfolder: Optional[str],
+) -> None:
+    """Run assembly with spades or trinity."""
+    if not os.path.exists(output):
+        os.makedirs(output)
+
+    # Create and save the configuration file
+    if not config:
+        config = f"{output}/assembly.conf"
+        config_dict = parse_assembly_config(clean_fastq)
+        dump_config_file(config, config_dict)
+
+    cmd = (
+        f"--output {output}/{assembler}-assemblies --cores {threads} "
+        f"--config {config}"
+    ).split()
+
+    if assembler == "spades":
+        if no_clean:
+            cmd.append("--do-not-clean")
+    else:
+        if not no_clean:
+            cmd.append("--clean")
+
+    if kmer:
+        if assembler == "trinity":
+            cmd.extend(["--min-kmer-coverage", kmer])
+        else:
+            cmd.extend(["--kmer", kmer])
+    if subfolder:
+        cmd.extend(["--subfolder", subfolder])
+
+    try:
+        ADAPTERS[assembler](cmd)
+    except KeyError:
+        raise IOError(
+            f"Could not find assembler: {assembler}.\n"
+            "Make sure the assembler you chose is supported by UCEasy."
+        )
 
 
 @cli.command()

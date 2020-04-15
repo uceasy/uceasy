@@ -26,3 +26,15 @@ def test_quality_control(context, runner):
     ]
     result = runner.invoke(console.cli, params)
     assert result.exit_code == 0
+
+
+@pytest.mark.e2e
+def test_assembly(context, runner):
+    params = [
+        "assembly",
+        "--output",
+        context["output"],
+        context["clean_fastq"],
+    ]
+    result = runner.invoke(console.cli, params)
+    assert result.exit_code == 0
