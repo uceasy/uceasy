@@ -82,14 +82,14 @@ def quality_control(
         os.makedirs(output)
 
     # Create and save the configuration file
-    config_output = f"{output}/illumiprocessor.conf"
+    config = f"{output}/illumiprocessor.conf"
     csv = load_csv(csv_file)
-    config = parse_illumiprocessor_config(csv)
-    dump_config_file(config_output, config)
+    config_dict = parse_illumiprocessor_config(csv)
+    dump_config_file(config, config_dict)
 
     cmd = (
         f"--input {raw_fastq} --output {output}/clean-fastq --cores {threads} "
-        f"--config {config_output}"
+        f"--config {config}"
     ).split()
 
     # 40 is the default in illumiprocessor
