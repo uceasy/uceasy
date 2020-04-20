@@ -1,16 +1,28 @@
-from uceasy.adapters import ADAPTERS
+import pytest
+
+from uceasy.adapters import Adapters
 
 
-def test_illumiprocessor_help():
-    cmd = ADAPTERS["illumiprocessor"](["--help"], capture_output=True)
+@pytest.fixture
+def adapters():
+    return Adapters().adapters
+
+
+def test_illumiprocessor_help(adapters):
+    cmd = adapters["illumiprocessor"](["--help"], capture_output=True)
     assert "usage: illumiprocessor" in cmd[0]
 
 
-def test_trinity_help():
-    cmd = ADAPTERS["trinity"](["--help"], capture_output=True)
+def test_trinity_help(adapters):
+    cmd = adapters["trinity"](["--help"], capture_output=True)
     assert "usage: phyluce_assembly_assemblo_trinity" in cmd[0]
 
 
-def test_spades_help():
-    cmd = ADAPTERS["spades"](["--help"], capture_output=True)
+def test_spades_help(adapters):
+    cmd = adapters["spades"](["--help"], capture_output=True)
     assert "usage: phyluce_assembly_assemblo_spades" in cmd[0]
+
+
+def test_match_contigs_to_probes_help(adapters):
+    cmd = adapters["match_contigs_to_probes"](["--help"], capture_output=True)
+    assert "usage: phyluce_assembly_match_contigs_to_probes" in cmd[0]
