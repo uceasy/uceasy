@@ -1,10 +1,10 @@
 import click
 import os
-from typing import List, Optional
+from typing import Optional
 
 from . import __version__
 from .operations import parse_illumiprocessor_config, parse_assembly_config
-from .adapters import ADAPTERS
+from .adapters import Adapters
 from .ioutils import load_csv, dump_config_file
 
 
@@ -78,6 +78,8 @@ def quality_control(
 ) -> None:
     """Run quality control with illumiprocessor."""
 
+    adapters = Adapters().adapters
+
     if not os.path.exists(output):
         os.makedirs(output)
 
@@ -92,7 +94,6 @@ def quality_control(
         f"--config {config}"
     ).split()
 
-    # 40 is the default in illumiprocessor
     if min_len != 40:
         cmd.extend(["--min-len", min_len])
     if r1_pattern:
@@ -106,18 +107,11 @@ def quality_control(
     if no_merge:
         cmd.append("--no-merge")
 
-    ADAPTERS["illumiprocessor"](cmd)
+    adapters["illumiprocessor"](cmd)
 
 
 @cli.command()
 @click.argument("clean-fastq", required=True)
-@click.option(
-    "--assembler",
-    "-a",
-    type=str,
-    default="spades",
-    help="The assembler program to use. (default: spades)",
-)
 @click.option(
     "--config",
     "-c",
@@ -154,13 +148,16 @@ def assembly(
     clean_fastq: str,
     threads: int,
     output: str,
-    assembler: str,
     config: Optional[str],
     kmer: Optional[str],
     no_clean: bool,
     subfolder: Optional[str],
 ) -> None:
-    """Run assembly with spades or trinity."""
+    """Run assembly with spades."""
+
+    adapters = Adapters().adapters
+    assembler = "spades"
+
     if not os.path.exists(output):
         os.makedirs(output)
 
@@ -175,28 +172,14 @@ def assembly(
         f"--config {config}"
     ).split()
 
-    if assembler == "spades":
-        if no_clean:
-            cmd.append("--do-not-clean")
-    else:
-        if not no_clean:
-            cmd.append("--clean")
-
+    if no_clean:
+        cmd.append("--do-not-clean")
     if kmer:
-        if assembler == "trinity":
-            cmd.extend(["--min-kmer-coverage", kmer])
-        else:
-            cmd.extend(["--kmer", kmer])
+        cmd.extend(["--kmer", kmer])
     if subfolder:
         cmd.extend(["--subfolder", subfolder])
 
-    try:
-        ADAPTERS[assembler](cmd)
-    except KeyError:
-        raise IOError(
-            f"Could not find assembler: {assembler}.\n"
-            "Make sure the assembler you chose is supported by UCEasy."
-        )
+    adapters[assembler](cmd)
 
 
 @cli.command()
