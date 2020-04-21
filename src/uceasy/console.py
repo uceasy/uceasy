@@ -6,6 +6,7 @@ from . import __version__
 from .operations import parse_illumiprocessor_config, parse_assembly_config
 from .adapters import Adapters
 from .ioutils import load_csv, dump_config_file
+from .facade import UCEPhylogenomicsFacade
 
 
 THREADS = os.cpu_count()
@@ -183,5 +184,68 @@ def assembly(
 
 
 @cli.command()
-def uce_processing():
-    pass
+@click.argument("contigs", required=True)
+@click.argument("probes", required=True)
+@click.option(
+    "--aligner",
+    "-a",
+    type=str,
+    default="mafft",
+    help="Aligner program to use.",
+)
+@click.option(
+    "--charsets", "-c", is_flag=True, help="Use charsets.",
+)
+@click.option(
+    "--threads",
+    "-j",
+    type=int,
+    default=THREADS,
+    help="Number of computer threads to use. (default: all available)",
+)
+@click.option(
+    "--output",
+    "-o",
+    type=str,
+    default=os.getcwd(),
+    help="Output directory. (default: current directory)",
+)
+@click.option(
+    "--internal-trimming",
+    "-i",
+    is_flag=True,
+    help="Internally trim the alignments.",
+)
+@click.option(
+    "--log-dir",
+    "-l",
+    type=str,
+    default=os.getcwd(),
+    help="Directory to save logs.",
+)
+@click.option(
+    "--percent", "-p", type=float, required=True, help="The kmer value to use.",
+)
+def phylogenomics(
+    aligner: str,
+    charsets: bool,
+    contigs: str,
+    internal_trimming: bool,
+    output: str,
+    log_dir: str,
+    probes: str,
+    percent: float,
+    threads: int,
+):
+    facade = UCEPhylogenomicsFacade(
+        aligner,
+        charsets,
+        contigs,
+        internal_trimming,
+        output,
+        log_dir,
+        probes,
+        percent,
+        threads,
+    )
+    facade.run()
