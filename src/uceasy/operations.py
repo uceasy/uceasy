@@ -64,3 +64,13 @@ def parse_assembly_config(illumiprocessor_output_dir: str) -> dict:
         )
 
     return config
+
+
+def parse_taxon_list_config(contigs: str, taxon_group: str) -> str:
+    config = f"[{taxon_group}]"
+    names = [name for name in os.listdir(contigs)]
+    for name in names:
+        if name.endswith(".contigs.fasta"):
+            name = name[:-14]
+            config += f"\n{name}"
+    return config
