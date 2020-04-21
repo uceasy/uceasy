@@ -20,16 +20,12 @@ BINARIES = {
     ),
     "explode_get_fastas_file": "phyluce_assembly_explode_get_fastas_file",
     "secap_align": "phyluce_align_seqcap_align",
-    "get_gblocks_trimmed_from_untrimmed": (
-        "phyluce_align_get_gblocks_trimmed_alignments_from_untrimmed"
-    ),
+    "gblocks": "phyluce_align_get_gblocks_trimmed_alignments_from_untrimmed",
     "remove_locus_name_from_nexus_lines": (
         "phyluce_align_remove_locus_name_from_nexus_lines"
     ),
     "get_only_loci_with_min_taxa": "phyluce_align_get_only_loci_with_min_taxa",
-    "format_nexus_files_for_raxml": (
-        "phyluce_align_format_nexus_files_for_raxml"
-    ),
+    "nexus_to_raxml": "phyluce_align_format_nexus_files_for_raxml",
 }
 
 
