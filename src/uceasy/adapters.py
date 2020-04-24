@@ -1,7 +1,7 @@
-r"""Adapters
+r"""Adapters is a dictionary to call command-line programs.
 
-They are for running command-line programs through a dictionary.
-e.g. adapters["program"](["arg1", "arg2",])
+Specify the program with the dictionary key and its arguments as a list.
+e.g. adapters["program"](["arg1", "arg2"])
 """
 
 
@@ -9,7 +9,7 @@ from subprocess import run, PIPE, DEVNULL
 from typing import List
 
 
-BINARIES = {
+TEMPLATES = {
     "illumiprocessor": "illumiprocessor",
     "trinity": "phyluce_assembly_assemblo_trinity",
     "spades": "phyluce_assembly_assemblo_spades",
@@ -34,10 +34,12 @@ class Adapters:
 
     def __init__(self):
         self.adapters = dict()
-        for key, val in BINARIES.items():
+        for key, val in TEMPLATES.items():
             self.add(key, val)
 
     def add(self, name: str, binary: str) -> None:
+        """Add new adapter to the dictionary."""
+
         def func(
             args_as_list: List[str],
             capture_output: bool = False,
