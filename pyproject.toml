@@ -23,6 +23,7 @@ flake8 = "^3.7.9"
 coverage = {extras = ["toml"], version = "^5.0.4"}
 pytest-cov = "^2.8.1"
 codecov = "^2.0.16"
+mypy = "^0.770"
 
 [tool.poetry.scripts]
 uceasy = "uceasy.console:cli"

@@ -3,6 +3,9 @@ import tempfile
 import nox
 
 
+locations = "src", "tests", "noxfile.py"
+
+
 def install_with_constraints(session, *args, **kwargs):
     with tempfile.NamedTemporaryFile() as requirements:
         session.run(
@@ -32,3 +35,10 @@ def coverage(session):
     install_with_constraints(session, "coverage[toml]", "codecov")
     session.run("coverage", "xml", "--fail-under=0")
     session.run("codecov", *session.posargs)
+
+
+@nox.session(python=["3.8", "3.7"])
+def mypy(session):
+    args = session.posargs or locations
+    install_with_constraints(session, "mypy")
+    session.run("mypy", *args)
