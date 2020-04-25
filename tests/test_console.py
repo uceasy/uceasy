@@ -38,3 +38,20 @@ def test_assembly(context, runner):
     ]
     result = runner.invoke(console.cli, params)
     assert result.exit_code == 0
+
+
+@pytest.mark.e2e
+def test_phylogenomics_pipeline(context, runner):
+    params = [
+        "phylogenomics",
+        "--charsets",
+        "--internal-trimming",
+        "--percent",
+        "0.75",
+        "--output",
+        context["output"] + "phylogenomics/",
+        context["contigs"],
+        context["probes"],
+    ]
+    result = runner.invoke(console.cli, params)
+    assert result.exit_code == 0
