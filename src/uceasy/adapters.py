@@ -5,8 +5,8 @@ e.g. adapters["program"](["arg1", "arg2"])
 """
 
 
-from subprocess import run, PIPE, DEVNULL
-from typing import List
+from subprocess import run
+from typing import List, Dict, Optional, Any
 
 
 TEMPLATES = {
@@ -52,7 +52,10 @@ class Adapters:
         self.adapters[name] = func
 
     def _run(
-        self, cmd: List[str], capture_output: bool, dir_to_execute: str
+        self,
+        cmd: List[str],
+        capture_output: bool,
+        dir_to_execute: Optional[str],
     ) -> List[str]:
         """
         Utilitary runner to be used by the adapters.
@@ -66,13 +69,11 @@ class Adapters:
                                 list. One line of output is one item in the
                                 list.
         """
-        kwargs = {"cwd": dir_to_execute}
-
-        if capture_output:
-            kwargs.update(stdout=PIPE, stderr=DEVNULL, universal_newlines=True)
-
+        kwargs: Dict[str, Any] = {
+            "cwd": dir_to_execute,
+            "capture_output": capture_output,
+            "universal_newlines": capture_output,  # receive as string not bytes
+        }
         cmd_return = run(cmd, **kwargs)
 
-        if capture_output:
-            return cmd_return.stdout.strip().splitlines()
-        return []
+        return cmd_return.stdout.strip().splitlines() if capture_output else []
