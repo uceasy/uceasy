@@ -1,8 +1,4 @@
-from typing import List
-import os
-
-
-"""
+r"""
 For the csv table columns the following is assumed:
 0 - The samples' file names.
 1 - The i7 barcodes.
@@ -12,8 +8,12 @@ For the csv table columns the following is assumed:
 """
 
 
+from typing import List, Dict
+from os import getcwd, listdir
+
+
 def parse_illumiprocessor_config(
-    csv_rows: List[str], double_index: bool = True
+    csv_rows: List[List[str]], double_index: bool = True
 ) -> dict:
     """Read the csv content and creates the illumiprocessor configuration into
     a dictionary to be read by ConfigParser.
@@ -44,31 +44,27 @@ def parse_illumiprocessor_config(
     return config
 
 
-def parse_assembly_config(illumiprocessor_output_dir: str) -> dict:
-    """Read the csv content and creates the assembly configuration into
-    a dictionary to be read by ConfigParser.
+def parse_assembly_config(clean_fastq: str) -> dict:
+    """List the files of clean_fastq directory and creates the assembly
+    configuration into a dictionary to be read by ConfigParser.
     see: https://phyluce.readthedocs.io/en/latest/assembly.html
 
-    :param illumiprocessor_output_dir   directory of the clean fastq files
-        processed previously by illumiprocessor.
+    :param clean_fastq   directory of the clean fastq files processed previously
+        by illumiprocessor.
     :return:                            A dictionary to be read by ConfigParser.
     """
-    config = dict()
-    config["samples"] = dict()
-    samples = os.listdir(illumiprocessor_output_dir)
+    names: List[str] = listdir(clean_fastq)
+    samples: Dict[str, str] = {
+        name: f"{getcwd()}/{clean_fastq}/{name}/split-adapter-quality-trimmed/"
+        for name in names
+    }
 
-    for sample in samples:
-        config["samples"][sample] = (
-            f"{os.getcwd()}/{illumiprocessor_output_dir}/"
-            f"{sample}/split-adapter-quality-trimmed/"
-        )
-
-    return config
+    return {"samples": samples}
 
 
 def parse_taxon_list_config(contigs: str, taxon_group: str) -> str:
     config = f"[{taxon_group}]"
-    names = [name for name in os.listdir(contigs)]
+    names = listdir(contigs)
     for name in names:
         if name.endswith(".contigs.fasta"):
             name = name[:-14]

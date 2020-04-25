@@ -4,7 +4,7 @@ import os
 from typing import List
 
 
-def load_csv(path: str, delimiter: str = ",") -> List[str]:
+def load_csv(path: str, delimiter: str = ",") -> List[List[str]]:
     """Read the csv file content and return a list of rows."""
     with open(path, "r") as f:
         reader = csv.reader(f, delimiter=delimiter)
@@ -18,11 +18,13 @@ def load_csv(path: str, delimiter: str = ",") -> List[str]:
 def dump_config_file(
     path: str, config, allow_no_value: bool = False, from_string: bool = False,
 ) -> None:
-    """Read a dictionary and create a .ini style configuration file."""
+    """
+    Read a dictionary or string and create a .ini style configuration file.
+    """
     parser = configparser.ConfigParser(
         delimiters=(":"), allow_no_value=allow_no_value
     )
-    parser.optionxform = str
+    parser.optionxform = str  # type: ignore
     if from_string:
         parser.read_string(config)
     else:

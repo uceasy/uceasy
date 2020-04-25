@@ -95,8 +95,8 @@ def quality_control(
         f"--config {config}"
     ).split()
 
-    if min_len != 40:
-        cmd.extend(["--min-len", min_len])
+    if min_len:
+        cmd.extend(["--min-len", str(min_len)])
     if r1_pattern:
         cmd.extend(["--r1-pattern", r1_pattern])
     if r2_pattern:
