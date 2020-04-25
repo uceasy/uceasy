@@ -8,8 +8,10 @@ import os
 test_context = {
     "output": "testoutput/",
     "csv": "testdata/sheet.csv",
-    "raw_fastq": "testdata/raw-fastq",
-    "clean_fastq": "testdata/clean-fastq",
+    "raw_fastq": "testdata/raw-fastq/",
+    "clean_fastq": "testdata/clean-fastq/",
+    "contigs": "testdata/spades-assemblies/contigs/",
+    "probes": "testdata/probes.fasta",
     "i7_adapter": "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC*ATCTCGTATGCCGTCTTCTGCTTG",
     "i5_adapter": "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT",
     "sample0": "alligator_mississippiensis_GGAGCTATGG",
