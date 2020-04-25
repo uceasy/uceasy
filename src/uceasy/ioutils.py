@@ -1,7 +1,7 @@
 import configparser
 import csv
 import os
-from typing import List
+from typing import List, Dict, Optional
 
 
 def load_csv(path: str, delimiter: str = ",") -> List[List[str]]:
@@ -16,19 +16,16 @@ def load_csv(path: str, delimiter: str = ",") -> List[List[str]]:
 
 
 def dump_config_file(
-    path: str, config, allow_no_value: bool = False, from_string: bool = False,
+    path: str,
+    config: Dict[str, Dict[str, Optional[str]]],
+    allow_no_value: bool = False,
 ) -> None:
-    """
-    Read a dictionary or string and create a .ini style configuration file.
-    """
+    """Read a dictionary and create a .ini style configuration file."""
     parser = configparser.ConfigParser(
         delimiters=(":"), allow_no_value=allow_no_value
     )
     parser.optionxform = str  # type: ignore
-    if from_string:
-        parser.read_string(config)
-    else:
-        parser.read_dict(config)
+    parser.read_dict(config)
 
     with open(path, "w") as fl:
         parser.write(fl, space_around_delimiters=False)

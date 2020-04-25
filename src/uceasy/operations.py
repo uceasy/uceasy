@@ -62,11 +62,11 @@ def parse_assembly_config(clean_fastq: str) -> dict:
     return {"samples": samples}
 
 
-def parse_taxon_list_config(contigs: str, taxon_group: str) -> str:
-    config = f"[{taxon_group}]"
-    names = listdir(contigs)
-    for name in names:
-        if name.endswith(".contigs.fasta"):
-            name = name[:-14]
-            config += f"\n{name}"
-    return config
+def parse_taxon_list_config(contigs: str, taxon_group: str) -> dict:
+    """Creates the taxon configuration for "get_match_counts"."""
+    samples = {format_contig_name(contig): None for contig in listdir(contigs)}
+    return {taxon_group: samples}
+
+
+def format_contig_name(contig: str) -> str:
+    return contig[:-14] if contig.endswith(".contigs.fasta") else contig
