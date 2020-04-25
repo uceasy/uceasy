@@ -65,7 +65,6 @@ class UCEPhylogenomicsFacade:
             self._taxon_list_config,
             taxon_list_config_string,
             allow_no_value=True,
-            from_string=True,
         )
         self._locus_db = self._output["match_contigs"] + "/probe.matches.sqlite"
         self._get_match_counts()
