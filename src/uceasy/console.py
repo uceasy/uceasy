@@ -3,10 +3,7 @@ import os
 from typing import Optional
 
 from . import __version__
-from .operations import parse_illumiprocessor_config, parse_assembly_config
-from .adapters import Adapters
-from .ioutils import load_csv, dump_config_file
-from .facade import UCEPhylogenomicsFacade
+from .facade import AssemblyFacade, QualityControlFacade, UCEPhylogenomicsFacade
 
 
 THREADS = os.cpu_count()
@@ -78,37 +75,20 @@ def quality_control(
     no_merge: bool,
 ) -> None:
     """Run quality control with illumiprocessor."""
-
-    adapters = Adapters().adapters
-
-    if not os.path.exists(output):
-        os.makedirs(output)
-
-    # Create and save the configuration file
-    config = f"{output}/illumiprocessor.conf"
-    csv = load_csv(csv_file)
-    config_dict = parse_illumiprocessor_config(csv)
-    dump_config_file(config, config_dict)
-
-    cmd = (
-        f"--input {raw_fastq} --output {output}/clean-fastq --cores {threads} "
-        f"--config {config}"
-    ).split()
-
-    if min_len:
-        cmd.extend(["--min-len", str(min_len)])
-    if r1_pattern:
-        cmd.extend(["--r1-pattern", r1_pattern])
-    if r2_pattern:
-        cmd.extend(["--r2-pattern", r2_pattern])
-    if phred64:
-        cmd.extend(["--phred", "phred64"])
-    if single_end:
-        cmd.append("--se")
-    if no_merge:
-        cmd.append("--no-merge")
-
-    adapters["illumiprocessor"](cmd)
+    facade = QualityControlFacade(
+        raw_fastq,
+        csv_file,
+        threads,
+        single_end,
+        single_index,
+        r1_pattern,
+        r2_pattern,
+        phred64,
+        output,
+        min_len,
+        no_merge,
+    )
+    facade.run()
 
 
 @cli.command()
@@ -155,32 +135,10 @@ def assembly(
     subfolder: Optional[str],
 ) -> None:
     """Run assembly with spades."""
-
-    adapters = Adapters().adapters
-    assembler = "spades"
-
-    if not os.path.exists(output):
-        os.makedirs(output)
-
-    # Create and save the configuration file
-    if not config:
-        config = f"{output}/assembly.conf"
-        config_dict = parse_assembly_config(clean_fastq)
-        dump_config_file(config, config_dict)
-
-    cmd = (
-        f"--output {output}/{assembler}-assemblies --cores {threads} "
-        f"--config {config}"
-    ).split()
-
-    if no_clean:
-        cmd.append("--do-not-clean")
-    if kmer:
-        cmd.extend(["--kmer", kmer])
-    if subfolder:
-        cmd.extend(["--subfolder", subfolder])
-
-    adapters[assembler](cmd)
+    facade = AssemblyFacade(
+        clean_fastq, threads, output, config, kmer, no_clean, subfolder,
+    )
+    facade.run()
 
 
 @cli.command()
