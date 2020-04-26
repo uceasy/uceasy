@@ -1,0 +1,187 @@
+- STAGE: Read error correction
+  args: []
+  config_dir: ''
+  del_after: []
+  output_files: []
+  path: 'true'
+  short_name: ec_start
+- STAGE: Read error correction
+  args:
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/corrected/configs/config.info
+  config_dir: corrected
+  del_after:
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/tmp/hammer_3CGgeu
+  output_files:
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/corrected/corrected.yaml
+  path: /home/caio/.local/bin/spades-hammer
+  short_name: ec_runtool
+- STAGE: corrected reads compression
+  args:
+  - /home/caio/.local/share/spades/spades_pipeline/scripts/compress_all.py
+  - --input_file
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/corrected/corrected.yaml
+  - --ext_python_modules_home
+  - /home/caio/.local/share/spades
+  - --max_threads
+  - '4'
+  - --output_dir
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/corrected
+  - --gzip_output
+  config_dir: ''
+  del_after: []
+  output_files: []
+  path: /home/caio/.local/share/miniconda3/envs/phyluce/bin/python
+  short_name: ec_compress
+- STAGE: Read error correction
+  args: []
+  config_dir: ''
+  del_after: []
+  output_files: []
+  path: 'true'
+  short_name: ec_finish
+- STAGE: Assembling
+  args: []
+  config_dir: ''
+  del_after: []
+  output_files: []
+  path: 'true'
+  short_name: as_start
+- STAGE: K21
+  args:
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/K21/configs/config.info
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/K21/configs/mda_mode.info
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/K21/configs/careful_mda_mode.info
+  config_dir: K21
+  del_after: []
+  output_files: []
+  path: /home/caio/.local/bin/spades-core
+  short_name: k21
+- STAGE: K33
+  args:
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/K33/configs/config.info
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/K33/configs/mda_mode.info
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/K33/configs/careful_mda_mode.info
+  config_dir: K33
+  del_after: []
+  output_files: []
+  path: /home/caio/.local/bin/spades-core
+  short_name: k33
+- STAGE: K55
+  args:
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/K55/configs/config.info
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/K55/configs/mda_mode.info
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/K55/configs/careful_mda_mode.info
+  config_dir: K55
+  del_after: []
+  output_files: []
+  path: /home/caio/.local/bin/spades-core
+  short_name: k55
+- STAGE: Copy files
+  args:
+  - /home/caio/.local/share/spades/spades_pipeline/scripts/copy_files.py
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/K55/before_rr.fasta
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/before_rr.fasta
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/K55/final_contigs.fasta
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/contigs.fasta
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/K55/first_pe_contigs.fasta
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/first_pe_contigs.fasta
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/K55/scaffolds.fasta
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/scaffolds.fasta
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/K55/scaffolds.paths
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/scaffolds.paths
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/K55/assembly_graph_with_scaffolds.gfa
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/assembly_graph_with_scaffolds.gfa
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/K55/assembly_graph.fastg
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/assembly_graph.fastg
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/K55/final_contigs.paths
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/contigs.paths
+  config_dir: ''
+  del_after:
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/.bin_reads
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/tmp/spades_8yUrJF
+  output_files: []
+  path: /home/caio/.local/share/miniconda3/envs/phyluce/bin/python
+  short_name: copy_files
+- STAGE: Assembling
+  args: []
+  config_dir: ''
+  del_after: []
+  output_files: []
+  path: 'true'
+  short_name: as_finish
+- STAGE: Mismatch correction
+  args: []
+  config_dir: ''
+  del_after: []
+  output_files: []
+  path: 'true'
+  short_name: mc_start
+- STAGE: Mismatch correction contigs
+  args:
+  - /home/caio/.local/share/spades/spades_pipeline/scripts/correction_iteration_script.py
+  - --corrected
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/contigs.fasta
+  - --assembled
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/misc/assembled_contigs.fasta
+  - --assembly_type
+  - contigs
+  - --output_dir
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades
+  - --bin_home
+  - /home/caio/.local/bin
+  config_dir: mismatch_corrector/contigs
+  del_after:
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/mismatch_corrector/contigs/tmp
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/tmp/corrector_OgEYOJ
+  output_files: []
+  path: /home/caio/.local/share/miniconda3/envs/phyluce/bin/python
+  short_name: mc_contigs
+- STAGE: Mismatch correction scaffolds
+  args:
+  - /home/caio/.local/share/spades/spades_pipeline/scripts/correction_iteration_script.py
+  - --corrected
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/scaffolds.fasta
+  - --assembled
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/misc/assembled_scaffolds.fasta
+  - --assembly_type
+  - scaffolds
+  - --output_dir
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades
+  - --bin_home
+  - /home/caio/.local/bin
+  config_dir: mismatch_corrector/scaffolds
+  del_after:
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/mismatch_corrector/scaffolds/tmp
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/tmp/corrector_eQuSjr
+  output_files: []
+  path: /home/caio/.local/share/miniconda3/envs/phyluce/bin/python
+  short_name: mc_scaffolds
+- STAGE: Mismatch correction
+  args: []
+  config_dir: ''
+  del_after: []
+  output_files: []
+  path: 'true'
+  short_name: mc_finish
+- STAGE: Breaking scaffolds
+  args:
+  - /home/caio/.local/share/spades/spades_pipeline/scripts/breaking_scaffolds_script.py
+  - --result_scaffolds_filename
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/scaffolds.fasta
+  - --misc_dir
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/misc
+  - --threshold_for_breaking_scaffolds
+  - '3'
+  config_dir: ''
+  del_after: []
+  output_files: []
+  path: /home/caio/.local/share/miniconda3/envs/phyluce/bin/python
+  short_name: bs
+- STAGE: Terminate
+  args: []
+  config_dir: ''
+  del_after:
+  - /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/configs
+  output_files: []
+  path: 'true'
+  short_name: terminate

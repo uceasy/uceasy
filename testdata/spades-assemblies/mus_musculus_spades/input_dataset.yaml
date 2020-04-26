@@ -1,0 +1,8 @@
+- "left reads":
+  - "/home/caio/Desktop/Bioinformatics/phyluce/clean-fastq/mus_musculus/split-adapter-quality-trimmed/mus_musculus-READ1.fastq.gz"
+  "orientation": "fr"
+  "right reads":
+  - "/home/caio/Desktop/Bioinformatics/phyluce/clean-fastq/mus_musculus/split-adapter-quality-trimmed/mus_musculus-READ2.fastq.gz"
+  "single reads":
+  - "/home/caio/Desktop/Bioinformatics/phyluce/clean-fastq/mus_musculus/split-adapter-quality-trimmed/mus_musculus-READ-singleton.fastq.gz"
+  "type": "paired-end"

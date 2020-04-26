@@ -1,0 +1,36 @@
+Command line: /home/caio/.local/bin/spades.py	--careful	--sc	--memory	6	--threads	4	--cov-cutoff	5	--pe1-1	/home/caio/Desktop/Bioinformatics/phyluce/clean-fastq/mus_musculus/split-adapter-quality-trimmed/mus_musculus-READ1.fastq.gz	--pe1-2	/home/caio/Desktop/Bioinformatics/phyluce/clean-fastq/mus_musculus/split-adapter-quality-trimmed/mus_musculus-READ2.fastq.gz	-o	/home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/mus_musculus_spades	--pe1-s	/home/caio/Desktop/Bioinformatics/phyluce/clean-fastq/mus_musculus/split-adapter-quality-trimmed/mus_musculus-READ-singleton.fastq.gz	
+
+System information:
+  SPAdes version: 3.14.0
+  Python version: 2.7.15
+  OS: Linux-5.6.3_1-x86_64-with-glibc2.2.5
+
+Output dir: /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/mus_musculus_spades
+Mode: read error correction and assembling
+Debug mode is turned OFF
+
+Dataset parameters:
+  Single-cell mode
+  Reads:
+    Library number: 1, library type: paired-end
+      orientation: fr
+      left reads: ['/home/caio/Desktop/Bioinformatics/phyluce/clean-fastq/mus_musculus/split-adapter-quality-trimmed/mus_musculus-READ1.fastq.gz']
+      right reads: ['/home/caio/Desktop/Bioinformatics/phyluce/clean-fastq/mus_musculus/split-adapter-quality-trimmed/mus_musculus-READ2.fastq.gz']
+      interlaced reads: not specified
+      single reads: ['/home/caio/Desktop/Bioinformatics/phyluce/clean-fastq/mus_musculus/split-adapter-quality-trimmed/mus_musculus-READ-singleton.fastq.gz']
+      merged reads: not specified
+Read error correction parameters:
+  Iterations: 1
+  PHRED offset will be auto-detected
+  Corrected reads will be compressed
+Assembly parameters:
+  k: [21, 33, 55]
+  Repeat resolution is enabled
+  Mismatch careful mode is turned ON
+  MismatchCorrector will be used
+  Coverage cutoff is turned ON and threshold is 5.000000
+Other parameters:
+  Dir for temp files: /home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/mus_musculus_spades/tmp
+  Threads: 4
+  Memory limit (in Gb): 6
+

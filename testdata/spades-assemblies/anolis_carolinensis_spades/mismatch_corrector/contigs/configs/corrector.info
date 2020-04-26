@@ -1,0 +1,7 @@
+"bwa": "/home/caio/.local/bin/spades-bwa"
+"dataset": "/home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/input_dataset.yaml"
+"log_filename": "log.properties"
+"max_nthreads": !!int "4"
+"output_dir": "/home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/mismatch_corrector/contigs"
+"strategy": "mapped_squared"
+"work_dir": "/home/caio/Desktop/Bioinformatics/phyluce/spades-assemblies/anolis_carolinensis_spades/tmp/corrector_OgEYOJ"
