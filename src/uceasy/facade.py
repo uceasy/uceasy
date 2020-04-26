@@ -4,7 +4,11 @@ import os
 
 from .adapters import Adapters
 from .ioutils import dump_config_file, get_taxa_from_contigs, load_csv
-from .operations import parse_taxon_list_config, parse_illumiprocessor_config
+from .operations import (
+    parse_taxon_list_config,
+    parse_illumiprocessor_config,
+    parse_assembly_config,
+)
 
 
 class QualityControlFacade:
@@ -70,6 +74,55 @@ class QualityControlFacade:
             cmd.append("--no-merge")
 
         self._adapters["illumiprocessor"](cmd)
+
+
+class AssemblyFacade:
+    def __init__(
+        self,
+        clean_fastq: str,
+        threads: int,
+        output: str,
+        config: Optional[str],
+        kmer: Optional[str],
+        no_clean: bool,
+        subfolder: Optional[str],
+    ):
+        self._clean_fastq = clean_fastq
+        self._threads = str(threads)
+        self._output = output
+        self._config = config
+        self._kmer = kmer
+        self._no_clean = no_clean
+        self._subfolder = subfolder
+        self._adapters = Adapters().adapters
+
+        if not os.path.exists(output):
+            os.makedirs(output)
+
+    def run(self) -> None:
+        # Create and save the configuration file
+        if not self._config:
+            self._config = self._output + "/assembly.conf"
+            config_dict = parse_assembly_config(self._clean_fastq)
+            dump_config_file(self._config, config_dict)
+
+        cmd = [
+            "--output",
+            self._output + "/spades-assemblies",
+            "--cores",
+            self._threads,
+            "--config",
+            self._config,
+        ]
+
+        if self._no_clean:
+            cmd.append("--do-not-clean")
+        if self._kmer:
+            cmd.extend(["--kmer", self._kmer])
+        if self._subfolder:
+            cmd.extend(["--subfolder", self._subfolder])
+
+        self._adapters["spades"](cmd)
 
 
 class UCEPhylogenomicsFacade:
