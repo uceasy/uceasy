@@ -33,4 +33,4 @@ def dump_config_file(
 
 def get_taxa_from_contigs(contigs: str) -> int:
     """Return the taxa number from the contigs directory."""
-    return len([name for name in os.listdir(contigs) if os.path.isfile(name)])
+    return len([name for name in os.listdir(contigs)])
