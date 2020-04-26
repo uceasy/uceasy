@@ -1,10 +1,75 @@
-from typing import List
+from typing import List, Optional
 import os
 
 
 from .adapters import Adapters
-from .ioutils import dump_config_file, get_taxa_from_contigs
-from .operations import parse_taxon_list_config
+from .ioutils import dump_config_file, get_taxa_from_contigs, load_csv
+from .operations import parse_taxon_list_config, parse_illumiprocessor_config
+
+
+class QualityControlFacade:
+    def __init__(
+        self,
+        raw_fastq: str,
+        csv_file: str,
+        threads: int,
+        single_end: bool,
+        single_index: bool,
+        r1_pattern: Optional[str],
+        r2_pattern: Optional[str],
+        phred64: bool,
+        output: str,
+        min_len: Optional[int],
+        no_merge: bool,
+    ):
+        self._raw_fastq = raw_fastq
+        self._csv_file = csv_file
+        self._threads = str(threads)
+        self._single_end = single_end
+        self._single_index = single_index
+        self._r1_pattern = r1_pattern
+        self._r2_pattern = r2_pattern
+        self._phred64 = phred64
+        self._output = output
+        self._min_len = str(min_len)
+        self._no_merge = no_merge
+        self._config = output + "/illumiprocessor.conf"
+        self._adapters = Adapters().adapters
+
+        if not os.path.exists(output):
+            os.makedirs(output)
+
+    def run(self) -> None:
+        # Create and save the configuration file
+        csv = load_csv(self._csv_file)
+        config_dict = parse_illumiprocessor_config(csv)
+        dump_config_file(self._config, config_dict)
+
+        cmd = [
+            "--input",
+            self._raw_fastq,
+            "--output",
+            self._output + "/clean_fastq",
+            "--cores",
+            self._threads,
+            "--config",
+            self._config,
+        ]
+
+        if self._min_len:
+            cmd.extend(["--min-len", self._min_len])
+        if self._r1_pattern:
+            cmd.extend(["--r1-pattern", self._r1_pattern])
+        if self._r2_pattern:
+            cmd.extend(["--r2-pattern", self._r2_pattern])
+        if self._phred64:
+            cmd.extend(["--phred", "phred64"])
+        if self._single_end:
+            cmd.append("--se")
+        if self._no_merge:
+            cmd.append("--no-merge")
+
+        self._adapters["illumiprocessor"](cmd)
 
 
 class UCEPhylogenomicsFacade:
@@ -30,8 +95,8 @@ class UCEPhylogenomicsFacade:
         self._percent = str(percent)
         self._threads = str(threads)
 
-        self._taxa: str = str(get_taxa_from_contigs(contigs))
         self._adapters: dict = Adapters().adapters
+        self._taxa: str = str(get_taxa_from_contigs(contigs))
         self._taxon_list_config: str = f"{output_dir}/taxon-set.conf"
         self._taxon_group: str = "all"
         self._nexus_output_format = "fasta"
