@@ -159,11 +159,12 @@ class UCEPhylogenomicsFacade:
             "incomplete_matrix": "all-taxa-incomplete.incomplete",
             "fasta": "all-taxa-incomplete.fasta",
             "exploded_fastas": "exploded-fastas",
-            "alignments": "aligments",
-            "gblocks": "aligments-gblocks",
-            "gblocks_clean": "aligments-gblocks-clean",
-            "min_taxa": "aligments-gblocks-clean-min-taxa",
-            "raxml": "aligments-raxml",
+            "alignments": "alignments",
+            "alignments_clean": "alignments_clean",
+            "gblocks": "alignments-gblocks",
+            "gblocks_clean": "alignments-gblocks-clean",
+            "min_taxa": "alignments-gblocks-clean-min-taxa",
+            "raxml": "alignments-raxml",
         }
         # Prefixing with output given by CLI
         for k, v in self._output.items():
@@ -191,8 +192,8 @@ class UCEPhylogenomicsFacade:
         self._secap_align()
         if self._internal_trimming:
             self._get_gblocks_trimmed_alignments_from_untrimmed()
-            self._remove_locus_name_from_nexus_lines()
-            self._get_only_loci_with_min_taxa()
+        self._remove_locus_name_from_nexus_lines()
+        self._get_only_loci_with_min_taxa()
         self._nexus_files_for_raxml()
 
     def _match_contigs_to_probes(self) -> List[str]:
@@ -268,23 +269,28 @@ class UCEPhylogenomicsFacade:
     def _get_gblocks_trimmed_alignments_from_untrimmed(self) -> List[str]:
         """Run gblocks trimming on the alignments"""
         cmd = [
-            "--alignments",
-            self._output["alignments"],
             "--output",
             self._output["gblocks"],
+            "--alignments",
+            self._output["alignments"],
+            "--output-format",
+            self._nexus_output_format,
             "--cores",
             self._threads,
         ]
+        self._output["alignments"] = self._output["gblocks"]
         return self._adapters["gblocks"](cmd)
 
     def _remove_locus_name_from_nexus_lines(self) -> List[str]:
         cmd = [
-            "--alignments",
-            self._output["gblocks"],
             "--output",
-            self._output["gblocks_clean"],
+            self._output["alignments_clean"],
+            "--alignments",
+            self._output["alignments"],
             "--cores",
             self._threads,
+            "--input-format",
+            self._nexus_output_format,
         ]
         return self._adapters["remove_locus_name_from_nexus_lines"](cmd)
 
@@ -293,7 +299,7 @@ class UCEPhylogenomicsFacade:
             "--output",
             self._output["min_taxa"],
             "--alignments",
-            self._output["gblocks_clean"],
+            self._output["alignments_clean"],
             "--taxa",
             self._taxa,
             "--percent",
@@ -301,6 +307,7 @@ class UCEPhylogenomicsFacade:
             "--cores",
             self._threads,
         ]
+        self._output["alignments_clean"] = self._output["min_taxa"]
         return self._adapters["get_only_loci_with_min_taxa"](cmd)
 
     def _nexus_files_for_raxml(self) -> List[str]:
@@ -308,10 +315,7 @@ class UCEPhylogenomicsFacade:
             "--output",
             self._output["raxml"],
         ]
-        if self._internal_trimming:
-            cmd.extend(["--alignments", self._output["min_taxa"]])
-        else:
-            cmd.extend(["--alignments", self._output["alignments"]])
+        cmd.extend(["--alignments", self._output["min_taxa"]])
 
         if self._charsets:
             cmd.append("--charsets")
