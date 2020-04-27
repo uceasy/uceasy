@@ -152,7 +152,6 @@ class UCEPhylogenomicsFacade:
         self._taxa: str = str(get_taxa_from_contigs(contigs))
         self._taxon_list_config: str = f"{output_dir}/taxon-set.conf"
         self._taxon_group: str = "all"
-        self._nexus_output_format = "fasta"
         self._output: dict = {
             "match_contigs": "uce-search-results",
             "match_count": "all-taxa-incomplete.conf",
@@ -258,8 +257,6 @@ class UCEPhylogenomicsFacade:
             self._aligner,
             "--cores",
             self._threads,
-            "--output-format",
-            self._nexus_output_format,
         ]
         if self._internal_trimming:
             cmd.append("--no-trim")
@@ -273,8 +270,6 @@ class UCEPhylogenomicsFacade:
             self._output["gblocks"],
             "--alignments",
             self._output["alignments"],
-            "--output-format",
-            self._nexus_output_format,
             "--cores",
             self._threads,
         ]
@@ -289,8 +284,6 @@ class UCEPhylogenomicsFacade:
             self._output["alignments"],
             "--cores",
             self._threads,
-            "--input-format",
-            self._nexus_output_format,
         ]
         return self._adapters["remove_locus_name_from_nexus_lines"](cmd)
 
