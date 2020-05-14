@@ -16,14 +16,10 @@ def load_csv(path: str, delimiter: str = ",") -> List[List[str]]:
 
 
 def dump_config_file(
-    path: str,
-    config: Dict[str, Dict[str, Optional[str]]],
-    allow_no_value: bool = False,
+    path: str, config: Dict[str, Dict[str, Optional[str]]],
 ) -> None:
     """Read a dictionary and create a .ini style configuration file."""
-    parser = configparser.ConfigParser(
-        delimiters=(":"), allow_no_value=allow_no_value
-    )
+    parser = configparser.ConfigParser(delimiters=(":"), allow_no_value=True)
     parser.optionxform = str  # type: ignore
     parser.read_dict(config)
 
