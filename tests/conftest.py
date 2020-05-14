@@ -1,4 +1,5 @@
 import pytest
+import shutil
 import os
 
 
@@ -27,6 +28,8 @@ test_context = {
 def context():
     if not os.path.isdir(test_context["output"]):
         os.mkdir(test_context["output"])
+    else:
+        shutil.rmtree(test_context["output"])
 
     return test_context
 
