@@ -138,7 +138,6 @@ class UCEPhylogenomicsFacade:
         percent: float,
         threads: int,
     ):
-        # From CLI
         self._aligner = aligner
         self._charsets = charsets
         self._contigs = contigs
@@ -147,44 +146,45 @@ class UCEPhylogenomicsFacade:
         self._probes = probes
         self._percent = str(percent)
         self._threads = str(threads)
-
         self._adapters: dict = Adapters().adapters
-        self._taxa: str = str(get_taxa_from_contigs(contigs))
-        self._taxon_list_config: str = f"{output_dir}/taxon-set.conf"
+        self._taxa: str = str(get_taxa_from_contigs(self._contigs))
+        self._taxon_list_config: str = f"{output_dir}/taxon-list.conf"
         self._taxon_group: str = "all"
-        self._output: dict = {
+        self._output_dirs: dict = {
             "match_contigs": "uce-search-results",
-            "match_count": "all-taxa-incomplete.conf",
+            "match_counts": "all-taxa-incomplete.conf",
             "incomplete_matrix": "all-taxa-incomplete.incomplete",
             "fasta": "all-taxa-incomplete.fasta",
             "exploded_fastas": "exploded-fastas",
             "alignments": "alignments",
-            "alignments_clean": "alignments_clean",
+            "alignments_clean": "alignments-clean",
             "gblocks": "alignments-gblocks",
             "gblocks_clean": "alignments-gblocks-clean",
             "min_taxa": "alignments-gblocks-clean-min-taxa",
             "raxml": "alignments-raxml",
         }
-        # Prefixing with output given by CLI
-        for k, v in self._output.items():
-            self._output[k] = f"{output_dir}/{v}"
+        # Prefixing with output_dir
+        for k, v in self._output_dirs.items():
+            self._output_dirs[k] = f"{output_dir}/{v}"
+
+        self._locus_db = (
+            self._output_dirs["match_contigs"] + "/probe.matches.sqlite"
+        )
 
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
     def run(self) -> None:
         # TODO incomplete matrix might be a cli argument
-        self._match_contigs_to_probes()
-        # Create taxon-set.conf
-        taxon_list_config_string = parse_taxon_list_config(
+
+        taxon_list_config_dict = parse_taxon_list_config(
             self._contigs, self._taxon_group,
         )
         dump_config_file(
-            self._taxon_list_config,
-            taxon_list_config_string,
-            allow_no_value=True,
+            self._taxon_list_config, taxon_list_config_dict,
         )
-        self._locus_db = self._output["match_contigs"] + "/probe.matches.sqlite"
+
+        self._match_contigs_to_probes()
         self._get_match_counts()
         self._get_fastas_from_match_counts()
         self._explode_get_fastas_file()
@@ -198,7 +198,7 @@ class UCEPhylogenomicsFacade:
     def _match_contigs_to_probes(self) -> List[str]:
         cmd = [
             "--output",
-            self._output["match_contigs"],
+            self._output_dirs["match_contigs"],
             "--contigs",
             self._contigs,
             "--probes",
@@ -209,7 +209,7 @@ class UCEPhylogenomicsFacade:
     def _get_match_counts(self) -> List[str]:
         cmd = [
             "--output",
-            self._output["match_count"],
+            self._output_dirs["match_counts"],
             "--locus-db",
             self._locus_db,
             "--taxon-list-config",
@@ -222,15 +222,15 @@ class UCEPhylogenomicsFacade:
     def _get_fastas_from_match_counts(self) -> List[str]:
         cmd = [
             "--output",
-            self._output["fasta"],
+            self._output_dirs["fasta"],
             "--match-count-output",
-            self._output["match_count"],
+            self._output_dirs["match_counts"],
             "--contigs",
             self._contigs,
             "--locus-db",
             self._locus_db,
             "--incomplete-matrix",
-            self._output["incomplete_matrix"],
+            self._output_dirs["incomplete_matrix"],
         ]
 
         return self._adapters["get_fastas_from_match_counts"](cmd)
@@ -238,9 +238,9 @@ class UCEPhylogenomicsFacade:
     def _explode_get_fastas_file(self) -> List[str]:
         cmd = [
             "--input",
-            self._output["fasta"],
+            self._output_dirs["fasta"],
             "--output",
-            self._output["exploded_fastas"],
+            self._output_dirs["exploded_fastas"],
             "--by-taxon",
         ]
         return self._adapters["explode_get_fastas_file"](cmd)
@@ -248,9 +248,9 @@ class UCEPhylogenomicsFacade:
     def _secap_align(self) -> List[str]:
         cmd = [
             "--output",
-            self._output["alignments"],
+            self._output_dirs["alignments"],
             "--fasta",
-            self._output["fasta"],
+            self._output_dirs["fasta"],
             "--taxa",
             self._taxa,
             "--aligner",
@@ -267,21 +267,21 @@ class UCEPhylogenomicsFacade:
         """Run gblocks trimming on the alignments"""
         cmd = [
             "--output",
-            self._output["gblocks"],
+            self._output_dirs["gblocks"],
             "--alignments",
-            self._output["alignments"],
+            self._output_dirs["alignments"],
             "--cores",
             self._threads,
         ]
-        self._output["alignments"] = self._output["gblocks"]
+        self._output_dirs["alignments"] = self._output_dirs["gblocks"]
         return self._adapters["gblocks"](cmd)
 
     def _remove_locus_name_from_nexus_lines(self) -> List[str]:
         cmd = [
             "--output",
-            self._output["alignments_clean"],
+            self._output_dirs["alignments_clean"],
             "--alignments",
-            self._output["alignments"],
+            self._output_dirs["alignments"],
             "--cores",
             self._threads,
         ]
@@ -290,9 +290,9 @@ class UCEPhylogenomicsFacade:
     def _get_only_loci_with_min_taxa(self) -> List[str]:
         cmd = [
             "--output",
-            self._output["min_taxa"],
+            self._output_dirs["min_taxa"],
             "--alignments",
-            self._output["alignments_clean"],
+            self._output_dirs["alignments_clean"],
             "--taxa",
             self._taxa,
             "--percent",
@@ -300,15 +300,16 @@ class UCEPhylogenomicsFacade:
             "--cores",
             self._threads,
         ]
-        self._output["alignments_clean"] = self._output["min_taxa"]
+        self._output_dirs["alignments_clean"] = self._output_dirs["min_taxa"]
         return self._adapters["get_only_loci_with_min_taxa"](cmd)
 
     def _nexus_files_for_raxml(self) -> List[str]:
         cmd = [
             "--output",
-            self._output["raxml"],
+            self._output_dirs["raxml"],
+            "--alignments",
+            self._output_dirs["min_taxa"],
         ]
-        cmd.extend(["--alignments", self._output["min_taxa"]])
 
         if self._charsets:
             cmd.append("--charsets")
