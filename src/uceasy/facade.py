@@ -137,6 +137,7 @@ class UCEPhylogenomicsFacade:
         probes: str,
         percent: float,
         threads: int,
+        regex: Optional[str],
     ):
         self._aligner = aligner
         self._charsets = charsets
@@ -146,11 +147,12 @@ class UCEPhylogenomicsFacade:
         self._probes = probes
         self._percent = str(percent)
         self._threads = str(threads)
-        self._adapters: dict = Adapters().adapters
-        self._taxa: str = str(get_taxa_from_contigs(self._contigs))
-        self._taxon_list_config: str = f"{output_dir}/taxon-list.conf"
-        self._taxon_group: str = "all"
-        self._output_dirs: dict = {
+        self._regex = regex
+        self._adapters = Adapters().adapters
+        self._taxa = str(get_taxa_from_contigs(self._contigs))
+        self._taxon_list_config = f"{output_dir}/taxon-list.conf"
+        self._taxon_group = "all"
+        self._output_dirs = {
             "match_contigs": "uce-search-results",
             "match_counts": "all-taxa-incomplete.conf",
             "incomplete_matrix": "all-taxa-incomplete.incomplete",
@@ -204,6 +206,8 @@ class UCEPhylogenomicsFacade:
             "--probes",
             self._probes,
         ]
+        if self._regex:
+            cmd.extend(["--regex", self._regex])
         return self._adapters["match_contigs_to_probes"](cmd)
 
     def _get_match_counts(self) -> List[str]:

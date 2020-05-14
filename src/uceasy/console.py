@@ -182,6 +182,11 @@ def assembly(
     help="Directory to save logs.",
 )
 @click.option(
+    "--regex",
+    "-r",
+    help="A regular expression to apply to the probe names for replacement.",
+)
+@click.option(
     "--percent", "-p", type=float, required=True, help="The kmer value to use.",
 )
 def phylogenomics(
@@ -194,6 +199,7 @@ def phylogenomics(
     probes: str,
     percent: float,
     threads: int,
+    regex: Optional[str],
 ):
     facade = UCEPhylogenomicsFacade(
         aligner,
@@ -205,5 +211,6 @@ def phylogenomics(
         probes,
         percent,
         threads,
+        regex,
     )
     facade.run()
