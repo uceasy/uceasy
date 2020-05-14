@@ -263,12 +263,15 @@ class UCEPhylogenomicsFacade:
             self._threads,
         ]
         if self._internal_trimming:
-            cmd.append("--no-trim")
+            cmd.extend(["--no-trim", "--output-format", "fasta"])
 
         return self._adapters["secap_align"](cmd)
 
     def _get_gblocks_trimmed_alignments_from_untrimmed(self) -> List[str]:
-        """Run gblocks trimming on the alignments"""
+        """
+        Run gblocks trimming on the alignments.
+        The alignments must be in fasta format.
+        """
         cmd = [
             "--output",
             self._output_dirs["gblocks"],
