@@ -39,20 +39,3 @@ def test_config_file_is_created(context, config_example):
     dump_config_file(context["output"] + "test.conf", config_example[0])
     with open(context["output"] + "test.conf", "r") as fl:
         assert fl.read() == config_example[1]
-
-
-def test_allow_no_value(context, config_novalue):
-    dump_config_file(
-        context["output"] + "novalue.conf",
-        config_novalue[0],
-        allow_no_value=True,
-    )
-    with open(context["output"] + "novalue.conf", "r") as fl:
-        assert fl.read() == config_novalue[1]
-
-
-def test_raises_typeerror_if_allow_no_value_is_false(context):
-    with pytest.raises(TypeError):
-        dump_config_file(
-            context["output"] + "novalue.conf", config_novalue[0],
-        )
