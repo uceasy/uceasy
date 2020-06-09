@@ -131,6 +131,7 @@ class UCEPhylogenomicsFacade:
         aligner: str,
         charsets: bool,
         contigs: str,
+        incomplete_matrix: bool,
         internal_trimming: bool,
         output_dir: str,
         log_dir: str,
@@ -142,6 +143,7 @@ class UCEPhylogenomicsFacade:
         self._aligner = aligner
         self._charsets = charsets
         self._contigs = contigs
+        self._incomplete_matrix = incomplete_matrix
         self._internal_trimming = internal_trimming
         self._log_dir = log_dir
         self._probes = probes
@@ -177,8 +179,6 @@ class UCEPhylogenomicsFacade:
             os.makedirs(output_dir)
 
     def run(self) -> None:
-        # TODO incomplete matrix might be a cli argument
-
         taxon_list_config_dict = parse_taxon_list_config(
             self._contigs, self._taxon_group,
         )
@@ -221,6 +221,8 @@ class UCEPhylogenomicsFacade:
             "--taxon-group",
             self._taxon_group,
         ]
+        if self._incomplete_matrix:
+            cmd.append("--incomplete-matrix")
         return self._adapters["get_match_counts"](cmd)
 
     def _get_fastas_from_match_counts(self) -> List[str]:
@@ -233,10 +235,10 @@ class UCEPhylogenomicsFacade:
             self._contigs,
             "--locus-db",
             self._locus_db,
-            "--incomplete-matrix",
-            self._output_dirs["incomplete_matrix"],
         ]
-
+        if self._incomplete_matrix:
+            cmd.append("--incomplete-matrix")
+            cmd.append(self._output_dirs["incomplete_matrix"])
         return self._adapters["get_fastas_from_match_counts"](cmd)
 
     def _explode_get_fastas_file(self) -> List[str]:
@@ -262,6 +264,8 @@ class UCEPhylogenomicsFacade:
             "--cores",
             self._threads,
         ]
+        if self._incomplete_matrix:
+            cmd.append("--incomplete-matrix")
         if self._internal_trimming:
             cmd.extend(["--no-trim", "--output-format", "fasta"])
 

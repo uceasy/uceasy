@@ -169,6 +169,11 @@ def assembly(
     help="Output directory. (default: current directory)",
 )
 @click.option(
+    "--incomplete-matrix",
+    is_flag=True,
+    help="Generate an incomplete matrix of data.",
+)
+@click.option(
     "--internal-trimming",
     "-i",
     is_flag=True,
@@ -193,6 +198,7 @@ def phylogenomics(
     aligner: str,
     charsets: bool,
     contigs: str,
+    incomplete_matrix: bool,
     internal_trimming: bool,
     output: str,
     log_dir: str,
@@ -205,6 +211,7 @@ def phylogenomics(
         aligner,
         charsets,
         contigs,
+        incomplete_matrix,
         internal_trimming,
         output,
         log_dir,
