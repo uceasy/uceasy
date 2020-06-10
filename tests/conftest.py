@@ -24,13 +24,15 @@ test_context = {
 }
 
 
+if not os.path.isdir(test_context["output"]):
+    os.mkdir(test_context["output"])
+else:
+    shutil.rmtree(test_context["output"])
+    os.mkdir(test_context["output"])
+
+
 @pytest.fixture
 def context():
-    if not os.path.isdir(test_context["output"]):
-        os.mkdir(test_context["output"])
-    else:
-        shutil.rmtree(test_context["output"])
-
     return test_context
 
 
