@@ -79,6 +79,7 @@ class QualityControlFacade:
 class AssemblyFacade:
     def __init__(
         self,
+        assembler: str,
         clean_fastq: str,
         threads: int,
         output: str,
@@ -87,6 +88,7 @@ class AssemblyFacade:
         no_clean: bool,
         subfolder: Optional[str],
     ):
+        self._assembler = assembler
         self._clean_fastq = clean_fastq
         self._threads = str(threads)
         self._output = output
@@ -108,21 +110,28 @@ class AssemblyFacade:
 
         cmd = [
             "--output",
-            self._output + "/spades-assemblies",
+            self._output + f"/{self._assembler}-assemblies",
             "--cores",
             self._threads,
             "--config",
             self._config,
         ]
 
-        if self._no_clean:
-            cmd.append("--do-not-clean")
-        if self._kmer:
-            cmd.extend(["--kmer", self._kmer])
+        if self._assembler == "spades":
+            if self._no_clean:
+                cmd.append("--do-not-clean")
+            if self._kmer:
+                cmd.extend(["--kmer", kmer])
+        elif self._assembler == "trinity":
+            if not self._no_clean:
+                cmd.append("--clean")
+            if self._kmer:
+                cmd.extend(["--min-kmer-coverage", kmer])
+
         if self._subfolder:
             cmd.extend(["--subfolder", self._subfolder])
 
-        self._adapters["spades"](cmd)
+        self._adapters[self._assembler](cmd)
 
 
 class UCEPhylogenomicsFacade:

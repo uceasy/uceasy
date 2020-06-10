@@ -94,6 +94,13 @@ def quality_control(
 @cli.command()
 @click.argument("clean-fastq", required=True)
 @click.option(
+    "--assembler",
+    "-a",
+    type=str,
+    default="spades",
+    help="Assembler program to use. (default: spades)",
+)
+@click.option(
     "--config",
     "-c",
     type=str,
@@ -126,6 +133,7 @@ def quality_control(
     help="A subdirectory, below the level of the group, containing the reads.",
 )
 def assembly(
+    assembler: str,
     clean_fastq: str,
     threads: int,
     output: str,
@@ -136,7 +144,14 @@ def assembly(
 ) -> None:
     """Run assembly with spades."""
     facade = AssemblyFacade(
-        clean_fastq, threads, output, config, kmer, no_clean, subfolder,
+        assembler,
+        clean_fastq,
+        threads,
+        output,
+        config,
+        kmer,
+        no_clean,
+        subfolder,
     )
     facade.run()
 
