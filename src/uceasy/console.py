@@ -2,8 +2,12 @@ import click
 import os
 from typing import Optional
 
-from . import __version__
-from .facade import AssemblyFacade, QualityControlFacade, UCEPhylogenomicsFacade
+from uceasy import __version__
+from uceasy.facade import (
+    AssemblyFacade,
+    QualityControlFacade,
+    UCEPhylogenomicsFacade,
+)
 
 
 THREADS = os.cpu_count()

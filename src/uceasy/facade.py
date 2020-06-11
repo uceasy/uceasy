@@ -2,9 +2,9 @@ from typing import List, Optional
 import os
 
 
-from .adapters import Adapters
-from .ioutils import dump_config_file, get_taxa_from_contigs, load_csv
-from .operations import (
+from uceasy.adapters import Adapters
+from uceasy.ioutils import dump_config_file, get_taxa_from_contigs, load_csv
+from uceasy.operations import (
     parse_taxon_list_config,
     parse_illumiprocessor_config,
     parse_assembly_config,
