@@ -4,6 +4,7 @@ def make_dist():
 def make_exe(dist):
     config = PythonInterpreterConfig(
         run_eval="from uceasy.console import cli; cli()",
+        raw_allocator="system",
     )
     exe = dist.to_python_executable(
             name="uceasy",
