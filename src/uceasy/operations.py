@@ -12,9 +12,7 @@ from typing import List, Dict
 from os import getcwd, listdir
 
 
-def parse_illumiprocessor_config(
-    csv_rows: List[List[str]], double_index: bool = True
-) -> dict:
+def parse_illumiprocessor_config(csv_rows: List[List[str]], double_index: bool = True) -> dict:
     """Read the csv content and creates the illumiprocessor configuration into
     a dictionary to be read by ConfigParser.
     see: https://illumiprocessor.readthedocs.io/en/latest
@@ -55,8 +53,7 @@ def parse_assembly_config(clean_fastq: str) -> dict:
     """
     names: List[str] = listdir(clean_fastq)
     samples: Dict[str, str] = {
-        name: f"{getcwd()}/{clean_fastq}/{name}/split-adapter-quality-trimmed/"
-        for name in names
+        name: f"{getcwd()}/{clean_fastq}/{name}/split-adapter-quality-trimmed/" for name in names
     }
 
     return {"samples": samples}

@@ -180,20 +180,14 @@ class UCEPhylogenomicsFacade:
         for k, v in self._output_dirs.items():
             self._output_dirs[k] = f"{output_dir}/{v}"
 
-        self._locus_db = (
-            self._output_dirs["match_contigs"] + "/probe.matches.sqlite"
-        )
+        self._locus_db = self._output_dirs["match_contigs"] + "/probe.matches.sqlite"
 
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
     def run(self) -> None:
-        taxon_list_config_dict = parse_taxon_list_config(
-            self._contigs, self._taxon_group,
-        )
-        dump_config_file(
-            self._taxon_list_config, taxon_list_config_dict,
-        )
+        taxon_list_config_dict = parse_taxon_list_config(self._contigs, self._taxon_group)
+        dump_config_file(self._taxon_list_config, taxon_list_config_dict)
 
         self._match_contigs_to_probes()
         self._get_match_counts()

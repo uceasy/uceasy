@@ -3,11 +3,7 @@ import os
 from typing import Optional
 
 from uceasy import __version__
-from uceasy.facade import (
-    AssemblyFacade,
-    QualityControlFacade,
-    UCEPhylogenomicsFacade,
-)
+from uceasy.facade import AssemblyFacade, QualityControlFacade, UCEPhylogenomicsFacade
 
 
 THREADS = os.cpu_count()
@@ -38,32 +34,17 @@ def cli():
     help="The minimum length of reads to keep. (default: 40)",
 )
 @click.option(
-    "--output",
-    "-o",
-    default=os.getcwd(),
-    help="Output directory. (default: current directory)",
+    "--output", "-o", default=os.getcwd(), help="Output directory. (default: current directory)"
 )
+@click.option("--r1-pattern", "--r1", help="An optional regex pattern to find R1 reads.")
+@click.option("--r2-pattern", "--r2", help="An optional regex pattern to find R2 reads.")
 @click.option(
-    "--r1-pattern", "--r1", help="An optional regex pattern to find R1 reads.",
-)
-@click.option(
-    "--r2-pattern", "--r2", help="An optional regex pattern to find R2 reads.",
-)
-@click.option(
-    "--phred64",
-    "-p",
-    is_flag=True,
-    help="Use phred64 for fastq encoding. (default: phred33)",
+    "--phred64", "-p", is_flag=True, help="Use phred64 for fastq encoding. (default: phred33)"
 )
 @click.option("--single-end", "--se", is_flag=True, help="Single-end reads.")
+@click.option("--single-index", "--si", is_flag=True, help="Single-indexed for barcodes.")
 @click.option(
-    "--single-index", "--si", is_flag=True, help="Single-indexed for barcodes."
-)
-@click.option(
-    "--no-merge",
-    "-n",
-    is_flag=True,
-    help="When trimming PE reads, do not merge singleton files.",
+    "--no-merge", "-n", is_flag=True, help="When trimming PE reads, do not merge singleton files."
 )
 def quality_control(
     raw_fastq: str,
@@ -105,14 +86,9 @@ def quality_control(
     help="Assembler program to use. (default: spades)",
 )
 @click.option(
-    "--config",
-    "-c",
-    type=str,
-    help="Custom configuration file containing the reads to assemble.",
+    "--config", "-c", type=str, help="Custom configuration file containing the reads to assemble."
 )
-@click.option(
-    "--kmer", "-k", type=str, help="The kmer value to use.",
-)
+@click.option("--kmer", "-k", type=str, help="The kmer value to use.")
 @click.option(
     "--threads",
     "-j",
@@ -127,9 +103,7 @@ def quality_control(
     default=os.getcwd(),
     help="Output directory. (default: current directory)",
 )
-@click.option(
-    "--no-clean", "-n", is_flag=True, help="Do not clean intermediate files.",
-)
+@click.option("--no-clean", "-n", is_flag=True, help="Do not clean intermediate files.")
 @click.option(
     "--subfolder",
     "-s",
@@ -148,14 +122,7 @@ def assembly(
 ) -> None:
     """Run assembly with spades."""
     facade = AssemblyFacade(
-        assembler,
-        clean_fastq,
-        threads,
-        output,
-        config,
-        kmer,
-        no_clean,
-        subfolder,
+        assembler, clean_fastq, threads, output, config, kmer, no_clean, subfolder
     )
     facade.run()
 
@@ -163,16 +130,8 @@ def assembly(
 @cli.command()
 @click.argument("contigs", required=True)
 @click.argument("probes", required=True)
-@click.option(
-    "--aligner",
-    "-a",
-    type=str,
-    default="mafft",
-    help="Aligner program to use.",
-)
-@click.option(
-    "--charsets", "-c", is_flag=True, help="Use charsets.",
-)
+@click.option("--aligner", "-a", type=str, default="mafft", help="Aligner program to use.")
+@click.option("--charsets", "-c", is_flag=True, help="Use charsets.")
 @click.option(
     "--threads",
     "-j",
@@ -187,32 +146,13 @@ def assembly(
     default=os.getcwd(),
     help="Output directory. (default: current directory)",
 )
+@click.option("--incomplete-matrix", is_flag=True, help="Generate an incomplete matrix of data.")
+@click.option("--internal-trimming", "-i", is_flag=True, help="Internally trim the alignments.")
+@click.option("--log-dir", "-l", type=str, default=os.getcwd(), help="Directory to save logs.")
 @click.option(
-    "--incomplete-matrix",
-    is_flag=True,
-    help="Generate an incomplete matrix of data.",
+    "--regex", "-r", help="A regular expression to apply to the probe names for replacement."
 )
-@click.option(
-    "--internal-trimming",
-    "-i",
-    is_flag=True,
-    help="Internally trim the alignments.",
-)
-@click.option(
-    "--log-dir",
-    "-l",
-    type=str,
-    default=os.getcwd(),
-    help="Directory to save logs.",
-)
-@click.option(
-    "--regex",
-    "-r",
-    help="A regular expression to apply to the probe names for replacement.",
-)
-@click.option(
-    "--percent", "-p", type=float, required=True, help="The kmer value to use.",
-)
+@click.option("--percent", "-p", type=float, required=True, help="The kmer value to use.")
 def phylogenomics(
     aligner: str,
     charsets: bool,
