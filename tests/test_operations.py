@@ -34,61 +34,31 @@ def test_illumiprocessor_config_dict_has_adapters(context, config):
 
 
 def test_illumiprocessor_config_has_tag_sequences(context, config):
-    assert (
-        config["tag sequences"]["sample0_barcode_i7"]
-        == context["sample0_barcode_i7"]
-    )
-    assert (
-        config["tag sequences"]["sample0_barcode_i5"]
-        == context["sample0_barcode_i5"]
-    )
-    assert (
-        config["tag sequences"]["sample1_barcode_i7"]
-        == context["sample1_barcode_i7"]
-    )
-    assert (
-        config["tag sequences"]["sample1_barcode_i5"]
-        == context["sample1_barcode_i5"]
-    )
+    assert config["tag sequences"]["sample0_barcode_i7"] == context["sample0_barcode_i7"]
+    assert config["tag sequences"]["sample0_barcode_i5"] == context["sample0_barcode_i5"]
+    assert config["tag sequences"]["sample1_barcode_i7"] == context["sample1_barcode_i7"]
+    assert config["tag sequences"]["sample1_barcode_i5"] == context["sample1_barcode_i5"]
 
 
-def test_illumiprocessor_config_single_index_tag_sequences(
-    context, config_single_index
-):
+def test_illumiprocessor_config_single_index_tag_sequences(context, config_single_index):
     assert (
-        config_single_index["tag sequences"]["sample0_barcode_i7"]
-        == context["sample0_barcode_i7"]
+        config_single_index["tag sequences"]["sample0_barcode_i7"] == context["sample0_barcode_i7"]
     )
     assert (
-        config_single_index["tag sequences"]["sample1_barcode_i7"]
-        == context["sample1_barcode_i7"]
+        config_single_index["tag sequences"]["sample1_barcode_i7"] == context["sample1_barcode_i7"]
     )
     assert "sample0_barcode_i5" not in config_single_index["tag sequences"]
     assert "sample1_barcode_i5" not in config_single_index["tag sequences"]
 
 
 def test_illumiprocessor_config_has_tag_map(context, config):
-    assert (
-        config["tag map"][context["sample0"]]
-        == "sample0_barcode_i7,sample0_barcode_i5"
-    )
-    assert (
-        config["tag map"][context["sample1"]]
-        == "sample1_barcode_i7,sample1_barcode_i5"
-    )
+    assert config["tag map"][context["sample0"]] == "sample0_barcode_i7,sample0_barcode_i5"
+    assert config["tag map"][context["sample1"]] == "sample1_barcode_i7,sample1_barcode_i5"
 
 
-def test_illumiprocessor_config_single_index_tag_map(
-    context, config_single_index
-):
-    assert (
-        config_single_index["tag map"][context["sample0"]]
-        == "sample0_barcode_i7"
-    )
-    assert (
-        config_single_index["tag map"][context["sample1"]]
-        == "sample1_barcode_i7"
-    )
+def test_illumiprocessor_config_single_index_tag_map(context, config_single_index):
+    assert config_single_index["tag map"][context["sample0"]] == "sample0_barcode_i7"
+    assert config_single_index["tag map"][context["sample1"]] == "sample1_barcode_i7"
 
 
 def test_illumiprocessor_config_has_names(context, config):
