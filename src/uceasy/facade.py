@@ -1,4 +1,6 @@
-from typing import List, Optional
+from abc import ABC, abstractmethod
+from typing import List
+from types import SimpleNamespace
 import os
 
 
@@ -11,163 +13,106 @@ from uceasy.operations import (
 )
 
 
-class QualityControlFacade:
-    def __init__(
-        self,
-        raw_fastq: str,
-        csv_file: str,
-        threads: int,
-        single_end: bool,
-        single_index: bool,
-        r1_pattern: Optional[str],
-        r2_pattern: Optional[str],
-        phred64: bool,
-        output: str,
-        min_len: Optional[int],
-        no_merge: bool,
-    ):
-        self._raw_fastq = raw_fastq
-        self._csv_file = csv_file
-        self._threads = str(threads)
-        self._single_end = single_end
-        self._single_index = single_index
-        self._r1_pattern = r1_pattern
-        self._r2_pattern = r2_pattern
-        self._phred64 = phred64
-        self._output = output
-        self._min_len = str(min_len)
-        self._no_merge = no_merge
-        self._config = output + "/illumiprocessor.conf"
-        self._adapters = Adapters().adapters
+class Facade(ABC):
+    def __init__(self, context: SimpleNamespace):
+        self.context: SimpleNamespace = context
+        self.adapters: dict = Adapters().adapters
 
-        if not os.path.exists(output):
-            os.makedirs(output)
-
+    @abstractmethod
     def run(self) -> None:
+        raise NotImplementedError("Facade::run()")
+
+
+class QualityControlFacade(Facade):
+    def run(self) -> None:
+        if not os.path.exists(self.context.output):
+            os.makedirs(self.context.output)
+
         # Create and save the configuration file
-        csv = load_csv(self._csv_file)
+        config = self.context.output + "/illumiprocessor.conf"
+        csv = load_csv(self.context.csv_file)
         config_dict = parse_illumiprocessor_config(csv)
-        dump_config_file(self._config, config_dict)
+        dump_config_file(config, config_dict)
 
         cmd = [
             "--input",
-            self._raw_fastq,
+            self.context.raw_fastq,
             "--output",
-            self._output + "/clean_fastq",
+            self.context.output + "/clean_fastq",
             "--cores",
-            self._threads,
+            str(self.context.threads),
             "--config",
-            self._config,
+            config,
         ]
 
-        if self._min_len:
-            cmd.extend(["--min-len", self._min_len])
-        if self._r1_pattern:
-            cmd.extend(["--r1-pattern", self._r1_pattern])
-        if self._r2_pattern:
-            cmd.extend(["--r2-pattern", self._r2_pattern])
-        if self._phred64:
+        if self.context.min_len:
+            cmd.extend(["--min-len", str(self.context.min_len)])
+        if self.context.r1_pattern:
+            cmd.extend(["--r1-pattern", self.context.r1_pattern])
+        if self.context.r2_pattern:
+            cmd.extend(["--r2-pattern", self.context.r2_pattern])
+        if self.context.phred64:
             cmd.extend(["--phred", "phred64"])
-        if self._single_end:
+        if self.context.single_end:
             cmd.append("--se")
-        if self._no_merge:
+        if self.context.no_merge:
             cmd.append("--no-merge")
 
-        self._adapters["illumiprocessor"](cmd)
+        self.adapters["illumiprocessor"](cmd)
 
 
-class AssemblyFacade:
-    def __init__(
-        self,
-        assembler: str,
-        clean_fastq: str,
-        threads: int,
-        output: str,
-        config: Optional[str],
-        kmer: Optional[str],
-        no_clean: bool,
-        subfolder: Optional[str],
-    ):
-        self._assembler = assembler
-        self._clean_fastq = clean_fastq
-        self._threads = str(threads)
-        self._output = output
-        self._config = config
-        self._kmer = kmer
-        self._no_clean = no_clean
-        self._subfolder = subfolder
-        self._adapters = Adapters().adapters
-
-        if not os.path.exists(output):
-            os.makedirs(output)
-
+class AssemblyFacade(Facade):
     def run(self) -> None:
+        if not os.path.exists(self.context.output):
+            os.makedirs(self.context.output)
+
         # Create and save the configuration file
-        if not self._config:
-            self._config = self._output + "/assembly.conf"
-            config_dict = parse_assembly_config(self._clean_fastq)
-            dump_config_file(self._config, config_dict)
+        if not self.context.config:
+            self.context.config = self.context.output + "/assembly.conf"
+            config_dict = parse_assembly_config(self.context.clean_fastq)
+            dump_config_file(self.context.config, config_dict)
 
         cmd = [
             "--output",
-            self._output + f"/{self._assembler}-assemblies",
+            self.context.output + f"/{self.context.assembler}-assemblies",
             "--cores",
-            self._threads,
+            str(self.context.threads),
             "--config",
-            self._config,
+            self.context.config,
         ]
 
-        if self._assembler == "spades":
-            if self._no_clean:
+        if self.context.assembler == "spades":
+            if self.context.no_clean:
                 cmd.append("--do-not-clean")
-            if self._kmer:
-                cmd.extend(["--kmer", self._kmer])
-        elif self._assembler == "trinity":
-            if not self._no_clean:
+            if self.context.kmer:
+                cmd.extend(["--kmer", str(self.context.kmer)])
+        elif self.context.assembler == "trinity":
+            if not self.context.no_clean:
                 cmd.append("--clean")
-            if self._kmer:
-                cmd.extend(["--min-kmer-coverage", self._kmer])
+            if self.context.kmer:
+                cmd.extend(["--min-kmer-coverage", str(self.context.kmer)])
 
-        if self._subfolder:
-            cmd.extend(["--subfolder", self._subfolder])
+        if self.context.subfolder:
+            cmd.extend(["--subfolder", self.context.subfolder])
 
-        self._adapters[self._assembler](cmd)
+        self.adapters[self.context.assembler](cmd)
 
 
-class UCEPhylogenomicsFacade:
-    def __init__(
-        self,
-        aligner: str,
-        charsets: bool,
-        contigs: str,
-        incomplete_matrix: bool,
-        internal_trimming: bool,
-        output_dir: str,
-        log_dir: str,
-        probes: str,
-        percent: float,
-        threads: int,
-        regex: Optional[str],
-    ):
-        self._aligner = aligner
-        self._charsets = charsets
-        self._contigs = contigs
-        self._incomplete_matrix = incomplete_matrix
-        self._internal_trimming = internal_trimming
-        self._log_dir = log_dir
-        self._probes = probes
-        self._percent = str(percent)
-        self._threads = str(threads)
-        self._regex = regex
-        self._adapters = Adapters().adapters
-        self._taxa = str(get_taxa_from_contigs(self._contigs))
-        self._taxon_list_config = f"{output_dir}/taxon-list.conf"
-        self._taxon_group = "all"
-        self._output_dirs = {
+class UCEPhylogenomicsFacade(Facade):
+    def run(self) -> None:
+        if not os.path.exists(self.context.output):
+            os.makedirs(self.context.output)
+
+        self.context.threads = str(self.context.threads)
+        self.context.percent = str(self.context.percent)
+        self.context.taxa = str(get_taxa_from_contigs(self.context.contigs))
+        self.context.taxon_group = "all"
+
+        self.output_dirs = {
             "match_contigs": "uce-search-results",
-            "match_counts": "all-taxa-incomplete.conf",
-            "incomplete_matrix": "all-taxa-incomplete.incomplete",
-            "fasta": "all-taxa-incomplete.fasta",
+            "match_counts": "all-taxa.conf",
+            "incomplete_matrix": "all-taxa.incomplete",
+            "fasta": "all-taxa.fasta",
             "exploded_fastas": "exploded-fastas",
             "alignments": "alignments",
             "alignments_clean": "alignments-clean",
@@ -176,103 +121,102 @@ class UCEPhylogenomicsFacade:
             "min_taxa": "alignments-gblocks-clean-min-taxa",
             "raxml": "alignments-raxml",
         }
-        # Prefixing with output_dir
-        for k, v in self._output_dirs.items():
-            self._output_dirs[k] = f"{output_dir}/{v}"
+        # Prefixing with context output
+        for k, v in self.output_dirs.items():
+            self.output_dirs[k] = f"{self.context.output}/{v}"
 
-        self._locus_db = self._output_dirs["match_contigs"] + "/probe.matches.sqlite"
+        self.context.locus_db = self.output_dirs["match_contigs"] + "/probe.matches.sqlite"
 
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
-
-    def run(self) -> None:
-        taxon_list_config_dict = parse_taxon_list_config(self._contigs, self._taxon_group)
-        dump_config_file(self._taxon_list_config, taxon_list_config_dict)
+        self.context.taxon_list_config = f"{self.context.output}/taxon-list.conf"
+        taxon_list_config_dict = parse_taxon_list_config(
+            self.context.contigs, self.context.taxon_group
+        )
+        dump_config_file(self.context.taxon_list_config, taxon_list_config_dict)
 
         self._match_contigs_to_probes()
         self._get_match_counts()
         self._get_fastas_from_match_counts()
         self._explode_get_fastas_file()
         self._secap_align()
-        if self._internal_trimming:
+        if self.context.internal_trimming:
             self._get_gblocks_trimmed_alignments_from_untrimmed()
         self._remove_locus_name_from_nexus_lines()
         self._get_only_loci_with_min_taxa()
-        self._nexus_files_for_raxml()
+        self._nexus_files_to_raxml()
 
     def _match_contigs_to_probes(self) -> List[str]:
         cmd = [
             "--output",
-            self._output_dirs["match_contigs"],
+            self.output_dirs["match_contigs"],
             "--contigs",
-            self._contigs,
+            self.context.contigs,
             "--probes",
-            self._probes,
+            self.context.probes,
         ]
-        if self._regex:
-            cmd.extend(["--regex", self._regex])
-        return self._adapters["match_contigs_to_probes"](cmd)
+        if self.context.regex:
+            cmd.extend(["--regex", self.context.regex])
+        return self.adapters["match_contigs_to_probes"](cmd)
 
     def _get_match_counts(self) -> List[str]:
         cmd = [
             "--output",
-            self._output_dirs["match_counts"],
+            self.output_dirs["match_counts"],
             "--locus-db",
-            self._locus_db,
+            self.context.locus_db,
             "--taxon-list-config",
-            self._taxon_list_config,
+            self.context.taxon_list_config,
             "--taxon-group",
-            self._taxon_group,
+            self.context.taxon_group,
         ]
-        if self._incomplete_matrix:
+        if self.context.incomplete_matrix:
             cmd.append("--incomplete-matrix")
-        return self._adapters["get_match_counts"](cmd)
+        return self.adapters["get_match_counts"](cmd)
 
     def _get_fastas_from_match_counts(self) -> List[str]:
         cmd = [
             "--output",
-            self._output_dirs["fasta"],
+            self.output_dirs["fasta"],
             "--match-count-output",
-            self._output_dirs["match_counts"],
+            self.output_dirs["match_counts"],
             "--contigs",
-            self._contigs,
+            self.context.contigs,
             "--locus-db",
-            self._locus_db,
+            self.context.locus_db,
         ]
-        if self._incomplete_matrix:
+        if self.context.incomplete_matrix:
             cmd.append("--incomplete-matrix")
-            cmd.append(self._output_dirs["incomplete_matrix"])
-        return self._adapters["get_fastas_from_match_counts"](cmd)
+            cmd.append(self.output_dirs["incomplete_matrix"])
+        return self.adapters["get_fastas_from_match_counts"](cmd)
 
     def _explode_get_fastas_file(self) -> List[str]:
         cmd = [
             "--input",
-            self._output_dirs["fasta"],
+            self.output_dirs["fasta"],
             "--output",
-            self._output_dirs["exploded_fastas"],
+            self.output_dirs["exploded_fastas"],
             "--by-taxon",
         ]
-        return self._adapters["explode_get_fastas_file"](cmd)
+        return self.adapters["explode_get_fastas_file"](cmd)
 
     def _secap_align(self) -> List[str]:
         cmd = [
             "--output",
-            self._output_dirs["alignments"],
+            self.output_dirs["alignments"],
             "--fasta",
-            self._output_dirs["fasta"],
+            self.output_dirs["fasta"],
             "--taxa",
-            self._taxa,
+            self.context.taxa,
             "--aligner",
-            self._aligner,
+            self.context.aligner,
             "--cores",
-            self._threads,
+            self.context.threads,
         ]
-        if self._incomplete_matrix:
+        if self.context.incomplete_matrix:
             cmd.append("--incomplete-matrix")
-        if self._internal_trimming:
+        if self.context.internal_trimming:
             cmd.extend(["--no-trim", "--output-format", "fasta"])
 
-        return self._adapters["secap_align"](cmd)
+        return self.adapters["secap_align"](cmd)
 
     def _get_gblocks_trimmed_alignments_from_untrimmed(self) -> List[str]:
         """
@@ -281,50 +225,50 @@ class UCEPhylogenomicsFacade:
         """
         cmd = [
             "--output",
-            self._output_dirs["gblocks"],
+            self.output_dirs["gblocks"],
             "--alignments",
-            self._output_dirs["alignments"],
+            self.output_dirs["alignments"],
             "--cores",
-            self._threads,
+            self.context.threads,
         ]
-        self._output_dirs["alignments"] = self._output_dirs["gblocks"]
-        return self._adapters["gblocks"](cmd)
+        self.output_dirs["alignments"] = self.output_dirs["gblocks"]
+        return self.adapters["gblocks"](cmd)
 
     def _remove_locus_name_from_nexus_lines(self) -> List[str]:
         cmd = [
             "--output",
-            self._output_dirs["alignments_clean"],
+            self.output_dirs["alignments_clean"],
             "--alignments",
-            self._output_dirs["alignments"],
+            self.output_dirs["alignments"],
             "--cores",
-            self._threads,
+            self.context.threads,
         ]
-        return self._adapters["remove_locus_name_from_nexus_lines"](cmd)
+        return self.adapters["remove_locus_name_from_nexus_lines"](cmd)
 
     def _get_only_loci_with_min_taxa(self) -> List[str]:
         cmd = [
             "--output",
-            self._output_dirs["min_taxa"],
+            self.output_dirs["min_taxa"],
             "--alignments",
-            self._output_dirs["alignments_clean"],
+            self.output_dirs["alignments_clean"],
             "--taxa",
-            self._taxa,
+            self.context.taxa,
             "--percent",
-            self._percent,
+            self.context.percent,
             "--cores",
-            self._threads,
+            self.context.threads,
         ]
-        self._output_dirs["alignments_clean"] = self._output_dirs["min_taxa"]
-        return self._adapters["get_only_loci_with_min_taxa"](cmd)
+        self.output_dirs["alignments_clean"] = self.output_dirs["min_taxa"]
+        return self.adapters["get_only_loci_with_min_taxa"](cmd)
 
-    def _nexus_files_for_raxml(self) -> List[str]:
+    def _nexus_files_to_raxml(self) -> List[str]:
         cmd = [
             "--output",
-            self._output_dirs["raxml"],
+            self.output_dirs["raxml"],
             "--alignments",
-            self._output_dirs["min_taxa"],
+            self.output_dirs["min_taxa"],
         ]
 
-        if self._charsets:
+        if self.context.charsets:
             cmd.append("--charsets")
-        return self._adapters["nexus_to_raxml"](cmd)
+        return self.adapters["nexus_to_raxml"](cmd)

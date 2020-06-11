@@ -1,6 +1,7 @@
 import click
 import os
 from typing import Optional
+from types import SimpleNamespace
 
 from uceasy import __version__
 from uceasy.facade import AssemblyFacade, QualityControlFacade, UCEPhylogenomicsFacade
@@ -60,19 +61,20 @@ def quality_control(
     no_merge: bool,
 ) -> None:
     """Run quality control with illumiprocessor."""
-    facade = QualityControlFacade(
-        raw_fastq,
-        csv_file,
-        threads,
-        single_end,
-        single_index,
-        r1_pattern,
-        r2_pattern,
-        phred64,
-        output,
-        min_len,
-        no_merge,
+    context = SimpleNamespace(
+        raw_fastq=raw_fastq,
+        csv_file=csv_file,
+        threads=threads,
+        single_end=single_end,
+        single_index=single_index,
+        r1_pattern=r1_pattern,
+        r2_pattern=r2_pattern,
+        phred64=phred64,
+        output=output,
+        min_len=min_len,
+        no_merge=no_merge,
     )
+    facade = QualityControlFacade(context)
     facade.run()
 
 
@@ -120,10 +122,18 @@ def assembly(
     no_clean: bool,
     subfolder: Optional[str],
 ) -> None:
-    """Run assembly with spades."""
-    facade = AssemblyFacade(
-        assembler, clean_fastq, threads, output, config, kmer, no_clean, subfolder
+    """Run assembly with spades or trinity."""
+    context = SimpleNamespace(
+        assembler=assembler,
+        clean_fastq=clean_fastq,
+        threads=threads,
+        output=output,
+        config=config,
+        kmer=kmer,
+        no_clean=no_clean,
+        subfolder=subfolder,
     )
+    facade = AssemblyFacade(context)
     facade.run()
 
 
@@ -166,17 +176,18 @@ def phylogenomics(
     threads: int,
     regex: Optional[str],
 ):
-    facade = UCEPhylogenomicsFacade(
-        aligner,
-        charsets,
-        contigs,
-        incomplete_matrix,
-        internal_trimming,
-        output,
-        log_dir,
-        probes,
-        percent,
-        threads,
-        regex,
+    context = SimpleNamespace(
+        aligner=aligner,
+        charsets=charsets,
+        contigs=contigs,
+        incomplete_matrix=incomplete_matrix,
+        internal_trimming=internal_trimming,
+        output=output,
+        log_dir=log_dir,
+        probes=probes,
+        percent=percent,
+        threads=threads,
+        regex=regex,
     )
+    facade = UCEPhylogenomicsFacade(context)
     facade.run()
