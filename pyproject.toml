@@ -29,7 +29,7 @@ mypy = "^0.770"
 uceasy = "uceasy.console:cli"
 
 [tool.black]
-line-length = 80
+line-length = 100
 include = '\.pyi?$'
 exclude = '''
 /(
