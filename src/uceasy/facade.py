@@ -121,12 +121,12 @@ class AssemblyFacade:
             if self._no_clean:
                 cmd.append("--do-not-clean")
             if self._kmer:
-                cmd.extend(["--kmer", kmer])
+                cmd.extend(["--kmer", self._kmer])
         elif self._assembler == "trinity":
             if not self._no_clean:
                 cmd.append("--clean")
             if self._kmer:
-                cmd.extend(["--min-kmer-coverage", kmer])
+                cmd.extend(["--min-kmer-coverage", self._kmer])
 
         if self._subfolder:
             cmd.extend(["--subfolder", self._subfolder])
