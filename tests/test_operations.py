@@ -10,14 +10,14 @@ from uceasy.ioutils import load_csv
 
 @pytest.fixture
 def config(context):
-    csv_file = load_csv(context["csv"])
+    csv_file = load_csv(context["csv_file"])
     config = parse_illumiprocessor_config(csv_file)
     return config
 
 
 @pytest.fixture
 def config_single_index(context):
-    csv_file = load_csv(context["csv"])
+    csv_file = load_csv(context["csv_file"])
     config = parse_illumiprocessor_config(csv_file, double_index=False)
     return config
 

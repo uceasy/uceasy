@@ -31,7 +31,7 @@ sample2
 
 
 def test_load_csv_returns_a_list(context):
-    csv = load_csv(context["csv"])
+    csv = load_csv(context["csv_file"])
     assert isinstance(csv, list)
 
 

@@ -8,7 +8,7 @@ import os
 # please open a issue if you have a better idea.
 test_context = {
     "output": "testoutput/",
-    "csv": "testdata/sheet.csv",
+    "csv_file": "testdata/sheet.csv",
     "raw_fastq": "testdata/raw-fastq/",
     "clean_fastq": "testdata/clean-fastq/",
     "contigs": "testdata/spades-assemblies/contigs/",

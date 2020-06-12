@@ -22,7 +22,7 @@ def test_quality_control(context, runner):
         "--output",
         context["output"],
         context["raw_fastq"],
-        context["csv"],
+        context["csv_file"],
     ]
     result = runner.invoke(console.cli, params)
     assert result.exit_code == 0
