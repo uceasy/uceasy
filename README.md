@@ -20,27 +20,13 @@ __UCEasy__ is a convenient tool that automates the execution of common tasks for
 ### Dependencies
 * PHYLUCE ^1.6
 
+See [releases](https://github.com/uceasy/uceasy/releases) for pre-built binaries for Linux (statically linked against [musl libc](https://musl.libc.org/)). Or install it from [PyPI](https://pypi.org/project/uceasy/):
+```
+pip install uceasy
+```
+Then, make sure you have a working installation of PHYLUCE, check out the installation guide at [PHYLUCE's documentation](https://phyluce.readthedocs.io/en/latest/installation.html).
 
-We provide binaries for Linux statically linked against [musl libc](https://musl.libc.org/), the executable was created using [PyOxidizer](https://github.com/indygreg/PyOxidizer), download it from the latest [release](https://github.com/uceasy/uceasy/releases/latest). If you prefer __UCEasy__ is also available at [PyPI](https://pypi.org/project/uceasy/).
-
-Make sure you have a working installation of PHYLUCE, checkout the installation guide at [PHYLUCE's documentation](https://phyluce.readthedocs.io/en/latest/installation.html).
-But for a quick setup, install [conda](https://docs.conda.io/en/latest/), set up the conda channels with [bioconda](https://bioconda.github.io/).
-```
-conda config --add channels defaults
-conda config --add channels bioconda
-conda config --add channels conda-forge
-```
-Create a environment for PHYLUCE.
-```
-conda create -n phyluce
-conda activate phyluce
-```
-And then install PHYLUCE.
-```
-conda install phyluce
-```
-For a guide of how to use UCEasy, see: [User's Manual]() (WIP).
-
+For a guide of how to use UCEasy see: [Tutorial]() (WIP).
 
 ## Acknowledgements
 
