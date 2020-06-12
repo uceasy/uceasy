@@ -19,3 +19,5 @@ testoutput
 .coverage
 coverage.xml
 .python-version
+illumiprocessor.conf
+assembly.conf
