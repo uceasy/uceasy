@@ -47,6 +47,7 @@ def cli():
 @click.option(
     "--no-merge", "-n", is_flag=True, help="When trimming PE reads, do not merge singleton files."
 )
+@click.option("--verbose", "-v", is_flag=True, help="Show output from PHYLUCE.")
 def quality_control(
     raw_fastq: str,
     csv_file: str,
@@ -59,6 +60,7 @@ def quality_control(
     output: str,
     min_len: int,
     no_merge: bool,
+    verbose: bool,
 ) -> None:
     """Run quality control with illumiprocessor."""
     context = SimpleNamespace(
@@ -73,6 +75,7 @@ def quality_control(
         output=output,
         min_len=min_len,
         no_merge=no_merge,
+        capture_output=not verbose,
     )
     facade = QualityControlFacade(context)
     facade.run()
@@ -112,6 +115,7 @@ def quality_control(
     type=str,
     help="A subdirectory, below the level of the group, containing the reads.",
 )
+@click.option("--verbose", "-v", is_flag=True, help="Show output from PHYLUCE.")
 def assembly(
     assembler: str,
     clean_fastq: str,
@@ -121,6 +125,7 @@ def assembly(
     kmer: Optional[str],
     no_clean: bool,
     subfolder: Optional[str],
+    verbose: bool,
 ) -> None:
     """Run assembly with spades or trinity."""
     context = SimpleNamespace(
@@ -132,6 +137,7 @@ def assembly(
         kmer=kmer,
         no_clean=no_clean,
         subfolder=subfolder,
+        capture_output=not verbose,
     )
     facade = AssemblyFacade(context)
     facade.run()
@@ -163,6 +169,7 @@ def assembly(
     "--regex", "-r", help="A regular expression to apply to the probe names for replacement."
 )
 @click.option("--percent", "-p", type=float, required=True, help="The kmer value to use.")
+@click.option("--verbose", "-v", is_flag=True, help="Show output from PHYLUCE.")
 def phylogenomics(
     aligner: str,
     charsets: bool,
@@ -175,6 +182,7 @@ def phylogenomics(
     percent: float,
     threads: int,
     regex: Optional[str],
+    verbose: bool,
 ):
     context = SimpleNamespace(
         aligner=aligner,
@@ -188,6 +196,7 @@ def phylogenomics(
         percent=percent,
         threads=threads,
         regex=regex,
+        capture_output=not verbose,
     )
     facade = UCEPhylogenomicsFacade(context)
     facade.run()
