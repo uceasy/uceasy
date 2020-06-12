@@ -35,7 +35,7 @@ def cli():
     help="The minimum length of reads to keep. (default: 40)",
 )
 @click.option(
-    "--output", "-o", default=os.getcwd(), help="Output directory. (default: current directory)"
+    "--output", "-o", default="clean-fastq", help="Output directory. (default: clean-fastq)"
 )
 @click.option("--r1-pattern", "--r1", help="An optional regex pattern to find R1 reads.")
 @click.option("--r2-pattern", "--r2", help="An optional regex pattern to find R2 reads.")
@@ -105,8 +105,8 @@ def quality_control(
     "--output",
     "-o",
     type=str,
-    default=os.getcwd(),
-    help="Output directory. (default: current directory)",
+    default="assemblies",
+    help="Output directory. (default: assemblies)",
 )
 @click.option("--no-clean", "-n", is_flag=True, help="Do not clean intermediate files.")
 @click.option(
@@ -159,8 +159,8 @@ def assembly(
     "--output",
     "-o",
     type=str,
-    default=os.getcwd(),
-    help="Output directory. (default: current directory)",
+    default="phylogenomics",
+    help="Output directory. (default: phylogenomics)",
 )
 @click.option("--incomplete-matrix", is_flag=True, help="Generate an incomplete matrix of data.")
 @click.option("--internal-trimming", "-i", is_flag=True, help="Internally trim the alignments.")
@@ -184,6 +184,7 @@ def phylogenomics(
     regex: Optional[str],
     verbose: bool,
 ):
+    """The phylogenomics pipeline discribed by PHYLUCE."""
     context = SimpleNamespace(
         aligner=aligner,
         charsets=charsets,

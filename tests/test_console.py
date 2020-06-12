@@ -20,7 +20,7 @@ def test_quality_control(context, runner):
     params = [
         "quality-control",
         "--output",
-        context["output"],
+        context["output"] + "/qc",
         context["raw_fastq"],
         context["csv_file"],
     ]
@@ -33,7 +33,7 @@ def test_assembly(context, runner):
     params = [
         "assembly",
         "--output",
-        context["output"],
+        context["output"] + "/assembly",
         context["clean_fastq"],
     ]
     result = runner.invoke(console.cli, params)
@@ -49,7 +49,7 @@ def test_phylogenomics_pipeline(context, runner):
         "--percent",
         "0.75",
         "--output",
-        context["output"] + "phylogenomics/",
+        context["output"] + "/phylogenomics",
         context["contigs"],
         context["probes"],
     ]

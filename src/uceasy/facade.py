@@ -1,11 +1,16 @@
 from abc import ABC, abstractmethod
 from typing import List
 from types import SimpleNamespace
-import os
 
 
 from uceasy.adapters import Adapters
-from uceasy.ioutils import dump_config_file, get_taxa_from_contigs, load_csv
+from uceasy.ioutils import (
+    dump_config_file,
+    get_taxa_from_contigs,
+    load_csv,
+    create_output_dir,
+    delete_output_dir_if_exists,
+)
 from uceasy.operations import (
     parse_taxon_list_config,
     parse_illumiprocessor_config,
@@ -25,11 +30,10 @@ class Facade(ABC):
 
 class QualityControlFacade(Facade):
     def run(self) -> List[str]:
-        if not os.path.exists(self.context.output):
-            os.makedirs(self.context.output)
+        delete_output_dir_if_exists(self.context.output)
 
         # Create and save the configuration file
-        config = self.context.output + "/illumiprocessor.conf"
+        config = "illumiprocessor.conf"
         csv = load_csv(self.context.csv_file)
         config_dict = parse_illumiprocessor_config(csv)
         dump_config_file(config, config_dict)
@@ -38,7 +42,7 @@ class QualityControlFacade(Facade):
             "--input",
             self.context.raw_fastq,
             "--output",
-            self.context.output + "/clean_fastq",
+            self.context.output,
             "--cores",
             str(self.context.threads),
             "--config",
@@ -63,18 +67,17 @@ class QualityControlFacade(Facade):
 
 class AssemblyFacade(Facade):
     def run(self) -> List[str]:
-        if not os.path.exists(self.context.output):
-            os.makedirs(self.context.output)
+        delete_output_dir_if_exists(self.context.output)
 
         # Create and save the configuration file
         if not self.context.config:
-            self.context.config = self.context.output + "/assembly.conf"
+            self.context.config = "assembly.conf"
             config_dict = parse_assembly_config(self.context.clean_fastq)
             dump_config_file(self.context.config, config_dict)
 
         cmd = [
             "--output",
-            self.context.output + f"/{self.context.assembler}-assemblies",
+            self.context.output,
             "--cores",
             str(self.context.threads),
             "--config",
@@ -104,8 +107,7 @@ class UCEPhylogenomicsFacade(Facade):
     def run(self) -> List[str]:
         self.carried_output: List[str] = []
 
-        if not os.path.exists(self.context.output):
-            os.makedirs(self.context.output)
+        create_output_dir(self.context.output)
 
         self.context.threads = str(self.context.threads)
         self.context.percent = str(self.context.percent)
