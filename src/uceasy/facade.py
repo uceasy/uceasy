@@ -19,12 +19,12 @@ class Facade(ABC):
         self.adapters: dict = Adapters().adapters
 
     @abstractmethod
-    def run(self) -> None:
+    def run(self) -> List[str]:
         raise NotImplementedError("Facade::run()")
 
 
 class QualityControlFacade(Facade):
-    def run(self) -> None:
+    def run(self) -> List[str]:
         if not os.path.exists(self.context.output):
             os.makedirs(self.context.output)
 
@@ -58,11 +58,11 @@ class QualityControlFacade(Facade):
         if self.context.no_merge:
             cmd.append("--no-merge")
 
-        self.adapters["illumiprocessor"](cmd)
+        return self.adapters["illumiprocessor"](cmd, capture_output=self.context.capture_output)
 
 
 class AssemblyFacade(Facade):
-    def run(self) -> None:
+    def run(self) -> List[str]:
         if not os.path.exists(self.context.output):
             os.makedirs(self.context.output)
 
@@ -95,11 +95,15 @@ class AssemblyFacade(Facade):
         if self.context.subfolder:
             cmd.extend(["--subfolder", self.context.subfolder])
 
-        self.adapters[self.context.assembler](cmd)
+        return self.adapters[self.context.assembler](
+            cmd, capture_output=self.context.capture_output
+        )
 
 
 class UCEPhylogenomicsFacade(Facade):
-    def run(self) -> None:
+    def run(self) -> List[str]:
+        self.carried_output: List[str] = []
+
         if not os.path.exists(self.context.output):
             os.makedirs(self.context.output)
 
@@ -144,7 +148,9 @@ class UCEPhylogenomicsFacade(Facade):
         self._get_only_loci_with_min_taxa()
         self._nexus_files_to_raxml()
 
-    def _match_contigs_to_probes(self) -> List[str]:
+        return self.carried_output
+
+    def _match_contigs_to_probes(self):
         cmd = [
             "--output",
             self.output_dirs["match_contigs"],
@@ -155,9 +161,14 @@ class UCEPhylogenomicsFacade(Facade):
         ]
         if self.context.regex:
             cmd.extend(["--regex", self.context.regex])
-        return self.adapters["match_contigs_to_probes"](cmd)
 
-    def _get_match_counts(self) -> List[str]:
+        self.carried_output.extend(
+            self.adapters["match_contigs_to_probes"](
+                cmd, capture_output=self.context.capture_output
+            )
+        )
+
+    def _get_match_counts(self):
         cmd = [
             "--output",
             self.output_dirs["match_counts"],
@@ -170,9 +181,11 @@ class UCEPhylogenomicsFacade(Facade):
         ]
         if self.context.incomplete_matrix:
             cmd.append("--incomplete-matrix")
-        return self.adapters["get_match_counts"](cmd)
+        self.carried_output.extend(
+            self.adapters["get_match_counts"](cmd, capture_output=self.context.capture_output)
+        )
 
-    def _get_fastas_from_match_counts(self) -> List[str]:
+    def _get_fastas_from_match_counts(self):
         cmd = [
             "--output",
             self.output_dirs["fasta"],
@@ -186,9 +199,13 @@ class UCEPhylogenomicsFacade(Facade):
         if self.context.incomplete_matrix:
             cmd.append("--incomplete-matrix")
             cmd.append(self.output_dirs["incomplete_matrix"])
-        return self.adapters["get_fastas_from_match_counts"](cmd)
+        self.carried_output.extend(
+            self.adapters["get_fastas_from_match_counts"](
+                cmd, capture_output=self.context.capture_output
+            )
+        )
 
-    def _explode_get_fastas_file(self) -> List[str]:
+    def _explode_get_fastas_file(self):
         cmd = [
             "--input",
             self.output_dirs["fasta"],
@@ -196,9 +213,13 @@ class UCEPhylogenomicsFacade(Facade):
             self.output_dirs["exploded_fastas"],
             "--by-taxon",
         ]
-        return self.adapters["explode_get_fastas_file"](cmd)
+        self.carried_output.extend(
+            self.adapters["explode_get_fastas_file"](
+                cmd, capture_output=self.context.capture_output
+            )
+        )
 
-    def _secap_align(self) -> List[str]:
+    def _secap_align(self):
         cmd = [
             "--output",
             self.output_dirs["alignments"],
@@ -216,9 +237,11 @@ class UCEPhylogenomicsFacade(Facade):
         if self.context.internal_trimming:
             cmd.extend(["--no-trim", "--output-format", "fasta"])
 
-        return self.adapters["secap_align"](cmd)
+        self.carried_output.extend(
+            self.adapters["secap_align"](cmd, capture_output=self.context.capture_output)
+        )
 
-    def _get_gblocks_trimmed_alignments_from_untrimmed(self) -> List[str]:
+    def _get_gblocks_trimmed_alignments_from_untrimmed(self):
         """
         Run gblocks trimming on the alignments.
         The alignments must be in fasta format.
@@ -232,9 +255,12 @@ class UCEPhylogenomicsFacade(Facade):
             self.context.threads,
         ]
         self.output_dirs["alignments"] = self.output_dirs["gblocks"]
-        return self.adapters["gblocks"](cmd)
 
-    def _remove_locus_name_from_nexus_lines(self) -> List[str]:
+        self.carried_output.extend(
+            self.adapters["gblocks"](cmd, capture_output=self.context.capture_output)
+        )
+
+    def _remove_locus_name_from_nexus_lines(self):
         cmd = [
             "--output",
             self.output_dirs["alignments_clean"],
@@ -243,9 +269,14 @@ class UCEPhylogenomicsFacade(Facade):
             "--cores",
             self.context.threads,
         ]
-        return self.adapters["remove_locus_name_from_nexus_lines"](cmd)
 
-    def _get_only_loci_with_min_taxa(self) -> List[str]:
+        self.carried_output.extend(
+            self.adapters["remove_locus_name_from_nexus_lines"](
+                cmd, capture_output=self.context.capture_output
+            )
+        )
+
+    def _get_only_loci_with_min_taxa(self):
         cmd = [
             "--output",
             self.output_dirs["min_taxa"],
@@ -259,9 +290,14 @@ class UCEPhylogenomicsFacade(Facade):
             self.context.threads,
         ]
         self.output_dirs["alignments_clean"] = self.output_dirs["min_taxa"]
-        return self.adapters["get_only_loci_with_min_taxa"](cmd)
 
-    def _nexus_files_to_raxml(self) -> List[str]:
+        self.carried_output.extend(
+            self.adapters["get_only_loci_with_min_taxa"](
+                cmd, capture_output=self.context.capture_output
+            )
+        )
+
+    def _nexus_files_to_raxml(self):
         cmd = [
             "--output",
             self.output_dirs["raxml"],
@@ -271,4 +307,6 @@ class UCEPhylogenomicsFacade(Facade):
 
         if self.context.charsets:
             cmd.append("--charsets")
-        return self.adapters["nexus_to_raxml"](cmd)
+        self.carried_output.extend(
+            self.adapters["nexus_to_raxml"](cmd, capture_output=self.context.capture_output)
+        )
