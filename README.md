@@ -36,6 +36,8 @@ Ministério da Ciência, Tecnologia, Inovação e Comunicação (MCTIC)
 
 Museu Paraense Emílio Goeldi (MPEG)
 
+Instituto Nacional de Pesquisas da Amazônia (INPA)
+
 Centro Universitário do Estado do Pará (CESUPA)
 
 ## Funding
