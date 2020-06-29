@@ -123,7 +123,6 @@ class UCEPhylogenomicsFacade(Facade):
             "alignments": "alignments",
             "alignments_clean": "alignments-clean",
             "gblocks": "alignments-gblocks",
-            "gblocks_clean": "alignments-gblocks-clean",
             "min_taxa": "alignments-gblocks-clean-min-taxa",
             "raxml": "alignments-raxml",
         }
