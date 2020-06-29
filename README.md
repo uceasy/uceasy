@@ -10,18 +10,18 @@
 # UCEasy: a wrapper for the PHYLUCE software package
 
 
-__UCEasy__ is a wrapper to automate manual procedures of the [PHYLUCE](https://phyluce.readthedocs.io/en/latest) software package by abstracting the pipeline steps in only one command, easing the execution and improving reproducibility.
+__UCEasy__ is a wrapper to automate manual procedures of the [PHYLUCE](https://phyluce.readthedocs.io/en/latest) software package by abstracting the pipeline steps into 3 major commands and choosing sensible defaults for its command-line options, easing the execution and improving reproducibility.
 
 
-At the moment, the only software for _in silico_ analysis of [ultraconserved elements](https://www.ultraconserved.org/) (UCEs) is Phyluce, but its execution can be quite challenging especially for non-computer experts.
-__UCEasy__ is a convenient tool that automates the execution of common tasks for all types of UCE analysis, these being [Quality Control](https://phyluce.readthedocs.io/en/latest/quality-control.html), [Assembly](https://phyluce.readthedocs.io/en/latest/assembly.html) and [UCE Processing](https://phyluce.readthedocs.io/en/latest/uce-processing.html).
+At the moment, the only software package for analysing [ultraconserved elements](https://www.ultraconserved.org/) (UCEs) is PHYLUCE, but its execution can be quite challenging especially for non-computer experts.
+__UCEasy__ is a convenient tool that automates the execution of common tasks for most types of UCE analysis, these being [Quality Control](https://phyluce.readthedocs.io/en/latest/quality-control.html), [Assembly](https://phyluce.readthedocs.io/en/latest/assembly.html) and [UCE Processing](https://phyluce.readthedocs.io/en/latest/uce-processing.html).
 
 ## Installation Guide
 ### Dependencies
 * Python ^3.7
 * PHYLUCE ^1.6
 
-See [releases](https://github.com/uceasy/uceasy/releases) for pre-built binaries for Linux (statically linked against [musl libc](https://musl.libc.org/)). Or install it from [PyPI](https://pypi.org/project/uceasy/):
+See [releases](https://github.com/uceasy/uceasy/releases) for pre-built binaries for Linux. Or install it from [PyPI](https://pypi.org/project/uceasy/):
 ```
 $ pip install uceasy
 ```
