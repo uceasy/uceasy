@@ -42,7 +42,7 @@ $ uceasy quality-control
 $ uceasy assembly
 $ uceasy phylogenomics
 ```
-Explore the options for theses commands with the `--help` flag.<br>
+Explore the options for these commands with the `--help` flag.<br>
 For a guide of how to use UCEasy see: [Tutorial](https://github.com/uceasy/uceasy/wiki/Tutorial).
 
 
