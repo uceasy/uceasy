@@ -23,11 +23,28 @@ __UCEasy__ is a convenient tool that automates the execution of common tasks for
 
 See [releases](https://github.com/uceasy/uceasy/releases) for pre-built binaries for Linux (statically linked against [musl libc](https://musl.libc.org/)). Or install it from [PyPI](https://pypi.org/project/uceasy/):
 ```
-pip install uceasy
+$ pip install uceasy
 ```
 Then, make sure you have a working installation of PHYLUCE, check out the installation guide at [PHYLUCE's documentation](https://phyluce.readthedocs.io/en/latest/installation.html).
 
+
+## Workflow
+The operations [Quality Control](https://github.com/uceasy/uceasy/wiki/Quality-Control), [Assembly](https://github.com/uceasy/uceasy/wiki/Assembly) and [Phylogenomics](https://github.com/uceasy/uceasy/wiki/Phylogenomics) represent the following workflow.
+
+<p>
+    <img src="docs/img/workflow.png" height="500px">
+
+</p>
+
+The colored boxes are UCEasy CLI commands.
+```
+$ uceasy quality-control
+$ uceasy assembly
+$ uceasy phylogenomics
+```
+Explore the options for theses commands with the `--help` flag.<br>
 For a guide of how to use UCEasy see: [Tutorial](https://github.com/uceasy/uceasy/wiki/Tutorial).
+
 
 ## Acknowledgements
 
