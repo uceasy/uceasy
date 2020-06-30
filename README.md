@@ -1,5 +1,5 @@
 <p>
-    <img src="docs/img/uceasy_logo.jpg" height="200px">
+    <img src="docs/img/uceasy_logo.png" height="200px">
 
 </p>
 
