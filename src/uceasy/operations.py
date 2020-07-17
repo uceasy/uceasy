@@ -15,8 +15,7 @@ from os import getcwd, listdir
 def parse_illumiprocessor_config(csv_rows: List[List[str]], double_index: bool = True) -> dict:
     """Read the csv content and creates the illumiprocessor configuration into
     a dictionary to be read by ConfigParser.
-    see: https://illumiprocessor.readthedocs.io/en/latest
-    /usage.html#creating-a-configuration-file
+    see: https://illumiprocessor.readthedocs.io/en/latest/usage.html#creating-a-configuration-file
 
     :param csv_rows         rows of the csv table.
     :param double_index     type of indexing of the illumina library.
@@ -47,9 +46,8 @@ def parse_assembly_config(clean_fastq: str) -> dict:
     configuration into a dictionary to be read by ConfigParser.
     see: https://phyluce.readthedocs.io/en/latest/assembly.html
 
-    :param clean_fastq   directory of the clean fastq files processed previously
-        by illumiprocessor.
-    :return:                            A dictionary to be read by ConfigParser.
+    :param clean_fastq   directory of the clean fastq files processed previously by illumiprocessor.
+    :return:             A dictionary to be read by ConfigParser.
     """
     names: List[str] = listdir(clean_fastq)
     samples: Dict[str, str] = {
