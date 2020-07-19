@@ -35,7 +35,7 @@ class QualityControlFacade(Facade):
         # Create and save the configuration file
         config = "illumiprocessor.conf"
         csv = load_csv(self.context.csv_file)
-        config_dict = parse_illumiprocessor_config(csv)
+        config_dict = parse_illumiprocessor_config(csv, double_index=not self.context.single_index)
         dump_config_file(config, config_dict)
 
         cmd = [
