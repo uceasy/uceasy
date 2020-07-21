@@ -174,7 +174,9 @@ def assembly(
 @click.option(
     "--regex", "-r", help="A regular expression to apply to the probe names for replacement."
 )
-@click.option("--percent", "-p", type=float, required=True, help="The kmer value to use.")
+@click.option(
+    "--percent", "-p", default=0.75, help="The percent of taxa to require (default: 0.75)"
+)
 @click.option("--verbose", "-v", is_flag=True, help="Show output from PHYLUCE.")
 def phylogenomics(
     aligner: str,
