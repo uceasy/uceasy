@@ -84,6 +84,8 @@ class AssemblyFacade(Facade):
             str(self.context.threads),
             "--config",
             self.context.config,
+            "--log-path",
+            self.context.log_dir,
         ]
 
         if self.context.assembler == "spades":

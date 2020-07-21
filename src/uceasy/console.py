@@ -97,6 +97,7 @@ def quality_control(
     "--config", "-c", type=str, help="Custom configuration file containing the reads to assemble."
 )
 @click.option("--kmer", "-k", type=str, help="The kmer value to use.")
+@click.option("--log-dir", "-l", type=str, default=os.getcwd(), help="Directory to save logs.")
 @click.option(
     "--threads",
     "-j",
@@ -122,6 +123,7 @@ def quality_control(
 def assembly(
     assembler: str,
     clean_fastq: str,
+    log_dir: str,
     threads: int,
     output: str,
     config: Optional[str],
@@ -134,6 +136,7 @@ def assembly(
     context = SimpleNamespace(
         assembler=assembler,
         clean_fastq=clean_fastq,
+        log_dir=log_dir,
         threads=threads,
         output=output,
         config=config,
