@@ -303,12 +303,7 @@ class UCEPhylogenomicsFacade(Facade):
         )
 
     def _nexus_files_to_raxml(self):
-        cmd = [
-            "--output",
-            self.output_dirs["raxml"],
-            "--alignments",
-            self.output_dirs["min_taxa"],
-        ]
+        cmd = ["--output", self.output_dirs["raxml"], "--alignments", self.output_dirs["min_taxa"]]
 
         if self.context.charsets:
             cmd.append("--charsets")

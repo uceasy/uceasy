@@ -106,11 +106,7 @@ def quality_control(
     help="Number of computer threads to use. (default: all available)",
 )
 @click.option(
-    "--output",
-    "-o",
-    type=str,
-    default="assemblies",
-    help="Output directory. (default: assemblies)",
+    "--output", "-o", type=str, default="assemblies", help="Output directory. (default: assemblies)"
 )
 @click.option("--no-clean", "-n", is_flag=True, help="Do not clean intermediate files.")
 @click.option(
