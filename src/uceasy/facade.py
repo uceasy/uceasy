@@ -47,6 +47,8 @@ class QualityControlFacade(Facade):
             str(self.context.threads),
             "--config",
             config,
+            "--log-path",
+            self.context.log_dir,
         ]
 
         if self.context.min_len:

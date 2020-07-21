@@ -34,6 +34,7 @@ def cli():
     default=40,
     help="The minimum length of reads to keep. (default: 40)",
 )
+@click.option("--log-dir", "-l", type=str, default=os.getcwd(), help="Directory to save logs.")
 @click.option(
     "--output", "-o", default="clean-fastq", help="Output directory. (default: clean-fastq)"
 )
@@ -54,6 +55,7 @@ def quality_control(
     threads: int,
     single_end: bool,
     single_index: bool,
+    log_dir: str,
     r1_pattern: Optional[str],
     r2_pattern: Optional[str],
     phred64: bool,
@@ -69,6 +71,7 @@ def quality_control(
         threads=threads,
         single_end=single_end,
         single_index=single_index,
+        log_dir=log_dir,
         r1_pattern=r1_pattern,
         r2_pattern=r2_pattern,
         phred64=phred64,
