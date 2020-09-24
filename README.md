@@ -76,6 +76,6 @@ Dr. Marcos Paulo Alves de Sousa (Project leader)
 
 _Email: **msousa@museu-goeldi.br**_<br>
 _Laboratório de Biologia Molecular_<br>
-Grupo de pesquisa em Bioinformática e Informática para Biodiversidade (BioInfo)
+_Grupo de pesquisa em Bioinformática e Informática para Biodiversidade (BioInfo)
 _Museu Paraense Emílio Goeldi_<br>
 _Av. Perimetral 1901. CEP 66077- 530. Belém, Pará, Brazil._
