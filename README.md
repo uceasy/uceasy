@@ -16,6 +16,7 @@ __UCEasy__ is a wrapper to automate manual procedures of the [PHYLUCE](https://p
 At the moment, the only software package for analysing [ultraconserved elements](https://www.ultraconserved.org/) (UCEs) is PHYLUCE, but its execution can be quite challenging especially for non-computer experts.
 __UCEasy__ is a convenient tool that automates the execution of common tasks for most types of UCE analysis, these being [Quality Control](https://phyluce.readthedocs.io/en/latest/quality-control.html), [Assembly](https://phyluce.readthedocs.io/en/latest/assembly.html) and [UCE Processing](https://phyluce.readthedocs.io/en/latest/uce-processing.html).
 
+For more information check out our [Wiki](https://github.com/uceasy/uceasy/wiki).
 ## Installation Guide
 ### Dependencies
 * Python ^3.7
@@ -74,6 +75,7 @@ This work has been supported by Conselho Nacional de Desenvolvimento Científico
 Dr. Marcos Paulo Alves de Sousa (Project leader)
 
 _Email: **msousa@museu-goeldi.br**_<br>
-_Laboratório de Biologia Molecular_<br>
+_Laboratório de Biologia Molecular-LBM_<br>
+_Grupo de pesquisa em Bioinformática e Informática para Biodiversidade (BioInfo)_<br>
 _Museu Paraense Emílio Goeldi_<br>
 _Av. Perimetral 1901. CEP 66077- 530. Belém, Pará, Brazil._
