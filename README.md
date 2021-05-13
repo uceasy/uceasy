@@ -6,6 +6,7 @@
 [![Tests](https://github.com/uceasy/uceasy/workflows/Tests/badge.svg)](https://github.com/uceasy/uceasy/actions?workflow=Tests)
 [![codecov](https://codecov.io/gh/uceasy/uceasy/branch/master/graph/badge.svg)](https://codecov.io/gh/uceasy/uceasy)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=uceasy_uceasy&metric=alert_status)](https://sonarcloud.io/dashboard?id=uceasy_uceasy)
+[![DOI](https://zenodo.org/badge/203415455.svg)](https://zenodo.org/badge/latestdoi/203415455)
 
 # UCEasy: a wrapper for the PHYLUCE software package
 
