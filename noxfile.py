@@ -12,6 +12,7 @@ def install_with_constraints(session, *args, **kwargs):
             "poetry",
             "export",
             "--dev",
+            "--require-hashes",
             "--format=requirements.txt",
             f"--output={requirements.name}",
             external=True,
