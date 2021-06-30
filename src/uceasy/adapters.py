@@ -4,7 +4,7 @@ Specify the program with the dictionary key and its arguments as a list.
 e.g. adapters["program"](["arg1", "arg2"])
 """
 
-
+import logging
 from subprocess import run
 from typing import List, Dict, Optional, Any
 
@@ -33,14 +33,14 @@ class Adapters:
         for key, val in TEMPLATES.items():
             self.add(key, val)
 
-    def add(self, name: str, binary: str) -> None:
+    def add(self, name: str, executable: str) -> None:
         """Add new adapter to the dictionary."""
 
         def func(
             args_as_list: List[str], capture_output: bool = False, dir_to_execute: str = None
         ) -> List[str]:
             """Provide the adapter arguments as a list via "args_as_list"."""
-            cmd = [binary] + args_as_list
+            cmd = [executable] + args_as_list
             return self._run(cmd, capture_output, dir_to_execute)
 
         self.adapters[name] = func
@@ -65,6 +65,13 @@ class Adapters:
             "capture_output": capture_output,
             "universal_newlines": capture_output,  # receive as string not bytes
         }
-        cmd_return = run(cmd, **kwargs)
+        logging.info(f"Starting {cmd[0]}")
+        try:
+            cmd_return = run(cmd, **kwargs)
+            logging.info(f"Finished {cmd[0]}")
+            return cmd_return.stdout.strip().splitlines() if capture_output else []
+        except FileNotFoundError:
+            print(f"ERROR: Couldn't find {cmd[0]}, is phyluce installed?")
+            logging.error(f"Couldn't find {cmd[0]}, is phyluce installed?")
+            exit(1)
 
-        return cmd_return.stdout.strip().splitlines() if capture_output else []

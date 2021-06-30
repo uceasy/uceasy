@@ -5,6 +5,7 @@ from types import SimpleNamespace
 
 from uceasy import __version__
 from uceasy.facade import AssemblyFacade, QualityControlFacade, UCEPhylogenomicsFacade
+from uceasy.ioutils import generate_log, print_cli_flags_to_log
 
 
 THREADS = os.cpu_count()
@@ -80,6 +81,8 @@ def quality_control(
         no_merge=no_merge,
         capture_output=not verbose,
     )
+    generate_log(log_dir)
+    print_cli_flags_to_log(context)
     facade = QualityControlFacade(context)
     facade.run()
 
@@ -141,6 +144,8 @@ def assembly(
         subfolder=subfolder,
         capture_output=not verbose,
     )
+    generate_log(log_dir)
+    print_cli_flags_to_log(context)
     facade = AssemblyFacade(context)
     facade.run()
 
@@ -203,5 +208,7 @@ def phylogenomics(
         regex=regex,
         capture_output=not verbose,
     )
+    generate_log(log_dir)
+    print_cli_flags_to_log(context)
     facade = UCEPhylogenomicsFacade(context)
     facade.run()
