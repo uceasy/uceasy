@@ -15,7 +15,7 @@ def generate_log(path: str):
     logging.basicConfig(
         format="%(asctime)s %(levelname)s: %(message)s",
         filename=f"{path}/uceasy.log",
-        level=logging.INFO
+        level=logging.INFO,
     )
     logging.info(f"Starting UCEasy v{__version__}")
     logging.info(f"System name: {uname.sysname}")

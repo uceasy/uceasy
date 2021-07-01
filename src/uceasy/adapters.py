@@ -74,4 +74,3 @@ class Adapters:
             print(f"ERROR: Couldn't find {cmd[0]}, is phyluce installed?")
             logging.error(f"Couldn't find {cmd[0]}, is phyluce installed?")
             exit(1)
-
