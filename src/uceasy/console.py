@@ -6,6 +6,7 @@ from types import SimpleNamespace
 from uceasy import __version__
 from uceasy.facade import AssemblyFacade, QualityControlFacade, UCEPhylogenomicsFacade
 from uceasy.ioutils import generate_log, print_cli_flags_to_log
+from uceasy.tracking import save_tracking_file
 
 
 THREADS = os.cpu_count()
@@ -49,7 +50,7 @@ def cli():
 @click.option(
     "--no-merge", "-n", is_flag=True, help="When trimming PE reads, do not merge singleton files."
 )
-@click.option("--verbose", "-v", is_flag=True, help="Show output from PHYLUCE.")
+@click.option("--tracking-file", "-t", default="tracking.csv", help="Provenance tracking file.")
 def quality_control(
     raw_fastq: str,
     csv_file: str,
@@ -63,7 +64,7 @@ def quality_control(
     output: str,
     min_len: int,
     no_merge: bool,
-    verbose: bool,
+    tracking_file: str,
 ) -> None:
     """Run quality control with illumiprocessor."""
     context = SimpleNamespace(
@@ -79,12 +80,15 @@ def quality_control(
         output=output,
         min_len=min_len,
         no_merge=no_merge,
-        capture_output=not verbose,
+        capture_output=True,
+        tracking_file=tracking_file
     )
     generate_log(log_dir)
     print_cli_flags_to_log(context)
     facade = QualityControlFacade(context)
-    facade.run()
+    out = facade.run()
+    context.__dict__["output"] = out
+    save_tracking_file(log_dir + "/" + tracking_file, context)
 
 
 @cli.command()
@@ -118,7 +122,7 @@ def quality_control(
     type=str,
     help="A subdirectory, below the level of the group, containing the reads.",
 )
-@click.option("--verbose", "-v", is_flag=True, help="Show output from PHYLUCE.")
+@click.option("--tracking-file", "-t", default="tracking.csv", help="Provenance tracking file.")
 def assembly(
     assembler: str,
     clean_fastq: str,
@@ -129,7 +133,7 @@ def assembly(
     kmer: Optional[str],
     no_clean: bool,
     subfolder: Optional[str],
-    verbose: bool,
+    tracking_file: str,
 ) -> None:
     """Run assembly with spades or trinity."""
     context = SimpleNamespace(
@@ -142,12 +146,15 @@ def assembly(
         kmer=kmer,
         no_clean=no_clean,
         subfolder=subfolder,
-        capture_output=not verbose,
+        capture_output=True,
+        tracking_file=tracking_file
     )
     generate_log(log_dir)
     print_cli_flags_to_log(context)
     facade = AssemblyFacade(context)
-    facade.run()
+    out = facade.run()
+    context.__dict__["output"] = out
+    save_tracking_file(log_dir + "/" + tracking_file, context)
 
 
 @cli.command()
@@ -178,7 +185,7 @@ def assembly(
 @click.option(
     "--percent", "-p", default=0.75, help="The percent of taxa to require (default: 0.75)"
 )
-@click.option("--verbose", "-v", is_flag=True, help="Show output from PHYLUCE.")
+@click.option("--tracking-file", "-t", default="tracking.csv", help="Provenance tracking file.")
 def phylogenomics(
     aligner: str,
     charsets: bool,
@@ -191,7 +198,7 @@ def phylogenomics(
     percent: float,
     threads: int,
     regex: Optional[str],
-    verbose: bool,
+    tracking_file: str,
 ):
     """The phylogenomics pipeline discribed by PHYLUCE."""
     context = SimpleNamespace(
@@ -206,9 +213,12 @@ def phylogenomics(
         percent=percent,
         threads=threads,
         regex=regex,
-        capture_output=not verbose,
+        capture_output=True,
+        tracking_file=tracking_file
     )
     generate_log(log_dir)
     print_cli_flags_to_log(context)
     facade = UCEPhylogenomicsFacade(context)
-    facade.run()
+    out = facade.run()
+    context.__dict__["output"] = out
+    save_tracking_file(log_dir + "/" + tracking_file, context)
