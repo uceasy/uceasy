@@ -31,7 +31,7 @@ Then, make sure you have a working installation of PHYLUCE, check out the instal
 
 
 ## Workflow
-The operations [Quality Control](https://github.com/uceasy/uceasy/wiki/Quality-Control), [Assembly](https://github.com/uceasy/uceasy/wiki/Assembly) and [Phylogenomics](https://github.com/uceasy/uceasy/wiki/Phylogenomics) represent the following workflow.
+The operations [Quality Control](https://github.com/uceasy/uceasy/wiki/QualityControl), [Assembly](https://github.com/uceasy/uceasy/wiki/Assembly) and [Phylogenomics](https://github.com/uceasy/uceasy/wiki/Phylogenomics) represent the following workflow.
 
 <p>
     <img src="docs/img/workflow.png" height="500px">
