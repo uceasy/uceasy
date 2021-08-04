@@ -62,7 +62,7 @@ Centro Universitário do Estado do Pará (CESUPA)
 
 ## Funding
 
-This work has been supported by Conselho Nacional de Desenvolvimento Científico e Tecnológico - CNPq (grants 149985/2018-5; 129954/2018-7).
+ This research was supported  by Conselho Nacional de Desenvolvimento Científico e Tecnológico - CNPq (fellowships 149985/2018-5; 129954/2018-7).
 
 ## Authors
 
