@@ -4,9 +4,13 @@ Specify the program with the dictionary key and its arguments as a list.
 e.g. adapters["program"](["arg1", "arg2"])
 """
 
-import logging
 from subprocess import run
+from time import time, gmtime, strftime
 from typing import List, Dict, Optional, Any
+from collections import namedtuple
+
+
+CommandResult = namedtuple("CommandResult", ["command", "stdout", "execution_time"])
 
 
 TEMPLATES = {
@@ -36,41 +40,30 @@ class Adapters:
     def add(self, name: str, executable: str) -> None:
         """Add new adapter to the dictionary."""
 
-        def func(
-            args_as_list: List[str], capture_output: bool = False, dir_to_execute: str = None
-        ) -> List[str]:
+        def func(args_as_list: List[str]) -> List[str]:
             """Provide the adapter arguments as a list via "args_as_list"."""
             cmd = [executable] + args_as_list
-            return self._run(cmd, capture_output, dir_to_execute)
+            return self._run(cmd)
 
         self.adapters[name] = func
 
-    def _run(
-        self, cmd: List[str], capture_output: bool, dir_to_execute: Optional[str]
-    ) -> List[str]:
+    def _run(self, cmd: List[str]) -> CommandResult:
         """
         Utilitary runner to be used by the adapters.
 
         :param cmd              the command passed by the adapter as a list.
-        :param capture_output   True if you want to receive the output of the
-                                command.
-        :param dir_to_execute   execute in a different directory.
-        :return:                empty list in case of "capture_output=False",
-                                otherwise the lines of the command output as a
-                                list. One line of output is one item in the
-                                list.
+        :return:                CommandResult tuple containing information like standard output
+                                and execution time.
         """
         kwargs: Dict[str, Any] = {
-            "cwd": dir_to_execute,
-            "capture_output": capture_output,
-            "universal_newlines": capture_output,  # receive as string not bytes
+            "capture_output": True,
+            "universal_newlines": True,  # receive as string not bytes
         }
-        logging.info(f"Starting {cmd[0]}")
         try:
+            start_time = time()
             cmd_return = run(cmd, **kwargs)
-            logging.info(f"Finished {cmd[0]}")
-            return cmd_return.stdout.strip().splitlines() if capture_output else []
+            exec_time = strftime("%H:%M:%S", gmtime(time() - start_time))
+            return CommandResult(cmd, cmd_return.stdout.strip().splitlines(), exec_time)
         except FileNotFoundError:
             print(f"ERROR: Couldn't find {cmd[0]}, is phyluce installed?")
-            logging.error(f"Couldn't find {cmd[0]}, is phyluce installed?")
             exit(1)

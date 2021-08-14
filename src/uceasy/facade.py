@@ -3,7 +3,7 @@ from typing import List
 from types import SimpleNamespace
 
 
-from uceasy.adapters import Adapters
+from uceasy.adapters import Adapters, CommandResult
 from uceasy.ioutils import (
     dump_config_file,
     get_taxa_from_contigs,
@@ -24,12 +24,12 @@ class Facade(ABC):
         self.adapters: dict = Adapters().adapters
 
     @abstractmethod
-    def run(self) -> List[str]:
+    def run(self) -> List[CommandResult]:
         raise NotImplementedError("Facade::run()")
 
 
 class QualityControlFacade(Facade):
-    def run(self) -> List[str]:
+    def run(self) -> List[CommandResult]:
         delete_output_dir_if_exists(self.context.output)
 
         # Create and save the configuration file
@@ -64,11 +64,11 @@ class QualityControlFacade(Facade):
         if self.context.no_merge:
             cmd.append("--no-merge")
 
-        return self.adapters["illumiprocessor"](cmd, capture_output=self.context.capture_output)
+        return [self.adapters["illumiprocessor"](cmd)]
 
 
 class AssemblyFacade(Facade):
-    def run(self) -> List[str]:
+    def run(self) -> List[CommandResult]:
         delete_output_dir_if_exists(self.context.output)
 
         # Create and save the configuration file
@@ -102,14 +102,12 @@ class AssemblyFacade(Facade):
         if self.context.subfolder:
             cmd.extend(["--subfolder", self.context.subfolder])
 
-        return self.adapters[self.context.assembler](
-            cmd, capture_output=self.context.capture_output
-        )
+        return [self.adapters[self.context.assembler](cmd)]
 
 
 class UCEPhylogenomicsFacade(Facade):
-    def run(self) -> List[str]:
-        self.carried_output: List[str] = []
+    def run(self) -> List[CommandResult]:
+        self.carried_commands: List[CommandResult] = []
 
         create_output_dir(self.context.output)
 
@@ -153,7 +151,7 @@ class UCEPhylogenomicsFacade(Facade):
         self._get_only_loci_with_min_taxa()
         self._nexus_files_to_raxml()
 
-        return self.carried_output
+        return self.carried_commands
 
     def _match_contigs_to_probes(self):
         cmd = [
@@ -167,11 +165,7 @@ class UCEPhylogenomicsFacade(Facade):
         if self.context.regex:
             cmd.extend(["--regex", self.context.regex])
 
-        self.carried_output.extend(
-            self.adapters["match_contigs_to_probes"](
-                cmd, capture_output=self.context.capture_output
-            )
-        )
+        self.carried_commands.append(self.adapters["match_contigs_to_probes"](cmd))
 
     def _get_match_counts(self):
         cmd = [
@@ -186,9 +180,8 @@ class UCEPhylogenomicsFacade(Facade):
         ]
         if self.context.incomplete_matrix:
             cmd.append("--incomplete-matrix")
-        self.carried_output.extend(
-            self.adapters["get_match_counts"](cmd, capture_output=self.context.capture_output)
-        )
+
+        self.carried_commands.append(self.adapters["get_match_counts"](cmd))
 
     def _get_fastas_from_match_counts(self):
         cmd = [
@@ -204,11 +197,8 @@ class UCEPhylogenomicsFacade(Facade):
         if self.context.incomplete_matrix:
             cmd.append("--incomplete-matrix")
             cmd.append(self.output_dirs["incomplete_matrix"])
-        self.carried_output.extend(
-            self.adapters["get_fastas_from_match_counts"](
-                cmd, capture_output=self.context.capture_output
-            )
-        )
+
+        self.carried_commands.append(self.adapters["get_fastas_from_match_counts"](cmd))
 
     def _explode_get_fastas_file(self):
         cmd = [
@@ -218,11 +208,7 @@ class UCEPhylogenomicsFacade(Facade):
             self.output_dirs["exploded_fastas"],
             "--by-taxon",
         ]
-        self.carried_output.extend(
-            self.adapters["explode_get_fastas_file"](
-                cmd, capture_output=self.context.capture_output
-            )
-        )
+        self.carried_commands.append(self.adapters["explode_get_fastas_file"](cmd))
 
     def _secap_align(self):
         cmd = [
@@ -242,9 +228,7 @@ class UCEPhylogenomicsFacade(Facade):
         if self.context.internal_trimming:
             cmd.extend(["--no-trim", "--output-format", "fasta"])
 
-        self.carried_output.extend(
-            self.adapters["secap_align"](cmd, capture_output=self.context.capture_output)
-        )
+        self.carried_commands.append(self.adapters["secap_align"](cmd))
 
     def _get_gblocks_trimmed_alignments_from_untrimmed(self):
         """
@@ -260,10 +244,7 @@ class UCEPhylogenomicsFacade(Facade):
             self.context.threads,
         ]
         self.output_dirs["alignments"] = self.output_dirs["gblocks"]
-
-        self.carried_output.extend(
-            self.adapters["gblocks"](cmd, capture_output=self.context.capture_output)
-        )
+        self.carried_commands.append(self.adapters["gblocks"](cmd))
 
     def _remove_locus_name_from_nexus_lines(self):
         cmd = [
@@ -275,11 +256,7 @@ class UCEPhylogenomicsFacade(Facade):
             self.context.threads,
         ]
 
-        self.carried_output.extend(
-            self.adapters["remove_locus_name_from_nexus_lines"](
-                cmd, capture_output=self.context.capture_output
-            )
-        )
+        self.carried_commands.append(self.adapters["remove_locus_name_from_nexus_lines"](cmd))
 
     def _get_only_loci_with_min_taxa(self):
         cmd = [
@@ -294,19 +271,14 @@ class UCEPhylogenomicsFacade(Facade):
             "--cores",
             self.context.threads,
         ]
-        self.output_dirs["alignments_clean"] = self.output_dirs["min_taxa"]
 
-        self.carried_output.extend(
-            self.adapters["get_only_loci_with_min_taxa"](
-                cmd, capture_output=self.context.capture_output
-            )
-        )
+        self.output_dirs["alignments_clean"] = self.output_dirs["min_taxa"]
+        self.carried_commands.append(self.adapters["get_only_loci_with_min_taxa"](cmd))
 
     def _nexus_files_to_raxml(self):
         cmd = ["--output", self.output_dirs["raxml"], "--alignments", self.output_dirs["min_taxa"]]
 
         if self.context.charsets:
             cmd.append("--charsets")
-        self.carried_output.extend(
-            self.adapters["nexus_to_raxml"](cmd, capture_output=self.context.capture_output)
-        )
+
+        self.carried_commands.append(self.adapters["nexus_to_raxml"](cmd))
