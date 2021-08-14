@@ -2,32 +2,8 @@ import configparser
 import csv
 import os
 import shutil
-import logging
 from typing import List, Dict, Optional
 from types import SimpleNamespace
-
-
-from uceasy import __version__
-
-
-def generate_log(path: str):
-    uname = os.uname()
-    logging.basicConfig(
-        format="%(asctime)s %(levelname)s: %(message)s",
-        filename=f"{path}/uceasy.log",
-        level=logging.INFO,
-    )
-    logging.info(f"Starting UCEasy v{__version__}")
-    logging.info(f"System name: {uname.sysname}")
-    logging.info(f"Node name: {uname.nodename}")
-    logging.info(f"Release: {uname.release}")
-    logging.info(f"Version: {uname.version}")
-    logging.info(f"Machine: {uname.machine}")
-
-
-def print_cli_flags_to_log(namespace: SimpleNamespace):
-    for k, v in namespace.__dict__.items():
-        logging.info(f"{k}: {v}")
 
 
 def load_csv(path: str, delimiter: str = ",") -> List[List[str]]:

@@ -18,7 +18,6 @@ tracking = {
 
 
 def run_quality_control(context: SimpleNamespace):
-    generate_log(context.log_dir)
     start_time = time()
     out = QualityControlFacade(context).run()
     tracking["Execution Time"] = strftime("%H:%M:%S", gmtime(time() - start_time))
@@ -29,7 +28,6 @@ def run_quality_control(context: SimpleNamespace):
 
 
 def run_assembly(context: SimpleNamespace):
-    generate_log(context.log_dir)
     start_time = time()
     out = AssemblyFacade(context).run()
     tracking["Execution Time"] = strftime("%H:%M:%S", gmtime(time() - start_time))
@@ -40,7 +38,6 @@ def run_assembly(context: SimpleNamespace):
 
 
 def run_phylogenomics(context: SimpleNamespace):
-    generate_log(context.log_dir)
     start_time = time()
     out = UCEPhylogenomicsFacade(context).run()
     tracking["Execution Time"] = strftime("%H:%M:%S", gmtime(time() - start_time))
