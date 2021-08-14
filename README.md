@@ -68,7 +68,7 @@ Centro Universitário do Estado do Pará (CESUPA)
 
  Caio Vinícius Raposo Ribeiro<br>
  Lucas Peres Oliveira<br>
- Romina do Socorro da Silva Batista<br>
+ Romina Batista<br>
  Marcos Paulo Alves de Sousa
 
 
