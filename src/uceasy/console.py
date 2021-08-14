@@ -1,12 +1,11 @@
 import click
 import os
+import sys
 from typing import Optional
 from types import SimpleNamespace
 
 from uceasy import __version__
-from uceasy.facade import AssemblyFacade, QualityControlFacade, UCEPhylogenomicsFacade
-from uceasy.ioutils import generate_log, print_cli_flags_to_log
-from uceasy.tracking import save_tracking_file
+from uceasy.run import run_quality_control, run_assembly, run_phylogenomics
 
 
 THREADS = os.cpu_count()
@@ -81,14 +80,9 @@ def quality_control(
         min_len=min_len,
         no_merge=no_merge,
         capture_output=True,
-        tracking_file=tracking_file
+        tracking_file=tracking_file,
     )
-    generate_log(log_dir)
-    print_cli_flags_to_log(context)
-    facade = QualityControlFacade(context)
-    out = facade.run()
-    context.__dict__["output"] = out
-    save_tracking_file(log_dir + "/" + tracking_file, context)
+    run_quality_control(context)
 
 
 @cli.command()
@@ -147,14 +141,9 @@ def assembly(
         no_clean=no_clean,
         subfolder=subfolder,
         capture_output=True,
-        tracking_file=tracking_file
+        tracking_file=tracking_file,
     )
-    generate_log(log_dir)
-    print_cli_flags_to_log(context)
-    facade = AssemblyFacade(context)
-    out = facade.run()
-    context.__dict__["output"] = out
-    save_tracking_file(log_dir + "/" + tracking_file, context)
+    run_assembly(context)
 
 
 @cli.command()
@@ -214,11 +203,6 @@ def phylogenomics(
         threads=threads,
         regex=regex,
         capture_output=True,
-        tracking_file=tracking_file
+        tracking_file=tracking_file,
     )
-    generate_log(log_dir)
-    print_cli_flags_to_log(context)
-    facade = UCEPhylogenomicsFacade(context)
-    out = facade.run()
-    context.__dict__["output"] = out
-    save_tracking_file(log_dir + "/" + tracking_file, context)
+    run_phylogenomics(context)
