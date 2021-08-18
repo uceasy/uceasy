@@ -40,7 +40,7 @@ class Adapters:
     def add(self, name: str, executable: str) -> None:
         """Add new adapter to the dictionary."""
 
-        def func(args_as_list: List[str]) -> List[str]:
+        def func(args_as_list: List[str]) -> CommandResult:
             """Provide the adapter arguments as a list via "args_as_list"."""
             cmd = [executable] + args_as_list
             return self._run(cmd)
