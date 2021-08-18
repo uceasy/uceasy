@@ -5,12 +5,15 @@ from uceasy.tracking import save_tracking_file
 
 
 def run_quality_control(context: SimpleNamespace):
-    save_tracking_file(QualityControlFacade(context).run())
+    fl = context.log_dir + context.tracking_file
+    save_tracking_file(fl, QualityControlFacade(context).run())
 
 
 def run_assembly(context: SimpleNamespace):
-    save_tracking_file(AssemblyFacade(context).run())
+    fl = context.log_dir + context.tracking_file
+    save_tracking_file(fl, AssemblyFacade(context).run())
 
 
 def run_phylogenomics(context: SimpleNamespace):
-    save_tracking_file(PhylogenomicsFacade(context).run())
+    fl = context.log_dir + context.tracking_file
+    save_tracking_file(fl, PhylogenomicsFacade(context).run())

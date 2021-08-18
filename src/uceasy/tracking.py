@@ -8,13 +8,15 @@ import csv
 import sys
 import platform
 import getpass
+from datetime import datetime
+from typing import List
 
 
 from uceasy.adapters import CommandResult
 
 
 tracking = {
-    "UCEasy command": sys.argv,
+    "Command": " ".join(sys.argv),
     "Standard output": None,
     "Execution time": None,
     "Who ran": getpass.getuser(),
@@ -23,7 +25,7 @@ tracking = {
 }
 
 
-def save_tracking_file(cmds: List[CommandResult]):
+def save_tracking_file(path: str, cmds: List[CommandResult]):
     first_row = []
     second_row = []
     cmds_rows = []
@@ -33,10 +35,10 @@ def save_tracking_file(cmds: List[CommandResult]):
 
     for cmd in cmds:
         row = []
-        row[0] = cmd.command
-        row[1] = cmd.stdout
-        row[2] = cmd.execution_time
-        row[3] = "UCEasy"
+        row.append(" ".join(cmd.command))
+        row.append(cmd.stdout)
+        row.append(cmd.execution_time)
+        row.append("UCEasy")
         cmds_rows.append(row)
 
     with open(path, "w") as f:
