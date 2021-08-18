@@ -8,7 +8,7 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=uceasy_uceasy&metric=alert_status)](https://sonarcloud.io/dashboard?id=uceasy_uceasy)
 [![DOI](https://zenodo.org/badge/203415455.svg)](https://zenodo.org/badge/latestdoi/203415455)
 
-# UCEasy: a wrapper for the PHYLUCE software package
+# UCEasy: a software package based on good practices in scientific computing for phylogenetic analysis of UCEs
 
 
 __UCEasy__ is a wrapper to automate manual procedures of the [PHYLUCE](https://phyluce.readthedocs.io/en/latest) software package by abstracting the pipeline steps into 3 major commands and choosing sensible defaults for its command-line options, easing the execution and improving reproducibility.
@@ -21,9 +21,9 @@ For more information check out our [Wiki](https://github.com/uceasy/uceasy/wiki)
 ## Installation Guide
 ### Dependencies
 * Python ^3.7
-* PHYLUCE ^1.6
+* PHYLUCE 1.6.* (1.7 not supported yet)
 
-See [releases](https://github.com/uceasy/uceasy/releases) for pre-built binaries for Linux. Or install it from [PyPI](https://pypi.org/project/uceasy/):
+Install the package from [PyPI](https://pypi.org/project/uceasy/):
 ```
 $ pip install uceasy
 ```
@@ -31,7 +31,7 @@ Then, make sure you have a working installation of PHYLUCE, check out the instal
 
 
 ## Workflow
-The operations [Quality Control](https://github.com/uceasy/uceasy/wiki/Quality-Control), [Assembly](https://github.com/uceasy/uceasy/wiki/Assembly) and [Phylogenomics](https://github.com/uceasy/uceasy/wiki/Phylogenomics) represent the following workflow.
+The operations [Quality Control](https://github.com/uceasy/uceasy/wiki/QualityControl), [Assembly](https://github.com/uceasy/uceasy/wiki/Assembly) and [Phylogenomics](https://github.com/uceasy/uceasy/wiki/Phylogenomics) represent the following workflow.
 
 <p>
     <img src="docs/img/workflow.png" height="500px">
@@ -45,6 +45,7 @@ $ uceasy assembly
 $ uceasy phylogenomics
 ```
 Explore the options for these commands with the `--help` flag.<br>
+
 For a guide of how to use UCEasy see: [Tutorial](https://github.com/uceasy/uceasy/wiki/Tutorial).
 
 
@@ -62,13 +63,13 @@ Centro Universitário do Estado do Pará (CESUPA)
 
 ## Funding
 
-This work has been supported by Conselho Nacional de Desenvolvimento Científico e Tecnológico - CNPq (grants 149985/2018-5; 129954/2018-7).
+ This research was supported  by Conselho Nacional de Desenvolvimento Científico e Tecnológico - CNPq (fellowships 149985/2018-5; 129954/2018-7).
 
 ## Authors
 
  Caio Vinícius Raposo Ribeiro<br>
  Lucas Peres Oliveira<br>
- Romina do Socorro da Silva Batista<br>
+ Romina Batista<br>
  Marcos Paulo Alves de Sousa
 
 
