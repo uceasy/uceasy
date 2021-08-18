@@ -1,7 +1,7 @@
 import click
 import os
-import sys
 from typing import Optional
+from types import SimpleNamespace
 
 from uceasy import __version__
 from uceasy.run import run_quality_control, run_assembly, run_phylogenomics

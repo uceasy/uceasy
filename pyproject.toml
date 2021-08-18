@@ -21,6 +21,23 @@ pytest-cov = "^2.12"
 codecov = "^2.1"
 mypy = "^0.910"
 
+[tool.black]
+line-length = 100
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
 [tool.poetry.scripts]
 uceasy = "uceasy.console:cli"
 
