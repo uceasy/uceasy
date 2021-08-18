@@ -16,4 +16,4 @@ def run_assembly(context: SimpleNamespace):
 
 def run_phylogenomics(context: SimpleNamespace):
     fl = context.log_dir + context.tracking_file
-    save_tracking_file(fl, PhylogenomicsFacade(context).run())
+    save_tracking_file(fl, UCEPhylogenomicsFacade(context).run())

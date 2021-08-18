@@ -276,7 +276,12 @@ class UCEPhylogenomicsFacade(Facade):
         self.carried_commands.append(self.adapters["get_only_loci_with_min_taxa"](cmd))
 
     def _nexus_files_to_raxml(self):
-        cmd = ["--output", self.output_dirs["raxml"], "--alignments", self.output_dirs["min_taxa"]]
+        cmd = [
+            "--output",
+            self.output_dirs["raxml"],
+            "--alignments",
+            self.output_dirs["min_taxa"],
+        ]
 
         if self.context.charsets:
             cmd.append("--charsets")

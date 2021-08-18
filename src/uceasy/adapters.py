@@ -6,7 +6,7 @@ e.g. adapters["program"](["arg1", "arg2"])
 
 from subprocess import run
 from time import time, gmtime, strftime
-from typing import List, Dict, Optional, Any
+from typing import List, Dict, Any
 from collections import namedtuple
 
 

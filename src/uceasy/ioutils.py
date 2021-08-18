@@ -3,7 +3,6 @@ import csv
 import os
 import shutil
 from typing import List, Dict, Optional
-from types import SimpleNamespace
 
 
 def load_csv(path: str, delimiter: str = ",") -> List[List[str]]:
