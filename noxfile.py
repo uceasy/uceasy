@@ -39,5 +39,6 @@ def coverage(session):
 @nox.session(python=["3.8", "3.7"])
 def mypy(session):
     args = session.posargs or locations
+    session.run("poetry", "install", "--no-dev", external=True)
     install_with_constraints(session, "mypy")
     session.run("mypy", *args)
