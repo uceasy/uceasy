@@ -21,9 +21,9 @@ For more information check out our [Wiki](https://github.com/uceasy/uceasy/wiki)
 ## Installation Guide
 ### Dependencies
 * Python ^3.7
-* PHYLUCE 1.6.*
+* PHYLUCE 1.6.* (1.7 not supported yet)
 
-See [releases](https://github.com/uceasy/uceasy/releases) for pre-built binaries for Linux. Or install it from [PyPI](https://pypi.org/project/uceasy/):
+Install the package from [PyPI](https://pypi.org/project/uceasy/):
 ```
 $ pip install uceasy
 ```
