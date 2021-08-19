@@ -16,9 +16,6 @@ click = "^8.0"
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
 nox = "^2021.6.12"
-coverage = {extras = ["toml"], version = "^5.5"}
-pytest-cov = "^2.12"
-codecov = "^2.1"
 mypy = "^0.910"
 
 [tool.black]
@@ -40,17 +37,6 @@ exclude = '''
 
 [tool.poetry.scripts]
 uceasy = "uceasy.console:cli"
-
-[tool.coverage.paths]
-source = ["src", "*/site-packages"]
-
-[tool.coverage.run]
-branch = true
-source = ["uceasy"]
-
-[tool.coverage.report]
-show_missing = true
-fail_under = 80
 
 [build-system]
 requires = ["poetry>=0.12"]
