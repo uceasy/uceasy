@@ -10,7 +10,7 @@ def adapters():
 
 def test_illumiprocessor_help(adapters):
     cmd = adapters["illumiprocessor"](["--help"])
-    assert "usage: illumiprocessor" in cmd[0]
+    assert "usage: illumiprocessor" in cmd.stdout[0]
 
 
 def test_trinity_help(adapters):
