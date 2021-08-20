@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "uceasy"
-version = "0.2.3"
+version = "0.3.0"
 description = "Wrapper for the Phyluce phylogenomics software package"
 authors = ["Caio Raposo <caioraposo@protonmail.com>"]
 license = "MIT"
