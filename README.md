@@ -62,7 +62,8 @@ Centro Universitário do Estado do Pará (CESUPA)
 
 ## Funding
 
- This research was supported  by Conselho Nacional de Desenvolvimento Científico e Tecnológico - CNPq (fellowships 149985/2018-5; 129954/2018-7).
+ This research was supported  by Conselho Nacional de Desenvolvimento Científico e Tecnológico - CNPq (fellowships 149985/2018-5; 129954/2018-7). Romina Batista was supported by a postdoctoral fellowship granted from Coordenação de Aperfeiçoamento de Pessoal de Nível Superior – Brasil (CAPES-INPA proc. 88887477562/2020-00).
+
 
 ## Authors
 
