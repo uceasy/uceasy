@@ -7,7 +7,7 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=uceasy_uceasy&metric=alert_status)](https://sonarcloud.io/dashboard?id=uceasy_uceasy)
 [![DOI](https://zenodo.org/badge/203415455.svg)](https://zenodo.org/badge/latestdoi/203415455)
 
-# UCEasy: a software package based on good practices in scientific computing for phylogenetic analysis of UCEs
+# UCEasy: a software package based on best practices in scientific computing for phylogenetic analysis of UCEs
 
 
 __UCEasy__ is a wrapper to automate manual procedures of the [PHYLUCE](https://phyluce.readthedocs.io/en/latest) software package by abstracting the pipeline steps into 3 major commands and choosing sensible defaults for its command-line options, easing the execution and improving reproducibility.
