@@ -283,6 +283,9 @@ class UCEPhylogenomicsFacade(Facade):
             self.output_dirs["min_taxa"],
         ]
 
+        # PHYLUCE 1.6 uses phylip format by default
+        if not self.context.phylip:
+            cmd.append("--nexus")
         if self.context.charsets:
             cmd.append("--charsets")
 

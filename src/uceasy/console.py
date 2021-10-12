@@ -195,6 +195,7 @@ def assembly(
     help="The percent of taxa to require (default: 0.75)",
 )
 @click.option("--tracking-file", "-t", default="tracking.csv", help="Provenance tracking file.")
+@click.option("--phylip", is_flag=True, help="Use phylip format for the final concatenated data.")
 def phylogenomics(
     aligner: str,
     charsets: bool,
@@ -208,6 +209,7 @@ def phylogenomics(
     threads: int,
     regex: Optional[str],
     tracking_file: str,
+    phylip: bool,
 ):
     """The phylogenomics pipeline discribed by PHYLUCE."""
     context = SimpleNamespace(
@@ -224,5 +226,6 @@ def phylogenomics(
         regex=regex,
         capture_output=True,
         tracking_file=tracking_file,
+        phylip=phylip,
     )
     run_phylogenomics(context)
