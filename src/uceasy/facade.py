@@ -69,7 +69,6 @@ class QualityControlFacade(Facade):
 
 class AssemblyFacade(Facade):
     def run(self) -> List[CommandResult]:
-        assemblers = set("spades", "trinity", "velvet", "abyss")
         delete_output_dir_if_exists(self.context.output)
 
         # Create and save the configuration file
@@ -88,30 +87,30 @@ class AssemblyFacade(Facade):
             "--log-path",
             self.context.log_dir,
         ]
-        assembler = self.context.assembler
-        if assembler not in assemblers:
-            printf(f"ERROR: {assembler} is not a valid value for assembler. see --help")
-            exit(1)
-        if assembler == "spades":
-            if self.context.no_clean:
-                cmd.append("--do-not-clean")
-        if assembler == "trinity":
-            if not self.context.no_clean:
-                cmd.append("--clean")
-            if self.context.min_kmer_coverage:
-                cmd.extend(["--min-kmer-coverage", self.context.min_kmer_coverage])
-        if assembler in ("velvet", "abyss"):
-            if not self.context.no_clean:
-                cmd.append("--clean")
-            if self.context.kmer:
-                cmd.extend(["--kmer", self.context.kmer])
-        if assembler == "abyss":
-            if self.context.abyss_se:
-                cmd.append("--abyss-se")
         if self.context.subfolder:
             cmd.extend(["--subfolder", self.context.subfolder])
 
-        return [self.adapters[assembler](cmd)]
+        self._parse_command(cmd)
+        return [self.adapters[self.context.assembler](cmd)]
+
+    def _parse_command(self, cmd):
+        """Handle specific options for different assemblers."""
+        assemblers = {"spades", "trinity", "velvet", "abyss"}
+        assembler = self.context.assembler
+        if assembler not in assemblers:
+            print(f"ERROR: {assembler} is not a valid value for assembler. see --help")
+            exit(1)
+        if assembler == "spades" and self.context.no_clean:
+            cmd.append("--do-not-clean")
+        if assembler in ["trinity", "velvet", "abyss"]:
+            if not self.context.no_clean:
+                cmd.append("--clean")
+            if assembler in ["velvet", "abyss"] and self.context.kmer:
+                cmd.extend(["--kmer", self.context.kmer])
+            if assembler == "trinity" and self.context.min_kmer_coverage:
+                cmd.extend(["--min-kmer-coverage", self.context.min_kmer_coverage])
+        if assembler == "abyss" and self.context.abyss_se:
+            cmd.append("--abyss-se")
 
 
 class UCEPhylogenomicsFacade(Facade):
