@@ -57,6 +57,7 @@ def test_phylogenomics_runs_sucessfully(context):
         threads=1,
         regex=None,
         capture_output=True,
+        phylip=False,
     )
     facade = UCEPhylogenomicsFacade(ctx)
     output = str(facade.run())
