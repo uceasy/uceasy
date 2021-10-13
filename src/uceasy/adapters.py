@@ -17,6 +17,8 @@ TEMPLATES = {
     "illumiprocessor": "illumiprocessor",
     "trinity": "phyluce_assembly_assemblo_trinity",
     "spades": "phyluce_assembly_assemblo_spades",
+    "velvet": "phyluce_assembly_assemblo_velvet",
+    "abyss": "phyluce_assembly_assemblo_abyss",
     "match_contigs_to_probes": "phyluce_assembly_match_contigs_to_probes",
     "get_match_counts": "phyluce_assembly_get_match_counts",
     "get_fastas_from_match_counts": "phyluce_assembly_get_fastas_from_match_counts",

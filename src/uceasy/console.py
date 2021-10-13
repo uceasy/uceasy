@@ -100,7 +100,8 @@ def quality_control(
     "-a",
     type=str,
     default="spades",
-    help="Assembler program to use. (default: spades)",
+    help="""Assembler program to use. Available: spades, trinity, velvet and abyss. \
+(default: spades)""",
 )
 @click.option(
     "--config",
@@ -132,6 +133,12 @@ def quality_control(
     help="A subdirectory, below the level of the group, containing the reads.",
 )
 @click.option("--tracking-file", "-t", default="tracking.csv", help="Provenance tracking file.")
+@click.option("--abyss-se", is_flag=True, help="Use only abyss-se.")
+@click.option(
+    "--min-kmer-cov",
+    type=str,
+    help="Sensitivity for reconstructing lowly expressed transcripts. (trinity only)",
+)
 def assembly(
     assembler: str,
     clean_fastq: str,
@@ -140,9 +147,11 @@ def assembly(
     output: str,
     config: Optional[str],
     kmer: Optional[str],
+    min_kmer_cov: Optional[str],
     no_clean: bool,
     subfolder: Optional[str],
     tracking_file: str,
+    abyss_se: bool,
 ) -> None:
     """Run assembly with spades or trinity."""
     context = SimpleNamespace(
@@ -153,10 +162,12 @@ def assembly(
         output=output,
         config=config,
         kmer=kmer,
+        min_kmer_cov=min_kmer_cov,
         no_clean=no_clean,
         subfolder=subfolder,
         capture_output=True,
         tracking_file=tracking_file,
+        abyss_se=abyss_se,
     )
     run_assembly(context)
 

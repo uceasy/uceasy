@@ -69,6 +69,7 @@ class QualityControlFacade(Facade):
 
 class AssemblyFacade(Facade):
     def run(self) -> List[CommandResult]:
+        assemblers = set("spades", "trinity", "velvet", "abyss")
         delete_output_dir_if_exists(self.context.output)
 
         # Create and save the configuration file
@@ -87,22 +88,30 @@ class AssemblyFacade(Facade):
             "--log-path",
             self.context.log_dir,
         ]
-
-        if self.context.assembler == "spades":
+        assembler = self.context.assembler
+        if assembler not in assemblers:
+            printf(f"ERROR: {assembler} is not a valid value for assembler. see --help")
+            exit(1)
+        if assembler == "spades":
             if self.context.no_clean:
                 cmd.append("--do-not-clean")
-            if self.context.kmer:
-                cmd.extend(["--kmer", str(self.context.kmer)])
-        elif self.context.assembler == "trinity":
+        if assembler == "trinity":
+            if not self.context.no_clean:
+                cmd.append("--clean")
+            if self.context.min_kmer_coverage:
+                cmd.extend(["--min-kmer-coverage", self.context.min_kmer_coverage])
+        if assembler in ("velvet", "abyss"):
             if not self.context.no_clean:
                 cmd.append("--clean")
             if self.context.kmer:
-                cmd.extend(["--min-kmer-coverage", str(self.context.kmer)])
-
+                cmd.extend(["--kmer", self.context.kmer])
+        if assembler == "abyss":
+            if self.context.abyss_se:
+                cmd.append("--abyss-se")
         if self.context.subfolder:
             cmd.extend(["--subfolder", self.context.subfolder])
 
-        return [self.adapters[self.context.assembler](cmd)]
+        return [self.adapters[assembler](cmd)]
 
 
 class UCEPhylogenomicsFacade(Facade):
