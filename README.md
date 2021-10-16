@@ -41,7 +41,7 @@ The colored boxes are UCEasy CLI commands.
 ```
 $ uceasy quality-control
 $ uceasy assembly
-$ uceasy phylogenomics
+$ uceasy alignment
 ```
 Explore the options for these commands with the `--help` flag.<br>
 

@@ -4,7 +4,7 @@ from typing import Optional
 from types import SimpleNamespace
 
 from uceasy import __version__
-from uceasy.run import run_quality_control, run_assembly, run_phylogenomics
+from uceasy.run import run_quality_control, run_assembly, run_alignment
 
 
 THREADS = os.cpu_count()
@@ -175,7 +175,13 @@ def assembly(
 @cli.command()
 @click.argument("contigs", required=True)
 @click.argument("probes", required=True)
-@click.option("--aligner", "-a", type=str, default="mafft", help="Aligner program to use.")
+@click.option(
+    "--aligner",
+    "-a",
+    type=str,
+    default="mafft",
+    help="Aligner program to use. Available: mafft, muscle. (default: mafft)",
+)
 @click.option("--charsets", "-c", is_flag=True, help="Use charsets.")
 @click.option(
     "--threads",
@@ -188,8 +194,8 @@ def assembly(
     "--output",
     "-o",
     type=str,
-    default="phylogenomics",
-    help="Output directory. (default: phylogenomics)",
+    default="alignments",
+    help="Output directory. (default: alignments)",
 )
 @click.option("--incomplete-matrix", is_flag=True, help="Generate an incomplete matrix of data.")
 @click.option("--internal-trimming", "-i", is_flag=True, help="Internally trim the alignments.")
@@ -207,7 +213,7 @@ def assembly(
 )
 @click.option("--tracking-file", "-t", default="tracking.csv", help="Provenance tracking file.")
 @click.option("--phylip", is_flag=True, help="Use phylip format for the final concatenated data.")
-def phylogenomics(
+def alignment(
     aligner: str,
     charsets: bool,
     contigs: str,
@@ -222,7 +228,7 @@ def phylogenomics(
     tracking_file: str,
     phylip: bool,
 ):
-    """The phylogenomics pipeline discribed by PHYLUCE."""
+    """Alignment and extraction of UCE data."""
     context = SimpleNamespace(
         aligner=aligner,
         charsets=charsets,
@@ -239,4 +245,4 @@ def phylogenomics(
         tracking_file=tracking_file,
         phylip=phylip,
     )
-    run_phylogenomics(context)
+    run_alignment(context)

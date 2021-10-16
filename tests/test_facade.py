@@ -1,7 +1,7 @@
 from types import SimpleNamespace
 
 
-from uceasy.facade import QualityControlFacade, AssemblyFacade, UCEPhylogenomicsFacade
+from uceasy.facade import QualityControlFacade, AssemblyFacade, UCEAlignmentFacade
 
 
 def test_quality_control_runs_sucessfully_with_illumiprocessor(context):
@@ -43,14 +43,14 @@ def test_assembly_runs_sucessfully_with_spades(context):
     assert "Completed phyluce_assembly_assemblo_spades" in str(output)
 
 
-def test_phylogenomics_runs_sucessfully(context):
+def test_alignment_runs_sucessfully(context):
     ctx = SimpleNamespace(
         aligner="mafft",
         charsets=True,
         contigs=context["contigs"],
         incomplete_matrix=True,
         internal_trimming=True,
-        output=context["output"] + "phylogenomics_facade",
+        output=context["output"] + "alignment_facade",
         log_dir="",
         probes=context["probes"],
         percent=0.75,
@@ -59,7 +59,7 @@ def test_phylogenomics_runs_sucessfully(context):
         capture_output=True,
         phylip=False,
     )
-    facade = UCEPhylogenomicsFacade(ctx)
+    facade = UCEAlignmentFacade(ctx)
     output = str(facade.run())
     assert "Completed phyluce_assembly_match_contigs_to_probes" in output
     assert "Completed phyluce_assembly_get_match_counts" in output

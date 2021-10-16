@@ -41,15 +41,15 @@ def test_assembly(context, runner):
 
 
 @pytest.mark.e2e
-def test_phylogenomics_pipeline(context, runner):
+def test_alignment_pipeline(context, runner):
     params = [
-        "phylogenomics",
+        "alignment",
         "--charsets",
         "--internal-trimming",
         "--percent",
         "0.75",
         "--output",
-        context["output"] + "/phylogenomics",
+        context["output"] + "/alignment",
         context["contigs"],
         context["probes"],
     ]

@@ -1,6 +1,6 @@
 from types import SimpleNamespace
 
-from uceasy.facade import AssemblyFacade, QualityControlFacade, UCEPhylogenomicsFacade
+from uceasy.facade import AssemblyFacade, QualityControlFacade, UCEAlignmentFacade
 from uceasy.tracking import save_tracking_file
 
 
@@ -14,6 +14,6 @@ def run_assembly(context: SimpleNamespace):
     save_tracking_file(fl, AssemblyFacade(context).run())
 
 
-def run_phylogenomics(context: SimpleNamespace):
+def run_alignment(context: SimpleNamespace):
     fl = context.log_dir + context.tracking_file
-    save_tracking_file(fl, UCEPhylogenomicsFacade(context).run())
+    save_tracking_file(fl, UCEAlignmentFacade(context).run())

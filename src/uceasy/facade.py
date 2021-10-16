@@ -113,7 +113,7 @@ class AssemblyFacade(Facade):
             cmd.append("--abyss-se")
 
 
-class UCEPhylogenomicsFacade(Facade):
+class UCEAlignmentFacade(Facade):
     def run(self) -> List[CommandResult]:
         self.carried_commands: List[CommandResult] = []
 
