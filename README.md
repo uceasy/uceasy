@@ -39,9 +39,9 @@ The operations [Quality Control](https://github.com/uceasy/uceasy/wiki/QualityCo
 
 The colored boxes are UCEasy CLI commands.
 ```
-$ uceasy quality-control
-$ uceasy assembly
-$ uceasy alignment
+$ uceasy trim
+$ uceasy assemble
+$ uceasy align
 ```
 Explore the options for these commands with the `--help` flag.<br>
 
