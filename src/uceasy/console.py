@@ -58,7 +58,7 @@ def cli():
     help="When trimming PE reads, do not merge singleton files.",
 )
 @click.option("--tracking-file", "-t", default="tracking.csv", help="Provenance tracking file.")
-def quality_control(
+def trim(
     raw_fastq: str,
     csv_file: str,
     threads: int,
@@ -73,7 +73,7 @@ def quality_control(
     no_merge: bool,
     tracking_file: str,
 ) -> None:
-    """Run quality control with illumiprocessor."""
+    """Trim adapter sequences with illumiprocessor."""
     context = SimpleNamespace(
         raw_fastq=raw_fastq,
         csv_file=csv_file,
@@ -135,11 +135,11 @@ def quality_control(
 @click.option("--tracking-file", "-t", default="tracking.csv", help="Provenance tracking file.")
 @click.option("--abyss-se", is_flag=True, help="Use only abyss-se.")
 @click.option(
-    "--min-kmer-cov",
+    "--min-kmer-coverage",
     type=str,
     help="Sensitivity for reconstructing lowly expressed transcripts. (trinity only)",
 )
-def assembly(
+def assemble(
     assembler: str,
     clean_fastq: str,
     log_dir: str,
@@ -147,13 +147,13 @@ def assembly(
     output: str,
     config: Optional[str],
     kmer: Optional[str],
-    min_kmer_cov: Optional[str],
+    min_kmer_coverage: Optional[str],
     no_clean: bool,
     subfolder: Optional[str],
     tracking_file: str,
     abyss_se: bool,
 ) -> None:
-    """Run assembly with spades or trinity."""
+    """Run assembly with spades, trinity, abyss or velvet."""
     context = SimpleNamespace(
         assembler=assembler,
         clean_fastq=clean_fastq,
@@ -162,7 +162,7 @@ def assembly(
         output=output,
         config=config,
         kmer=kmer,
-        min_kmer_cov=min_kmer_cov,
+        min_kmer_coverage=min_kmer_coverage,
         no_clean=no_clean,
         subfolder=subfolder,
         capture_output=True,
@@ -213,7 +213,7 @@ def assembly(
 )
 @click.option("--tracking-file", "-t", default="tracking.csv", help="Provenance tracking file.")
 @click.option("--phylip", is_flag=True, help="Use phylip format for the final concatenated data.")
-def alignment(
+def align(
     aligner: str,
     charsets: bool,
     contigs: str,
