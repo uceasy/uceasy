@@ -18,7 +18,7 @@ def test_main_succeeds_in_production(runner):
 @pytest.mark.e2e
 def test_quality_control(context, runner):
     params = [
-        "quality-control",
+        "trim",
         "--output",
         context["output"] + "/qc",
         context["raw_fastq"],
@@ -31,7 +31,7 @@ def test_quality_control(context, runner):
 @pytest.mark.e2e
 def test_assembly(context, runner):
     params = [
-        "assembly",
+        "assemble",
         "--output",
         context["output"] + "/assembly",
         context["clean_fastq"],
@@ -43,7 +43,7 @@ def test_assembly(context, runner):
 @pytest.mark.e2e
 def test_alignment_pipeline(context, runner):
     params = [
-        "alignment",
+        "align",
         "--charsets",
         "--internal-trimming",
         "--percent",
