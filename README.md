@@ -7,14 +7,13 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=uceasy_uceasy&metric=alert_status)](https://sonarcloud.io/dashboard?id=uceasy_uceasy)
 [![DOI](https://zenodo.org/badge/203415455.svg)](https://zenodo.org/badge/latestdoi/203415455)
 
-# UCEasy: a software package to automate the analysis of UCEs
+# UCEasy: A software package for automating and simplifying the analysis of ultraconserved elements (UCEs)
 
 
-__UCEasy__ is a wrapper to automate manual procedures of the [PHYLUCE](https://phyluce.readthedocs.io/en/latest) software package by abstracting the pipeline steps into 3 major commands and choosing sensible defaults for its command-line options, easing the execution.
+__UCEasy__ is a Python wrapper that standardizes, automates, and simplifies the following [PHYLUCE](https://phyluce.readthedocs.io/en/latest) tasks: quality control of raw reads, assembly, alignment and UCE loci extraction.
 
 
-At the moment, the major software package for analysing [ultraconserved elements](https://www.ultraconserved.org/) (UCEs) is PHYLUCE, but its execution can be quite challenging especially for non-computer experts.
-__UCEasy__ is a convenient tool that automates the execution of common tasks for most types of UCE analysis, these being Quality Control, Assembly and Alignment of UCEs.
+Although the PHYLUCE pipeline is robust and well-established, it requires the execution of many command line scripts from heterogeneous tools, which can be quite challenging for scientists without some training in bioinformatics. 
 
 For more information check out our [Wiki](https://github.com/uceasy/uceasy/wiki).
 ## Installation Guide
