@@ -30,10 +30,10 @@ Then, make sure you have a working installation of PHYLUCE, check out the instal
 
 
 ## Workflow
-The operations [Trim](https://github.com/uceasy/uceasy/wiki/Trim), [Assemble](https://github.com/uceasy/uceasy/wiki/Assemble) and [Align](https://github.com/uceasy/uceasy/wiki/Align) represent the following workflow.
+The operations [Trim](https://github.com/uceasy/uceasy/wiki/Trim), [Assemble](https://github.com/uceasy/uceasy/wiki/Assemble) and [Align](https://github.com/uceasy/uceasy/wiki/Align) represent the following workflow. The following image demonstrates how the PHYLUCE workflow is abstracted by UCEasy.
 
 <p>
-    <img src="docs/img/workflow.png" height="500px">
+    <img src="docs/img/phyluce-uceasy-comparison.png" height="500px">
 
 </p>
 
