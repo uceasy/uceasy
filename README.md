@@ -46,6 +46,11 @@ Explore the options for these commands with the `--help` flag.<br>
 
 For a guide of how to use UCEasy see: [Tutorial](https://github.com/uceasy/uceasy/wiki/Tutorial).
 
+## Citing
+
+If you use the source code of UCEasy in any form, please cite the following manuscript (we encorage [citing PHYLUCE](https://phyluce.readthedocs.io/en/latest/citing.html) as well):<br>
+
+Ribeiro CVR, Oliveira LP, Batista R, De Sousa M (2021) UCEasy: A software package for automating and simplifying the analysis of ultraconserved elements (UCEs). Biodiversity Data Journal 9: e78132. https://doi.org/10.3897/BDJ.9.e78132
 
 ## Acknowledgements
 
@@ -81,9 +86,3 @@ _Laboratório de Biologia Molecular-LBM_<br>
 _Grupo de pesquisa em Bioinformática e Informática para Biodiversidade (BioInfo)_<br>
 _Museu Paraense Emílio Goeldi_<br>
 _Av. Perimetral 1901. CEP 66077- 530. Belém, Pará, Brazil._
-
-## Citing
-
-If you use the source code of UCEasy in any form, please cite the following manuscript (we encorage [citing PHYLUCE](https://phyluce.readthedocs.io/en/latest/citing.html) as well):<br>
-
-Ribeiro CVR, Oliveira LP, Batista R, De Sousa M (2021) UCEasy: A software package for automating and simplifying the analysis of ultraconserved elements (UCEs). Biodiversity Data Journal 9: e78132. https://doi.org/10.3897/BDJ.9.e78132
