@@ -18,14 +18,23 @@ Although the PHYLUCE pipeline is robust and well-established, it requires the ex
 For more information check out our [Wiki](https://github.com/uceasy/uceasy/wiki).
 ## Installation Guide
 ### Dependencies
-* Python ^3.7
-* PHYLUCE 1.6.* (1.7 not supported yet)
+* Python ^3.6
+* PHYLUCE 1.7.* (Python 3)
 
-Install the package from [PyPI](https://pypi.org/project/uceasy/):
+> **Note:** This build targets PHYLUCE **1.7** (Python 3). For the legacy
+> PHYLUCE 1.6 (Python 2) pipeline, use UCEasy 0.3.x.
+
+The recommended way to install is into PHYLUCE's own conda environment, so that
+UCEasy and all the PHYLUCE command-line tools share one environment:
 ```
+# 1. Create the PHYLUCE 1.7 environment (see the PHYLUCE docs for the latest .yml)
+$ conda env create -f phyluce-1.7.3-py36-Linux-conda.yml   # or the macOS .yml
+$ conda activate phyluce-1.7.3
+
+# 2. Install UCEasy into it
 $ pip install uceasy
 ```
-Then, make sure you have a working installation of PHYLUCE, check out the installation guide at [PHYLUCE's documentation](https://phyluce.readthedocs.io/en/latest/installation.html).
+Check out the installation guide at [PHYLUCE's documentation](https://phyluce.readthedocs.io/en/latest/installation.html).
 
 
 ## Workflow

@@ -100,7 +100,7 @@ def trim(
     "-a",
     type=str,
     default="spades",
-    help="""Assembler program to use. Available: spades, trinity, velvet and abyss. \
+    help="""Assembler program to use. Available: spades, velvet and abyss. \
 (default: spades)""",
 )
 @click.option(
@@ -134,11 +134,6 @@ def trim(
 )
 @click.option("--tracking-file", "-t", default="tracking.csv", help="Provenance tracking file.")
 @click.option("--abyss-se", is_flag=True, help="Use only abyss-se.")
-@click.option(
-    "--min-kmer-coverage",
-    type=str,
-    help="Sensitivity for reconstructing lowly expressed transcripts. (trinity only)",
-)
 def assemble(
     assembler: str,
     clean_fastq: str,
@@ -147,13 +142,12 @@ def assemble(
     output: str,
     config: Optional[str],
     kmer: Optional[str],
-    min_kmer_coverage: Optional[str],
     no_clean: bool,
     subfolder: Optional[str],
     tracking_file: str,
     abyss_se: bool,
 ) -> None:
-    """Run assembly with spades, trinity, abyss or velvet."""
+    """Run assembly with spades, abyss or velvet."""
     context = SimpleNamespace(
         assembler=assembler,
         clean_fastq=clean_fastq,
@@ -162,7 +156,6 @@ def assemble(
         output=output,
         config=config,
         kmer=kmer,
-        min_kmer_coverage=min_kmer_coverage,
         no_clean=no_clean,
         subfolder=subfolder,
         capture_output=True,
@@ -182,7 +175,12 @@ def assemble(
     default="mafft",
     help="Aligner program to use. Available: mafft, muscle. (default: mafft)",
 )
-@click.option("--charsets", "-c", is_flag=True, help="Use charsets.")
+@click.option(
+    "--charsets",
+    "-c",
+    is_flag=True,
+    help="Deprecated no-op; PHYLUCE 1.7 always writes a charset/partition file.",
+)
 @click.option(
     "--threads",
     "-j",

@@ -66,6 +66,6 @@ def test_alignment_runs_sucessfully(context):
     assert "Completed phyluce_assembly_get_fastas_from_match_counts" in output
     assert "Completed phyluce_align_seqcap_align" in output
     assert "Completed phyluce_align_get_gblocks_trimmed_alignments_from_untrimmed" in output
-    assert "Completed phyluce_align_remove_locus_name_from_nexus_lines" in output
+    assert "Completed phyluce_align_remove_locus_name_from_files" in output
     assert "Completed phyluce_align_get_only_loci_with_min_taxa" in output
-    assert "Completed phyluce_align_format_nexus_files_for_raxml" in output
+    assert "Completed phyluce_align_concatenate_alignments" in output

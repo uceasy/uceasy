@@ -10,8 +10,10 @@ repository = "https://github.com/uceasy/uceasy"
 keywords = ["uce", "phyluce", "ultraconserved elements"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
-click = "^8.0"
+# Phyluce 1.7 ships Python 3.6 conda environments; support 3.6 so UCeasy
+# installs directly into them. click 8.0.x is the last series supporting 3.6.
+python = "^3.6"
+click = ">=7.1,<8.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"

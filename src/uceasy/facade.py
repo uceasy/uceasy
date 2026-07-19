@@ -95,20 +95,20 @@ class AssemblyFacade(Facade):
 
     def _parse_command(self, cmd):
         """Handle specific options for different assemblers."""
-        assemblers = {"spades", "trinity", "velvet", "abyss"}
+        # Trinity was dropped in PHYLUCE 1.7; spades, velvet and abyss remain.
+        assemblers = {"spades", "velvet", "abyss"}
         assembler = self.context.assembler
         if assembler not in assemblers:
             print(f"ERROR: {assembler} is not a valid value for assembler. see --help")
             exit(1)
+        # spades cleans by default in 1.7; --no-clean keeps intermediate files.
         if assembler == "spades" and self.context.no_clean:
-            cmd.append("--do-not-clean")
-        if assembler in ["trinity", "velvet", "abyss"]:
+            cmd.append("--no-clean")
+        if assembler in ["velvet", "abyss"]:
             if not self.context.no_clean:
                 cmd.append("--clean")
-            if assembler in ["velvet", "abyss"] and self.context.kmer:
+            if self.context.kmer:
                 cmd.extend(["--kmer", self.context.kmer])
-            if assembler == "trinity" and self.context.min_kmer_coverage:
-                cmd.extend(["--min-kmer-coverage", self.context.min_kmer_coverage])
         if assembler == "abyss" and self.context.abyss_se:
             cmd.append("--abyss-se")
 
@@ -134,7 +134,7 @@ class UCEAlignmentFacade(Facade):
             "alignments_clean": "alignments-clean",
             "gblocks": "alignments-gblocks",
             "min_taxa": "alignments-gblocks-clean-min-taxa",
-            "raxml": "alignments-raxml",
+            "concatenated": "alignments-concatenated",
         }
         # Prefixing with context output
         for k, v in self.output_dirs.items():
@@ -155,9 +155,9 @@ class UCEAlignmentFacade(Facade):
         self._secap_align()
         if self.context.internal_trimming:
             self._get_gblocks_trimmed_alignments_from_untrimmed()
-        self._remove_locus_name_from_nexus_lines()
+        self._remove_locus_name_from_files()
         self._get_only_loci_with_min_taxa()
-        self._nexus_files_to_raxml()
+        self._concatenate_alignments()
 
         return self.carried_commands
 
@@ -222,7 +222,7 @@ class UCEAlignmentFacade(Facade):
         cmd = [
             "--output",
             self.output_dirs["alignments"],
-            "--fasta",
+            "--input",
             self.output_dirs["fasta"],
             "--taxa",
             self.context.taxa,
@@ -234,7 +234,11 @@ class UCEAlignmentFacade(Facade):
         if self.context.incomplete_matrix:
             cmd.append("--incomplete-matrix")
         if self.context.internal_trimming:
+            # Emit untrimmed FASTA so Gblocks can trim it next.
             cmd.extend(["--no-trim", "--output-format", "fasta"])
+        else:
+            # Internally trimmed by seqcap_align; keep NEXUS for downstream steps.
+            cmd.extend(["--output-format", "nexus"])
 
         self.carried_commands.append(self.adapters["secap_align"](cmd))
 
@@ -248,23 +252,31 @@ class UCEAlignmentFacade(Facade):
             self.output_dirs["gblocks"],
             "--alignments",
             self.output_dirs["alignments"],
+            "--input-format",
+            "fasta",
+            "--output-format",
+            "nexus",
             "--cores",
             self.context.threads,
         ]
         self.output_dirs["alignments"] = self.output_dirs["gblocks"]
         self.carried_commands.append(self.adapters["gblocks"](cmd))
 
-    def _remove_locus_name_from_nexus_lines(self):
+    def _remove_locus_name_from_files(self):
         cmd = [
             "--output",
             self.output_dirs["alignments_clean"],
             "--alignments",
             self.output_dirs["alignments"],
+            "--input-format",
+            "nexus",
+            "--output-format",
+            "nexus",
             "--cores",
             self.context.threads,
         ]
 
-        self.carried_commands.append(self.adapters["remove_locus_name_from_nexus_lines"](cmd))
+        self.carried_commands.append(self.adapters["remove_locus_name_from_files"](cmd))
 
     def _get_only_loci_with_min_taxa(self):
         cmd = [
@@ -276,6 +288,8 @@ class UCEAlignmentFacade(Facade):
             self.context.taxa,
             "--percent",
             self.context.percent,
+            "--input-format",
+            "nexus",
             "--cores",
             self.context.threads,
         ]
@@ -283,18 +297,22 @@ class UCEAlignmentFacade(Facade):
         self.output_dirs["alignments_clean"] = self.output_dirs["min_taxa"]
         self.carried_commands.append(self.adapters["get_only_loci_with_min_taxa"](cmd))
 
-    def _nexus_files_to_raxml(self):
+    def _concatenate_alignments(self):
         cmd = [
             "--output",
-            self.output_dirs["raxml"],
+            self.output_dirs["concatenated"],
             "--alignments",
             self.output_dirs["min_taxa"],
+            "--input-format",
+            "nexus",
         ]
 
-        # PHYLUCE 1.6 uses phylip format by default
-        if not self.context.phylip:
+        # PHYLUCE 1.7 requires exactly one output format flag. A charset
+        # (partition) file is always written alongside the concatenated
+        # matrix, so the former --charsets option is now a no-op.
+        if self.context.phylip:
+            cmd.append("--phylip")
+        else:
             cmd.append("--nexus")
-        if self.context.charsets:
-            cmd.append("--charsets")
 
-        self.carried_commands.append(self.adapters["nexus_to_raxml"](cmd))
+        self.carried_commands.append(self.adapters["concatenate_alignments"](cmd))
